@@ -1,10 +1,7 @@
 package com.babinska.PlannerForTutor;
 
 import com.babinska.PlannerForTutor.lesson.Lesson;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
 
@@ -14,7 +11,8 @@ public class Planner {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  private Lesson lessonId;
+  @OneToOne
+  private Lesson lesson;
   private LocalDateTime startTime;
   private LocalDateTime endTime;
   private int duration;

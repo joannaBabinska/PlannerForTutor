@@ -1,10 +1,7 @@
 package com.babinska.PlannerForTutor.student;
 
 import com.babinska.PlannerForTutor.lesson.Lesson;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -21,7 +18,7 @@ public class Student {
   private String email;
   private String phoneNumber;
   private LocalDate dateOfBirth;
-  private Set<Lesson> lessonsId;
+  @Enumerated(EnumType.STRING)
   private SchoolClass schoolClass;
-  private String school;
+
 }
