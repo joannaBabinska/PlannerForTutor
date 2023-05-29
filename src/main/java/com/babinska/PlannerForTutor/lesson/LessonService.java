@@ -1,6 +1,10 @@
 package com.babinska.PlannerForTutor.lesson;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
-public interface LessonService extends JpaRepository<Lesson, Long> {
+@Service
+@RequiredArgsConstructor
+public class LessonService {
+  private final LessonRepository lessonRepository;
 }
