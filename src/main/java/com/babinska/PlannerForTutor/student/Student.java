@@ -1,14 +1,20 @@
 package com.babinska.PlannerForTutor.student;
 
-import com.babinska.PlannerForTutor.lesson.Lesson;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Set;
+
 
 @Entity
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class Student {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,5 +28,4 @@ public class Student {
 //  private Set<Lesson> lessons;
   @Enumerated(EnumType.STRING)
   private SchoolClass schoolClass;
-
 }

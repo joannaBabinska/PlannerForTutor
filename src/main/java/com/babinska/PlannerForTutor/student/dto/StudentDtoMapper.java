@@ -15,4 +15,15 @@ public class StudentDtoMapper {
             .schoolClass(student.getSchoolClass())
             .build();
   }
+
+  public static Student map(StudentRegistrationDto studentRegistrationDto){
+    return Student.builder()
+            .firstName(studentRegistrationDto.getFirstName())
+            .lastName(studentRegistrationDto.getLastName())
+            .email(studentRegistrationDto.getEmail())
+            .phoneNumber(studentRegistrationDto.getPhoneNumber())
+            .dateOfBirth(studentRegistrationDto.getDateOfBirth())
+            .schoolClass(studentRegistrationDto.getSchoolClass())
+            .build();
+  }
 }
