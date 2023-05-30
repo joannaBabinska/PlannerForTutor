@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
+    <changeSet id="0001_create_beer_style_table" author="babinska">
+        <createTable tableName="student">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="first_name" type="varchar(100)">
+                <constraints nullable="false" />
+            </column>
+            <column name="last_name" type="varchar(100)">
+                <constraints nullable="false" />
+            </column>
+            <column name="email" type="varchar(100)">
+                <constraints nullable="false" />
+            </column>
+            <column name="phone_number" type="varchar(12)">
+                <constraints nullable="false" />
+            </column>
+            <column name="date_of_birth" type="date">
+                <constraints nullable="false" />
+            </column>
+            <column name="school_class" type="varchar(100)">
+                <constraints nullable="false" />
+            </column>
+
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
