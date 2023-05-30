@@ -35,6 +35,10 @@ public class StudentController {
     return ResponseEntity.created(uri).body(savedStudentDto);
   }
 
+  @ExceptionHandler(StudentNotFoundException.class)
+  public ResponseEntity<String> handle(StudentNotFoundException ex){
+    return ResponseEntity.notFound().build();
+  }
 
 
 }

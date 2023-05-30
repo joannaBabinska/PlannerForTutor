@@ -17,6 +17,5 @@ public class StudentDto {
   private String email;
   private String phoneNumber;
   private LocalDate dateOfBirth;
-//  private Set<Lesson> lessons;
   private SchoolClass schoolClass;
 }
