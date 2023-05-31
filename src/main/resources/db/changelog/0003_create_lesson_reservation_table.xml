@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
+    <changeSet id="0003_create_lesson_reservation_table" author="babinska">
+        <createTable tableName="lesson_reservation">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="lesson_id" type="bigint">
+            </column>
+            <column name="topic" type="varchar(100)">
+                <constraints nullable="false" />
+            </column>
+            <column name="start_time" type="datetime">
+                <constraints nullable="false" />
+            </column>
+            <column name="end_time" type="datetime">
+                <constraints nullable="false" />
+            </column>
+            <column name="duration_in_minutes" type="int">
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="lesson_reservation"
+                                 baseColumnNames="lesson_id"
+                                 constraintName="fk_lesson_reservation_lesson_id"
+                                 referencedTableName="lesson"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>

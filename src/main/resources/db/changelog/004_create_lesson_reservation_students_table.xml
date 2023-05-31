@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
+    <changeSet id="004_create_lesson_reservation_students_table" author="babinska">
+        <createTable tableName="lesson_reservation_students">
+            <column name="lesson_reservation_id" type="bigint" >
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="students_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="lesson_reservation_students"
+                                 baseColumnNames="lesson_reservation_id"
+                                 constraintName="fk_lesson_reservation_id"
+                                 referencedTableName="lesson_reservation"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="lesson_reservation_students"
+                                 baseColumnNames="students_id"
+                                 constraintName="fk_student_id"
+                                 referencedTableName="student"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>
