@@ -14,5 +14,5 @@ public class Lesson {
   private Long id;
   @Enumerated(EnumType.STRING)
   private LessonType lessonType;
-  private int price;
+  private double price;
 }

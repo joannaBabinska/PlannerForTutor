@@ -21,5 +21,5 @@ public class LessonReservation {
   private String topic;
   private LocalDateTime startTime;
   private LocalDateTime endTime;
-  private int duration;
+  private int durationInMinutes;
 }
