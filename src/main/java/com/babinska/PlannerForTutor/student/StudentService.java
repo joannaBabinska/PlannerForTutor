@@ -35,6 +35,7 @@ public class StudentService {
 
   public void updateStudent(StudentUpdateDto studentUpdateDto) {
     Student studentToSave = StudentDtoMapper.map(studentUpdateDto);
+    studentToSave.setId(studentUpdateDto.getId());
     studentRepository.save(studentToSave);
   }
 
