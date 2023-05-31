@@ -24,8 +24,6 @@ public class Student {
   private String email;
   private String phoneNumber;
   private LocalDate dateOfBirth;
-//  @ManyToMany
-//  private Set<Lesson> lessons;
   @Enumerated(EnumType.STRING)
   private SchoolClass schoolClass;
 }
