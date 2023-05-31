@@ -44,7 +44,7 @@ public class StudentController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<StudentDto>  replaceStudent(@PathVariable Long id, @RequestBody StudentRegistrationDto studentRegistrationDto){
+  public ResponseEntity<StudentDto> replaceStudent(@PathVariable Long id, @RequestBody StudentRegistrationDto studentRegistrationDto) {
     StudentDto updatedStudentDto = studentService.replaceStudent(studentRegistrationDto, id);
     return ResponseEntity.ok(updatedStudentDto);
 
@@ -58,6 +58,12 @@ public class StudentController {
     StudentUpdateDto studentPatched = applyPath(studentUpdateDto, jsonMergePatch);
     studentService.updateStudent(studentPatched);
     return ResponseEntity.noContent().build();
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<?> deleteStudent(@PathVariable Long id) {
+    studentService.deleteStudent(id);
+    return ResponseEntity.ok().build();
   }
 
   @ExceptionHandler(StudentNotFoundException.class)

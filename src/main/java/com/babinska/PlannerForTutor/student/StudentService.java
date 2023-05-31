@@ -8,6 +8,8 @@ import com.babinska.PlannerForTutor.student.dto.StudentUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class StudentService {
@@ -26,7 +28,7 @@ public class StudentService {
   }
 
   public StudentDto replaceStudent(StudentRegistrationDto studentRegistrationDto, Long id) {
-    Student student1 = studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException(id));
+     studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException(id));
     Student student = StudentDtoMapper.map(studentRegistrationDto);
     student.setId(id);
     Student savedStudent = studentRepository.save(student);
@@ -34,9 +36,15 @@ public class StudentService {
   }
 
   public void updateStudent(StudentUpdateDto studentUpdateDto) {
+    studentRepository.findById(studentUpdateDto.getId()).orElseThrow(() -> new StudentNotFoundException(studentUpdateDto.getId()));
     Student studentToSave = StudentDtoMapper.map(studentUpdateDto);
     studentToSave.setId(studentUpdateDto.getId());
     studentRepository.save(studentToSave);
+  }
+
+  public void deleteStudent(Long id){
+    Student student = studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException(id));
+    studentRepository.delete(student);
   }
 
 }
