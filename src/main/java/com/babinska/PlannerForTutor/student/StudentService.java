@@ -5,11 +5,6 @@ import com.babinska.PlannerForTutor.student.dto.StudentDto;
 import com.babinska.PlannerForTutor.student.dto.StudentDtoMapper;
 import com.babinska.PlannerForTutor.student.dto.StudentRegistrationDto;
 import com.babinska.PlannerForTutor.student.dto.StudentUpdateDto;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.fge.jsonpatch.JsonPatchException;
-import com.github.fge.jsonpatch.mergepatch.JsonMergePatch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,11 +25,17 @@ public class StudentService {
     return StudentDtoMapper.map(savedStudent);
   }
 
+  public StudentDto replaceStudent(StudentRegistrationDto studentRegistrationDto, Long id) {
+    Student student1 = studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException(id));
+    Student student = StudentDtoMapper.map(studentRegistrationDto);
+    student.setId(id);
+    Student savedStudent = studentRepository.save(student);
+    return StudentDtoMapper.map(savedStudent);
+  }
+
   public void updateStudent(StudentUpdateDto studentUpdateDto) {
     Student studentToSave = StudentDtoMapper.map(studentUpdateDto);
     studentRepository.save(studentToSave);
-
-
   }
 
 }

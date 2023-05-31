@@ -1,4 +1,4 @@
-package com.babinska.PlannerForTutor;
+package com.babinska.PlannerForTutor.planner;
 
 import com.babinska.PlannerForTutor.lesson.Lesson;
 import jakarta.persistence.*;

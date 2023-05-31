@@ -30,7 +30,7 @@ public class StudentController {
     return ResponseEntity.ok(studentService.getStudentById(id));
   }
 
-  @PostMapping("")
+  @PostMapping
   public ResponseEntity<StudentDto> saveStudent(@RequestBody StudentRegistrationDto studentRegistrationDto) {
     StudentDto savedStudentDto = studentService.saveStudent(studentRegistrationDto);
 
@@ -43,8 +43,16 @@ public class StudentController {
     return ResponseEntity.created(uri).body(savedStudentDto);
   }
 
+  @PutMapping("/{id}")
+  public ResponseEntity<StudentDto>  replaceStudent(@PathVariable Long id, @RequestBody StudentRegistrationDto studentRegistrationDto){
+    StudentDto updatedStudentDto = studentService.replaceStudent(studentRegistrationDto, id);
+    return ResponseEntity.ok(updatedStudentDto);
+
+  }
+
   @PatchMapping("/{id}")
-  public ResponseEntity<StudentUpdateDto> updateStudent(@PathVariable Long id, @RequestBody JsonMergePatch jsonMergePatch) throws JsonPatchException, JsonProcessingException {
+  public ResponseEntity<StudentUpdateDto> updateStudent(@PathVariable Long id, @RequestBody JsonMergePatch jsonMergePatch)
+          throws JsonPatchException, JsonProcessingException {
     StudentDto studentDto = studentService.getStudentById(id);
     StudentUpdateDto studentUpdateDto = StudentDtoMapper.map(studentDto);
     StudentUpdateDto studentPatched = applyPath(studentUpdateDto, jsonMergePatch);
@@ -55,16 +63,6 @@ public class StudentController {
   @ExceptionHandler(StudentNotFoundException.class)
   public ResponseEntity<String> handle(StudentNotFoundException ex) {
     return ResponseEntity.notFound().build();
-  }
-
-  @ExceptionHandler(JsonPatchException.class)
-  public ResponseEntity<?> handle(JsonPatchException ex) {
-    return ResponseEntity.internalServerError().build();
-  }
-
-  @ExceptionHandler(JsonPatchException.class)
-  public ResponseEntity<?> handle(JsonProcessingException ex) {
-    return ResponseEntity.internalServerError().build();
   }
 
   private StudentUpdateDto applyPath(StudentUpdateDto studentUpdateDto, JsonMergePatch jsonMergePatch)
