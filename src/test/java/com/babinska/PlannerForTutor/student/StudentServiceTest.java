@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -81,7 +82,31 @@ class StudentServiceTest {
             () -> assertEquals("123456789", replacingStudent.getPhoneNumber()),
             () -> assertEquals(SchoolClass.ELEMENTARY_SCHOOL_8TH_GRADE, replacingStudent.getSchoolClass())
     );
+  }
+
+  @Test
+  public void shouldDeleteStudent(){
+    //given
+    StudentRegistrationDto studentToSave= StudentRegistrationDto.builder()
+            .firstName("testFirstName")
+            .lastName("testLastName")
+            .dateOfBirth(LocalDate.of(2008, 12, 1))
+            .email("test@email.com")
+            .phoneNumber("589996325")
+            .schoolClass(SchoolClass.ELEMENTARY_SCHOOL_7TH_GRADE)
+            .build();
+    
+    //when
+    StudentDto savedStudent = studentService.saveStudent(studentToSave);
+    studentService.deleteStudent(savedStudent.getId());
+    
+    //then
+    Optional<Student> foundStudent = studentRepository.findById(savedStudent.getId());
+    assertTrue(foundStudent.isEmpty());
+
+
 
 
   }
+          
 }
