@@ -135,9 +135,8 @@ class StudentServiceTest {
 //    assertAll(
 //            () -> assertEquals("testChangedFirstName", updatedStudent.getFirstName()),
 //            () -> assertEquals(SchoolClass.ELEMENTARY_SCHOOL_8TH_GRADE, updatedStudent.getSchoolClass())
-    );
+//    );
 
 
   }
 
-}
