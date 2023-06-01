@@ -13,15 +13,11 @@ import java.time.LocalDate;
 @Data
 public class StudentUpdateDto {
     private Long id;
-    @NotNull
     private String firstName;
-    @NotNull
     private String lastName;
     @Email
-    @NotNull
     private String email;
     @PhoneNumber
-    @NotNull
     private String phoneNumber;
     @Past
     private LocalDate dateOfBirth;

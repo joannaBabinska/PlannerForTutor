@@ -106,37 +106,5 @@ class StudentServiceTest {
     Optional<Student> foundStudent = studentRepository.findById(savedStudent.getId());
     assertTrue(foundStudent.isEmpty());
   }
-//todo - dodać ten test bardziej do kontrolera
-
-//  @Test
-//  public void shouldUpdateSomeInformation() {
-//    //given
-//    StudentRegistrationDto studentToSave = StudentRegistrationDto.builder()
-//            .firstName("testFirstName")
-//            .lastName("testLastName")
-//            .dateOfBirth(LocalDate.of(2008, 12, 1))
-//            .email("test@email.com")
-//            .phoneNumber("589996325")
-//            .schoolClass(SchoolClass.ELEMENTARY_SCHOOL_7TH_GRADE)
-//            .build();
-//
-//    StudentUpdateDto studentUpdateDto = StudentUpdateDto.builder()
-//            .id(1L)
-//            .firstName("testChangedFirstName")
-//            .schoolClass(SchoolClass.ELEMENTARY_SCHOOL_8TH_GRADE)
-//            .build();
-//
-//    //when
-//    StudentDto savedStudent = studentService.saveStudent(studentToSave);
-//    studentService.updateStudent(studentUpdateDto);
-//
-//    //then
-//    Student updatedStudent = studentRepository.findById(studentUpdateDto.getId()).get();
-//    assertAll(
-//            () -> assertEquals("testChangedFirstName", updatedStudent.getFirstName()),
-//            () -> assertEquals(SchoolClass.ELEMENTARY_SCHOOL_8TH_GRADE, updatedStudent.getSchoolClass())
-//    );
-
-
-  }
+}
 
