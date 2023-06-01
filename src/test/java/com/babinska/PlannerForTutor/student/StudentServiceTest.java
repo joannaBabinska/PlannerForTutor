@@ -1,8 +1,9 @@
 package com.babinska.PlannerForTutor.student;
 
 import com.babinska.PlannerForTutor.student.dto.StudentDto;
-import com.babinska.PlannerForTutor.student.dto.StudentDtoMapper;
 import com.babinska.PlannerForTutor.student.dto.StudentRegistrationDto;
+import com.babinska.PlannerForTutor.student.dto.StudentUpdateDto;
+import com.github.fge.jsonpatch.mergepatch.JsonMergePatch;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,17 +42,18 @@ class StudentServiceTest {
     Student studentInDatabase = studentRepository.findById(savedStudent.getId()).get();
     assertAll(
             () -> assertEquals("testFirstName", studentInDatabase.getFirstName()),
-            () -> assertEquals("testLastName",  studentInDatabase.getLastName()),
-            () -> assertEquals(LocalDate.of(2008,12,1), studentInDatabase.getDateOfBirth()),
+            () -> assertEquals("testLastName", studentInDatabase.getLastName()),
+            () -> assertEquals(LocalDate.of(2008, 12, 1), studentInDatabase.getDateOfBirth()),
             () -> assertEquals("test@email.com", studentInDatabase.getEmail()),
             () -> assertEquals("589996325", studentInDatabase.getPhoneNumber()),
             () -> assertEquals(SchoolClass.ELEMENTARY_SCHOOL_7TH_GRADE, studentInDatabase.getSchoolClass())
     );
   }
+
   @Test
-  public void shouldReplaceStudent(){
+  public void shouldReplaceStudent() {
     //given
-    StudentRegistrationDto studentToSave= StudentRegistrationDto.builder()
+    StudentRegistrationDto studentToSave = StudentRegistrationDto.builder()
             .firstName("testFirstName")
             .lastName("testLastName")
             .dateOfBirth(LocalDate.of(2008, 12, 1))
@@ -85,9 +87,9 @@ class StudentServiceTest {
   }
 
   @Test
-  public void shouldDeleteStudent(){
+  public void shouldDeleteStudent() {
     //given
-    StudentRegistrationDto studentToSave= StudentRegistrationDto.builder()
+    StudentRegistrationDto studentToSave = StudentRegistrationDto.builder()
             .firstName("testFirstName")
             .lastName("testLastName")
             .dateOfBirth(LocalDate.of(2008, 12, 1))
@@ -95,18 +97,47 @@ class StudentServiceTest {
             .phoneNumber("589996325")
             .schoolClass(SchoolClass.ELEMENTARY_SCHOOL_7TH_GRADE)
             .build();
-    
+
     //when
     StudentDto savedStudent = studentService.saveStudent(studentToSave);
     studentService.deleteStudent(savedStudent.getId());
-    
+
     //then
     Optional<Student> foundStudent = studentRepository.findById(savedStudent.getId());
     assertTrue(foundStudent.isEmpty());
+  }
+//todo - dodać ten test bardziej do kontrolera
 
-
+//  @Test
+//  public void shouldUpdateSomeInformation() {
+//    //given
+//    StudentRegistrationDto studentToSave = StudentRegistrationDto.builder()
+//            .firstName("testFirstName")
+//            .lastName("testLastName")
+//            .dateOfBirth(LocalDate.of(2008, 12, 1))
+//            .email("test@email.com")
+//            .phoneNumber("589996325")
+//            .schoolClass(SchoolClass.ELEMENTARY_SCHOOL_7TH_GRADE)
+//            .build();
+//
+//    StudentUpdateDto studentUpdateDto = StudentUpdateDto.builder()
+//            .id(1L)
+//            .firstName("testChangedFirstName")
+//            .schoolClass(SchoolClass.ELEMENTARY_SCHOOL_8TH_GRADE)
+//            .build();
+//
+//    //when
+//    StudentDto savedStudent = studentService.saveStudent(studentToSave);
+//    studentService.updateStudent(studentUpdateDto);
+//
+//    //then
+//    Student updatedStudent = studentRepository.findById(studentUpdateDto.getId()).get();
+//    assertAll(
+//            () -> assertEquals("testChangedFirstName", updatedStudent.getFirstName()),
+//            () -> assertEquals(SchoolClass.ELEMENTARY_SCHOOL_8TH_GRADE, updatedStudent.getSchoolClass())
+    );
 
 
   }
-          
+
 }
