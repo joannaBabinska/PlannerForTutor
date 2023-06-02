@@ -2,6 +2,7 @@ package com.babinska.PlannerForTutor.lesson;
 
 import com.babinska.PlannerForTutor.exception.LessonNotFoundException;
 import com.babinska.PlannerForTutor.lesson.dto.LessonDto;
+import com.babinska.PlannerForTutor.lesson.dto.LessonRegisteredDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,11 @@ public class LessonController {
     return ResponseEntity.ok(lessonService.getLessonById(id));
   }
 
+  @PostMapping
+  public ResponseEntity<LessonDto> addLesson(@RequestBody LessonRegisteredDto lessonRegisteredDto){
+    return ResponseEntity.ok(lessonService.addLesson(lessonRegisteredDto));
+  }
+
   @GetMapping
   public ResponseEntity<?> getAllLesson(){
     return ResponseEntity.ok(lessonService.getAllLessons());
@@ -27,4 +33,5 @@ public class LessonController {
   public ResponseEntity<String> handle(LessonNotFoundException ex) {
     return ResponseEntity.notFound().build();
   }
+
 }
