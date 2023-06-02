@@ -1,13 +1,14 @@
 package com.babinska.PlannerForTutor.lesson;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 
 @Entity
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Lesson {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
