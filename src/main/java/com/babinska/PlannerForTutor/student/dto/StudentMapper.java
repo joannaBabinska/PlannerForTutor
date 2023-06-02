@@ -2,7 +2,7 @@ package com.babinska.PlannerForTutor.student.dto;
 
 import com.babinska.PlannerForTutor.student.Student;
 
-public class StudentDtoMapper {
+public class StudentMapper {
 
   public static StudentDto map(Student student) {
     return StudentDto.builder()
