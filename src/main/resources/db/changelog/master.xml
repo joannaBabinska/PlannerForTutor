@@ -10,4 +10,7 @@
     <include file="004_create_lesson_reservation_students_table.xml" relativeToChangelogFile="true"/>
 
     <include file="/db/testdata/student.sql"/>
+    <include file="/db/testdata/lesson.sql"/>
+    <include file="/db/testdata/lesson_reservation.sql"/>
+    <include file="/db/testdata/lesson_reservation_students.sql"/>
 </databaseChangeLog>
