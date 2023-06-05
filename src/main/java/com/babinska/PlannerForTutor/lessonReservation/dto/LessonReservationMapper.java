@@ -15,6 +15,18 @@ public class LessonReservationMapper {
             .reservationDate(lessonReservation.getReservationDate())
             .price(lessonReservation.getPrice())
             .build();
+  }
 
+  public static LessonReservation mapToLessonReservationRegistrationDto
+          (LessonReservationRegistrationDto lessonReservationRegistrationDto) {
+    return LessonReservation.builder()
+            .lessonType(lessonReservationRegistrationDto.getLessonType())
+            .topic(lessonReservationRegistrationDto.getTopic())
+            .startTime(lessonReservationRegistrationDto.getStartTime())
+            .endTime(lessonReservationRegistrationDto.getEndTime())
+            .durationInMinutes(lessonReservationRegistrationDto.getDurationInMinutes())
+            .reservationDate(lessonReservationRegistrationDto.getReservationDate())
+            .price(lessonReservationRegistrationDto.getPrice())
+            .build();
   }
 }

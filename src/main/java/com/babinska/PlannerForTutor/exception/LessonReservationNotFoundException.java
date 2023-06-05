@@ -1,4 +1,4 @@
-package com.babinska.PlannerForTutor.lessonReservation;
+package com.babinska.PlannerForTutor.exception;
 
 public class LessonReservationNotFoundException extends RuntimeException {
   public LessonReservationNotFoundException(Long id){
