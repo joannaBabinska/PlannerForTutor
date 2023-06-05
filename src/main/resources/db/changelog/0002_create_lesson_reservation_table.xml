@@ -9,7 +9,11 @@
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="lesson_id" type="bigint">
+            <column name="lesson_type" type="varchar(100)">
+                <constraints nullable="false" />
+            </column>
+            <column name="price" type="float">
+                <constraints nullable="false" />
             </column>
             <column name="topic" type="varchar(100)">
                 <constraints nullable="false" />
@@ -26,10 +30,5 @@
             <column name="duration_in_minutes" type="int">
             </column>
         </createTable>
-        <addForeignKeyConstraint baseTableName="lesson_reservation"
-                                 baseColumnNames="lesson_id"
-                                 constraintName="fk_lesson_reservation_lesson_id"
-                                 referencedTableName="lesson"
-                                 referencedColumnNames="id"/>
     </changeSet>
 </databaseChangeLog>
