@@ -5,12 +5,10 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
     <include file="0001_create_student_table.xml" relativeToChangelogFile="true"/>
-    <include file="0002_create_lesson_table.xml" relativeToChangelogFile="true"/>
-    <include file="0003_create_lesson_reservation_table.xml" relativeToChangelogFile="true"/>
-    <include file="004_create_lesson_reservation_students_table.xml" relativeToChangelogFile="true"/>
+    <include file="0002_create_lesson_reservation_table.xml" relativeToChangelogFile="true"/>
+    <include file="003_create_lesson_reservation_students_table.xml" relativeToChangelogFile="true"/>
 
     <include file="/db/testdata/student.sql"/>
-    <include file="/db/testdata/lesson.sql"/>
     <include file="/db/testdata/lesson_reservation.sql"/>
     <include file="/db/testdata/lesson_reservation_students.sql"/>
 </databaseChangeLog>
