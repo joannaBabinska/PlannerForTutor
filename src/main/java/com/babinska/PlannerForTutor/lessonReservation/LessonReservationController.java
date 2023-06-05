@@ -20,17 +20,28 @@ public class LessonReservationController {
     return ResponseEntity.ok(lessonReservationDto);
   }
 
-  @ExceptionHandler(LessonReservationNotFoundException.class)
-  public ResponseEntity<?> handle(LessonReservationNotFoundException ex) {
-    return ResponseEntity.notFound().build();
-  }
-
   @PostMapping
   public ResponseEntity<LessonReservationDto> addLessonReservation
           (@RequestBody LessonReservationRegistrationDto lessonReservationRegistrationDto){
     LessonReservationDto lessonReservationDto = lessonReservationService.addLessonReservation(lessonReservationRegistrationDto);
     return ResponseEntity.ok(lessonReservationDto);
   }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<LessonReservationDto> replaceLessonReservation
+          (@PathVariable Long id,@RequestBody LessonReservationRegistrationDto lessonReservationRegistrationDto){
+    LessonReservationDto savedLessonReservationDto = lessonReservationService.replaceLessonReservation(id,lessonReservationRegistrationDto);
+    return ResponseEntity.ok(savedLessonReservationDto);
+  }
+
+
+
+  @ExceptionHandler(LessonReservationNotFoundException.class)
+  public ResponseEntity<?> handle(LessonReservationNotFoundException ex) {
+    return ResponseEntity.notFound().build();
+  }
+
+
 
 
 }

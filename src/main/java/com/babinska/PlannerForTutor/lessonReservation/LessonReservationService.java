@@ -19,8 +19,16 @@ public class LessonReservationService {
   }
 
   public LessonReservationDto addLessonReservation(LessonReservationRegistrationDto lessonReservationRegistrationDto){
-    LessonReservation lessonReservation = LessonReservationMapper.mapToLessonReservationRegistrationDto(lessonReservationRegistrationDto);
+    LessonReservation lessonReservation = LessonReservationMapper.mapToLessonReservation(lessonReservationRegistrationDto);
     LessonReservation savedLessonReservation = lessonReservationRepository.save(lessonReservation);
     return LessonReservationMapper.map(savedLessonReservation);
+  }
+
+  public LessonReservationDto replaceLessonReservation
+          (Long id, LessonReservationRegistrationDto lessonReservationRegistrationDto){
+    getLessonReservationById(id);// sprawdzic czy potrzebne moze samo ogarnie
+    LessonReservation lessonReservationToSave = LessonReservationMapper.mapToLessonReservation(lessonReservationRegistrationDto);
+    lessonReservationRepository.save(lessonReservationToSave);
+    return LessonReservationMapper.map(lessonReservationToSave);
   }
 }
