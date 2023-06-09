@@ -3,6 +3,8 @@ package com.babinska.PlannerForTutor.lessonReservation.dto;
 import com.babinska.PlannerForTutor.lessonReservation.LessonType;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,7 +12,9 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 @Data
-//@Builder
+@Builder
+@AllArgsConstructor
+
 public class LessonReservationRegistrationDto {
   @Enumerated(EnumType.STRING)
   private LessonType lessonType;

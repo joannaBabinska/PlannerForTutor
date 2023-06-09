@@ -77,6 +77,4 @@ public class StudentController {
     JsonNode jsonNodePatchedNode = jsonMergePatch.apply(jsonNode);
     return objectMapper.treeToValue(jsonNodePatchedNode, StudentUpdateDto.class);
   }
-
-
 }
