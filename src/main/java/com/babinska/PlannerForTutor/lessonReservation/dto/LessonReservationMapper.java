@@ -30,14 +30,12 @@ public class LessonReservationMapper {
             .build();
   }
 
-  public static LessonReservation map(LessonReservationDto lessonReservationdto) {
-    return LessonReservation.builder()
-            .id(lessonReservationdto.getId())
+  public static LessonReservationRegistrationDto map(LessonReservationDto lessonReservationdto) {
+    return LessonReservationRegistrationDto.builder()
             .lessonType(lessonReservationdto.getLessonType())
             .topic(lessonReservationdto.getTopic())
             .startTime(lessonReservationdto.getStartTime())
             .endTime(lessonReservationdto.getEndTime())
-            .durationInMinutes(lessonReservationdto.getDurationInMinutes())
             .reservationDate(lessonReservationdto.getReservationDate())
             .price(lessonReservationdto.getPrice())
             .build();
