@@ -35,8 +35,9 @@ public class LessonReservationService {
 
   public LessonReservationDto replaceLessonReservation
           (Long id, LessonReservationRegistrationDto lessonReservationRegistrationDto) {
-    getLessonReservationById(id);// sprawdzic czy potrzebne moze samo ogarnie
+    getLessonReservationById(id);
     LessonReservation lessonReservationToSave = LessonReservationMapper.mapToLessonReservation(lessonReservationRegistrationDto);
+    lessonReservationToSave.setId(id);
     lessonReservationRepository.save(lessonReservationToSave);
     return LessonReservationMapper.map(lessonReservationToSave);
   }
