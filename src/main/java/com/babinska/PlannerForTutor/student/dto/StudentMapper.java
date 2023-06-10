@@ -18,24 +18,24 @@ public class StudentMapper {
 
   public static Student map(StudentRegistrationDto studentRegistrationDto) {
     return Student.builder()
-            .firstName(studentRegistrationDto.getFirstName())
-            .lastName(studentRegistrationDto.getLastName())
-            .email(studentRegistrationDto.getEmail())
-            .phoneNumber(studentRegistrationDto.getPhoneNumber())
-            .dateOfBirth(studentRegistrationDto.getDateOfBirth())
-            .schoolClass(studentRegistrationDto.getSchoolClass())
+            .firstName(studentRegistrationDto.firstName())
+            .lastName(studentRegistrationDto.lastName())
+            .email(studentRegistrationDto.email())
+            .phoneNumber(studentRegistrationDto.phoneNumber())
+            .dateOfBirth(studentRegistrationDto.dateOfBirth())
+            .schoolClass(studentRegistrationDto.schoolClass())
             .build();
   }
 
 
   public static StudentRegistrationDto map(StudentDto student) {
     return StudentRegistrationDto.builder()
-            .firstName(student.getFirstName())
-            .lastName(student.getLastName())
-            .email(student.getEmail())
-            .phoneNumber(student.getPhoneNumber())
-            .dateOfBirth(student.getDateOfBirth())
-            .schoolClass(student.getSchoolClass())
+            .firstName(student.firstName())
+            .lastName(student.lastName())
+            .email(student.email())
+            .phoneNumber(student.phoneNumber())
+            .dateOfBirth(student.dateOfBirth())
+            .schoolClass(student.schoolClass())
             .build();
   }
 

@@ -20,24 +20,24 @@ public class LessonReservationMapper {
   public static LessonReservation mapToLessonReservation
           (LessonReservationRegistrationDto lessonReservationRegistrationDto) {
     return LessonReservation.builder()
-            .lessonType(lessonReservationRegistrationDto.getLessonType())
-            .topic(lessonReservationRegistrationDto.getTopic())
-            .startTime(lessonReservationRegistrationDto.getStartTime())
-            .endTime(lessonReservationRegistrationDto.getEndTime())
-            .durationInMinutes(lessonReservationRegistrationDto.getDurationInMinutes())
-            .reservationDate(lessonReservationRegistrationDto.getReservationDate())
-            .price(lessonReservationRegistrationDto.getPrice())
+            .lessonType(lessonReservationRegistrationDto.lessonType())
+            .topic(lessonReservationRegistrationDto.topic())
+            .startTime(lessonReservationRegistrationDto.startTime())
+            .endTime(lessonReservationRegistrationDto.endTime())
+            .durationInMinutes(lessonReservationRegistrationDto.durationInMinutes())
+            .reservationDate(lessonReservationRegistrationDto.reservationDate())
+            .price(lessonReservationRegistrationDto.price())
             .build();
   }
 
   public static LessonReservationRegistrationDto map(LessonReservationDto lessonReservationdto) {
     return LessonReservationRegistrationDto.builder()
-            .lessonType(lessonReservationdto.getLessonType())
-            .topic(lessonReservationdto.getTopic())
-            .startTime(lessonReservationdto.getStartTime())
-            .endTime(lessonReservationdto.getEndTime())
-            .reservationDate(lessonReservationdto.getReservationDate())
-            .price(lessonReservationdto.getPrice())
+            .lessonType(lessonReservationdto.lessonType())
+            .topic(lessonReservationdto.topic())
+            .startTime(lessonReservationdto.startTime())
+            .endTime(lessonReservationdto.endTime())
+            .reservationDate(lessonReservationdto.reservationDate())
+            .price(lessonReservationdto.price())
             .build();
   }
 }

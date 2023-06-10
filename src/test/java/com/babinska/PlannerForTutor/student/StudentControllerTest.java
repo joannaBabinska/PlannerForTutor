@@ -2,7 +2,6 @@ package com.babinska.PlannerForTutor.student;
 
 import com.babinska.PlannerForTutor.student.dto.StudentDto;
 import com.babinska.PlannerForTutor.student.dto.StudentRegistrationDto;
-import com.babinska.PlannerForTutor.student.dto.StudentUpdateDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatchException;
@@ -45,8 +44,7 @@ class StudentControllerTest {
 
     StudentDto savedStudent = studentService.saveStudent(studentToSave);
 
-    StudentUpdateDto studentUpdateDto = StudentUpdateDto.builder()
-            .id(savedStudent.getId())
+    StudentRegistrationDto studentUpdateDto = StudentRegistrationDto.builder()
             .firstName("testChangedFirstName")
             .schoolClass(SchoolClass.ELEMENTARY_SCHOOL_8TH_GRADE)
             .build();
@@ -59,10 +57,10 @@ class StudentControllerTest {
              """;
 
     //when
-    studentController.updateStudent(savedStudent.getId(), JsonMergePatch.fromJson(objectMapper.readTree(val)
+    studentController.updateStudent(savedStudent.id(), JsonMergePatch.fromJson(objectMapper.readTree(val)
     ));
     //then
-    Student updatedStudent = studentRepository.findById(studentUpdateDto.getId()).get();
+    Student updatedStudent = studentRepository.findById(savedStudent.id()).get();
     assertAll(
             () -> assertEquals("testChangedFirstName", updatedStudent.getFirstName()),
             () -> assertEquals(SchoolClass.HIGH_SCHOOL_4TH_GRADE, updatedStudent.getSchoolClass())

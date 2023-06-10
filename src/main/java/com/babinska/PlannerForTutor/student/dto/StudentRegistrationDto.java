@@ -6,24 +6,15 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import lombok.Builder;
-import lombok.Data;
 import java.time.LocalDate;
 
 @Builder
-@Data
-public class StudentRegistrationDto {
-    @NotNull
-    private String firstName;
-    @NotNull
-    private String lastName;
-    @Email
-    @NotNull
-    private String email;
-    @NotNull
-    @PhoneNumber
-    private String phoneNumber;
-    @Past
-    private LocalDate dateOfBirth;
-    private SchoolClass schoolClass;
-  }
+public record StudentRegistrationDto(@NotNull String firstName,
+                              @NotNull String lastName,
+                              @Email @NotNull String email,
+                              @NotNull @PhoneNumber String phoneNumber,
+                              @Past LocalDate dateOfBirth,
+                              SchoolClass schoolClass) {
+}
+
 

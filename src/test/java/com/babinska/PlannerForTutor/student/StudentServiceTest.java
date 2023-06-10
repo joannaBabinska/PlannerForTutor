@@ -2,8 +2,6 @@ package com.babinska.PlannerForTutor.student;
 
 import com.babinska.PlannerForTutor.student.dto.StudentDto;
 import com.babinska.PlannerForTutor.student.dto.StudentRegistrationDto;
-import com.babinska.PlannerForTutor.student.dto.StudentUpdateDto;
-import com.github.fge.jsonpatch.mergepatch.JsonMergePatch;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,7 +37,7 @@ class StudentServiceTest {
     StudentDto savedStudent = studentService.saveStudent(studentRegistrationDto);
 
     //then
-    Student studentInDatabase = studentRepository.findById(savedStudent.getId()).get();
+    Student studentInDatabase = studentRepository.findById(savedStudent.id()).get();
     assertAll(
             () -> assertEquals("testFirstName", studentInDatabase.getFirstName()),
             () -> assertEquals("testLastName", studentInDatabase.getLastName()),
@@ -73,16 +71,16 @@ class StudentServiceTest {
 
     //when
     StudentDto savedStudent = studentService.saveStudent(studentToSave);
-    StudentDto replacingStudent = studentService.replaceStudent(studentToReplace, savedStudent.getId());
+    StudentDto replacingStudent = studentService.replaceStudent(studentToReplace, savedStudent.id());
 
     //then
     assertAll(
-            () -> assertEquals("testReplaceFirstName", replacingStudent.getFirstName()),
-            () -> assertEquals("testReplaceLastName", replacingStudent.getLastName()),
-            () -> assertEquals(LocalDate.of(2008, 12, 1), replacingStudent.getDateOfBirth()),
-            () -> assertEquals("testReplace@email.com", replacingStudent.getEmail()),
-            () -> assertEquals("123456789", replacingStudent.getPhoneNumber()),
-            () -> assertEquals(SchoolClass.ELEMENTARY_SCHOOL_8TH_GRADE, replacingStudent.getSchoolClass())
+            () -> assertEquals("testReplaceFirstName", replacingStudent.firstName()),
+            () -> assertEquals("testReplaceLastName", replacingStudent.lastName()),
+            () -> assertEquals(LocalDate.of(2008, 12, 1), replacingStudent.dateOfBirth()),
+            () -> assertEquals("testReplace@email.com", replacingStudent.email()),
+            () -> assertEquals("123456789", replacingStudent.phoneNumber()),
+            () -> assertEquals(SchoolClass.ELEMENTARY_SCHOOL_8TH_GRADE, replacingStudent.schoolClass())
     );
   }
 
@@ -100,10 +98,10 @@ class StudentServiceTest {
 
     //when
     StudentDto savedStudent = studentService.saveStudent(studentToSave);
-    studentService.deleteStudent(savedStudent.getId());
+    studentService.deleteStudent(savedStudent.id());
 
     //then
-    Optional<Student> foundStudent = studentRepository.findById(savedStudent.getId());
+    Optional<Student> foundStudent = studentRepository.findById(savedStudent.id());
     assertTrue(foundStudent.isEmpty());
   }
 }

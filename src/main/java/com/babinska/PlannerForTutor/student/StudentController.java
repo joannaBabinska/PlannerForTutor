@@ -32,7 +32,7 @@ public class StudentController {
     URI uri = ServletUriComponentsBuilder
             .fromCurrentRequest()
             .path("/{id}")
-            .buildAndExpand(savedStudentDto.getId())
+            .buildAndExpand(savedStudentDto.id())
             .toUri();
 
     return ResponseEntity.created(uri).body(savedStudentDto);
