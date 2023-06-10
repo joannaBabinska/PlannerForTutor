@@ -45,13 +45,13 @@ public class LessonReservationService {
   public LessonReservationDto updateLessonReservation(Long id, JsonMergePatch jsonMergePatch) throws JsonPatchException, JsonProcessingException {
     LessonReservationDto lessonReservationDto = getLessonReservationById(id);
     LessonReservationRegistrationDto lessonReservationRegistrationDto = LessonReservationMapper.map(lessonReservationDto);
-    LessonReservation updatedLessonReservation = applyPath(lessonReservationRegistrationDto, jsonMergePatch);
+    LessonReservation updatedLessonReservation = applyPatch(lessonReservationRegistrationDto, jsonMergePatch);
     updatedLessonReservation.setId(id);
     LessonReservation savedLessonReservation = lessonReservationRepository.save(updatedLessonReservation);
     return LessonReservationMapper.map(savedLessonReservation);
   }
 
-  private LessonReservation applyPath(LessonReservationRegistrationDto lessonReservationRegistrationDto, JsonMergePatch jsonMergePatch)
+  private LessonReservation applyPatch(LessonReservationRegistrationDto lessonReservationRegistrationDto, JsonMergePatch jsonMergePatch)
           throws JsonPatchException, JsonProcessingException {
     JsonNode jsonNode = objectMapper.valueToTree(lessonReservationRegistrationDto);
     JsonNode applyPath = jsonMergePatch.apply(jsonNode);

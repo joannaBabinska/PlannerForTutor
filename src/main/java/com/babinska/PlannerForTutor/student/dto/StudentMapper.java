@@ -27,9 +27,9 @@ public class StudentMapper {
             .build();
   }
 
-  public static StudentUpdateDto map(StudentDto student) {
-    return StudentUpdateDto.builder()
-            .id(student.getId())
+
+  public static StudentRegistrationDto map(StudentDto student) {
+    return StudentRegistrationDto.builder()
             .firstName(student.getFirstName())
             .lastName(student.getLastName())
             .email(student.getEmail())
@@ -39,14 +39,4 @@ public class StudentMapper {
             .build();
   }
 
-  public static Student map(StudentUpdateDto studentUpdateDto) {
-    return Student.builder()
-            .firstName(studentUpdateDto.getFirstName())
-            .lastName(studentUpdateDto.getLastName())
-            .email(studentUpdateDto.getEmail())
-            .phoneNumber(studentUpdateDto.getPhoneNumber())
-            .dateOfBirth(studentUpdateDto.getDateOfBirth())
-            .schoolClass(studentUpdateDto.getSchoolClass())
-            .build();
-  }
 }

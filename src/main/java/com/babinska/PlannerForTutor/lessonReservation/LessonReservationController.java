@@ -48,7 +48,4 @@ public class LessonReservationController {
     return ResponseEntity.notFound().build();
   }
 
-
-
-
 }
