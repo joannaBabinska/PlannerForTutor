@@ -1,4 +1,4 @@
-package com.babinska.PlannerForTutor.student.constraint;
+package com.babinska.PlannerForTutor.constraint;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

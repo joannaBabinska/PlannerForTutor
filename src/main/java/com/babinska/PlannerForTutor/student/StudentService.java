@@ -55,7 +55,6 @@ public class StudentService {
   }
 
   public void deleteStudent(Long id){
-    Student student = studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException(id));
-    studentRepository.delete(student);
+    studentRepository.deleteById(id);
   }
 }
