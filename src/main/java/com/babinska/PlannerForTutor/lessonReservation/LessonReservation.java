@@ -1,15 +1,12 @@
 package com.babinska.PlannerForTutor.lessonReservation;
 
-
 import com.babinska.PlannerForTutor.student.Student;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -26,9 +23,8 @@ public class LessonReservation {
   @ManyToMany
   private Set<Student> students;
   private String topic;
-  private LocalTime startTime;
-  private LocalTime endTime;
-  private LocalDate reservationDate;
+  private LocalDateTime startTime;
+  private LocalDateTime endTime;
   private int durationInMinutes;
   private double price;
 }

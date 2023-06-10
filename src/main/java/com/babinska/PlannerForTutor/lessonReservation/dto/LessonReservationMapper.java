@@ -12,7 +12,6 @@ public class LessonReservationMapper {
             .startTime(lessonReservation.getStartTime())
             .endTime(lessonReservation.getEndTime())
             .durationInMinutes(lessonReservation.getDurationInMinutes())
-            .reservationDate(lessonReservation.getReservationDate())
             .price(lessonReservation.getPrice())
             .build();
   }
@@ -25,7 +24,6 @@ public class LessonReservationMapper {
             .startTime(lessonReservationRegistrationDto.startTime())
             .endTime(lessonReservationRegistrationDto.endTime())
             .durationInMinutes(lessonReservationRegistrationDto.durationInMinutes())
-            .reservationDate(lessonReservationRegistrationDto.reservationDate())
             .price(lessonReservationRegistrationDto.price())
             .build();
   }
@@ -36,7 +34,6 @@ public class LessonReservationMapper {
             .topic(lessonReservationdto.topic())
             .startTime(lessonReservationdto.startTime())
             .endTime(lessonReservationdto.endTime())
-            .reservationDate(lessonReservationdto.reservationDate())
             .price(lessonReservationdto.price())
             .build();
   }

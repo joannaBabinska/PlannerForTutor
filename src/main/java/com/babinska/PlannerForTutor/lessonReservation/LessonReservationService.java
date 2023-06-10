@@ -56,7 +56,7 @@ public class LessonReservationService {
     JsonNode jsonNode = objectMapper.valueToTree(lessonReservationRegistrationDto);
     JsonNode applyPath = jsonMergePatch.apply(jsonNode);
     LessonReservation lessonReservation = objectMapper.treeToValue(applyPath, LessonReservation.class);
-    lessonReservation.setDurationInMinutes(calculateDuration(lessonReservation.getEndTime(), lessonReservation.getStartTime()));
+    lessonReservation.setDurationInMinutes(calculateDuration(lessonReservation.getEndTime().toLocalTime(), lessonReservation.getStartTime().toLocalTime()));
     return lessonReservation;
   }
 
