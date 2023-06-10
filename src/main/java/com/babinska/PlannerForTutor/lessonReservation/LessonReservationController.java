@@ -6,6 +6,7 @@ import com.babinska.PlannerForTutor.lessonReservation.dto.LessonReservationRegis
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.fge.jsonpatch.JsonPatchException;
 import com.github.fge.jsonpatch.mergepatch.JsonMergePatch;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,20 +26,20 @@ public class LessonReservationController {
 
   @PostMapping
   public ResponseEntity<LessonReservationDto> addLessonReservation
-          (@RequestBody LessonReservationRegistrationDto lessonReservationRegistrationDto){
+          (@Valid @RequestBody LessonReservationRegistrationDto lessonReservationRegistrationDto){
     LessonReservationDto lessonReservationDto = lessonReservationService.addLessonReservation(lessonReservationRegistrationDto);
     return ResponseEntity.ok(lessonReservationDto);
   }
 
   @PutMapping("/{id}")
   public ResponseEntity<LessonReservationDto> replaceLessonReservation
-          (@PathVariable Long id,@RequestBody LessonReservationRegistrationDto lessonReservationRegistrationDto){
+          (@PathVariable Long id,@Valid @RequestBody LessonReservationRegistrationDto lessonReservationRegistrationDto){
     LessonReservationDto savedLessonReservationDto = lessonReservationService.replaceLessonReservation(id,lessonReservationRegistrationDto);
     return ResponseEntity.ok(savedLessonReservationDto);
   }
 
   @PatchMapping("/{id}")
-  public ResponseEntity<LessonReservationDto> updateLessonReservation(@PathVariable Long id, @RequestBody JsonMergePatch jsonMergePatch) throws JsonPatchException, JsonProcessingException {
+  public ResponseEntity<LessonReservationDto> updateLessonReservation(@PathVariable Long id,@Valid @RequestBody JsonMergePatch jsonMergePatch) throws JsonPatchException, JsonProcessingException {
     LessonReservationDto lessonReservationDto = lessonReservationService.updateLessonReservation(id, jsonMergePatch);
     return ResponseEntity.ok(lessonReservationDto);
   }
