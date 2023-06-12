@@ -10,6 +10,7 @@ import com.github.fge.jsonpatch.mergepatch.JsonMergePatch;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.Cascade;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -62,9 +63,9 @@ public class LessonReservationController {
   }
 
   @PatchMapping("/{id}/students")
-  public ResponseEntity<LessonReservationStudentDto> addStudentToLessonReservation(@PathVariable Long id,
+  public ResponseEntity<LessonReservationStudentDto> addNewStudentToLessonReservation(@PathVariable Long id,
   @RequestBody JsonMergePatch jsonMergePatch) throws JsonPatchException, JsonProcessingException {
-    LessonReservationStudentDto lessonReservationStudentDto = lessonReservationService.addStudentToLessonReservation(id, jsonMergePatch);
+    LessonReservationStudentDto lessonReservationStudentDto = lessonReservationService.addNewStudentToLessonReservation(id, jsonMergePatch);
     return ResponseEntity.ok(lessonReservationStudentDto);
   }
 

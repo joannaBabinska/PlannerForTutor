@@ -4,11 +4,14 @@ import com.babinska.PlannerForTutor.exception.LessonReservationNotFoundException
 import com.babinska.PlannerForTutor.lessonReservation.dto.LessonReservationDto;
 import com.babinska.PlannerForTutor.lessonReservation.dto.LessonReservationRegistrationDto;
 import com.babinska.PlannerForTutor.lessonReservation.dto.LessonReservationStudentDto;
+import com.babinska.PlannerForTutor.student.StudentMapper;
+import com.babinska.PlannerForTutor.student.StudentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatchException;
 import com.github.fge.jsonpatch.mergepatch.JsonMergePatch;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +24,7 @@ public class LessonReservationService {
 
   public final LessonReservationRepository lessonReservationRepository;
   public final ObjectMapper objectMapper;
+  public final StudentService studentService;
 
   public LessonReservationDto getLessonReservationById(Long id) {
     LessonReservation lessonReservation = lessonReservationRepository.findById(id).orElseThrow(() -> new LessonReservationNotFoundException(id));
@@ -47,16 +51,21 @@ public class LessonReservationService {
     LessonReservationRegistrationDto lessonReservationRegistrationDto = LessonReservationMapper.map(lessonReservationDto);
     LessonReservation updatedLessonReservation = applyPatch(lessonReservationRegistrationDto, jsonMergePatch);
     updatedLessonReservation.setId(id);
+
     LessonReservation savedLessonReservation = lessonReservationRepository.save(updatedLessonReservation);
     return LessonReservationMapper.map(savedLessonReservation);
   }
 
-  public LessonReservationStudentDto addStudentToLessonReservation(Long id, JsonMergePatch jsonMergePatch) throws JsonPatchException, JsonProcessingException {
+  public LessonReservationStudentDto addNewStudentToLessonReservation(Long id, JsonMergePatch jsonMergePatch) throws JsonPatchException, JsonProcessingException {
     LessonReservationDto lessonReservationDto = getLessonReservationById(id);
     LessonReservationStudentDto lessonReservationStudentDto = LessonReservationMapper.mapToLessonReservationStudentDto(lessonReservationDto);
     LessonReservation lessonReservation = applyPatch(lessonReservationStudentDto, jsonMergePatch);
     lessonReservation.setId(id);
+
+    lessonReservation.getStudents().
+            forEach(student -> studentService.addStudent(StudentMapper.mapToStudentRegistrationDto(student)));
     LessonReservation savedLessonReservation = lessonReservationRepository.save(lessonReservation);
+
     return LessonReservationMapper.mapToLessonReservationStudentDto(savedLessonReservation);
   }
 

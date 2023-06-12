@@ -17,6 +17,16 @@ public class StudentMapper {
             .schoolClass(student.getSchoolClass())
             .build();
   }
+  public static StudentRegistrationDto mapToStudentRegistrationDto(Student student) {
+    return StudentRegistrationDto.builder()
+            .firstName(student.getFirstName())
+            .lastName(student.getLastName())
+            .email(student.getEmail())
+            .phoneNumber(student.getPhoneNumber())
+            .dateOfBirth(student.getDateOfBirth())
+            .schoolClass(student.getSchoolClass())
+            .build();
+  }
 
   public static Student map(StudentRegistrationDto studentRegistrationDto) {
     return Student.builder()
