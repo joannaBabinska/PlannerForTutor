@@ -56,6 +56,21 @@ public class LessonReservationMapper {
             .build();
   }
 
+  public static LessonReservation mapToLessonReservation
+          (LessonReservationStudentDto lessonReservationStudentDto) {
+    return LessonReservation.builder()
+            .id(lessonReservationStudentDto.id())
+            .lessonType(lessonReservationStudentDto.lessonType())
+            .topic(lessonReservationStudentDto.topic())
+            .students(lessonReservationStudentDto.students())
+            .startTime(lessonReservationStudentDto.startTime())
+            .endTime(lessonReservationStudentDto.endTime())
+            .durationInMinutes(lessonReservationStudentDto.durationInMinutes())
+            .reservationDate(lessonReservationStudentDto.reservationDate())
+            .price(lessonReservationStudentDto.price())
+            .build();
+  }
+
   public static LessonReservationRegistrationDto map(LessonReservationDto lessonReservationDto) {
     return LessonReservationRegistrationDto.builder()
             .lessonType(lessonReservationDto.lessonType())

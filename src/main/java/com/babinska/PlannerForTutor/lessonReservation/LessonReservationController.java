@@ -1,6 +1,8 @@
 package com.babinska.PlannerForTutor.lessonReservation;
 
 import com.babinska.PlannerForTutor.exception.LessonReservationNotFoundException;
+import com.babinska.PlannerForTutor.exception.StudentAlreadyAddedToLessonException;
+import com.babinska.PlannerForTutor.exception.StudentNotFoundException;
 import com.babinska.PlannerForTutor.lessonReservation.dto.LessonReservationDto;
 import com.babinska.PlannerForTutor.lessonReservation.dto.LessonReservationRegistrationDto;
 import com.babinska.PlannerForTutor.lessonReservation.dto.LessonReservationStudentDto;
@@ -11,6 +13,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.Cascade;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -29,6 +32,12 @@ public class LessonReservationController {
   ResponseEntity<LessonReservationDto> getLessonReservationById(@PathVariable Long id) {
     LessonReservationDto lessonReservationDto = lessonReservationService.getLessonReservationById(id);
     return ResponseEntity.ok(lessonReservationDto);
+  }
+
+  @GetMapping("/{id}/all")
+  ResponseEntity<LessonReservationStudentDto> getAllLessonReservationInformation(@PathVariable Long id) {
+    LessonReservationStudentDto lessonReservationAllInformation = lessonReservationService.getAllInformation(id);
+    return ResponseEntity.ok(lessonReservationAllInformation);
   }
 
   @PostMapping
@@ -69,6 +78,13 @@ public class LessonReservationController {
     return ResponseEntity.ok(lessonReservationStudentDto);
   }
 
+  @PatchMapping("/{lessonId}/students/{studentId}")
+  public ResponseEntity<LessonReservationStudentDto> addStudentToLessonReservation(@PathVariable Long lessonId,
+                                                                                   @PathVariable Long studentId) {
+    LessonReservationStudentDto lessonReservationStudentDto = lessonReservationService.addStudentToLessonReservation(lessonId, studentId);
+    return ResponseEntity.ok(lessonReservationStudentDto);
+  }
+
   @DeleteMapping("/{id}")
   public ResponseEntity<?> deleteLessonReservation(@PathVariable Long id){
     lessonReservationService.deleteLessonReservation(id);
@@ -78,6 +94,16 @@ public class LessonReservationController {
   @ExceptionHandler(LessonReservationNotFoundException.class)
   public ResponseEntity<?> handle(LessonReservationNotFoundException ex) {
     return ResponseEntity.notFound().build();
+  }
+
+  @ExceptionHandler(StudentNotFoundException.class)
+  public ResponseEntity<?> handle(StudentNotFoundException ex) {
+    return ResponseEntity.notFound().build();
+  }
+
+  @ExceptionHandler(StudentAlreadyAddedToLessonException.class)
+  public ResponseEntity<?> handle(StudentAlreadyAddedToLessonException ex){
+    return ResponseEntity.status(HttpStatus.CONFLICT).build();
   }
 
 }
