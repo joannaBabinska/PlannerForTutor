@@ -59,6 +59,12 @@ public class LessonReservationController {
     return ResponseEntity.ok(lessonReservationDto);
   }
 
+  @DeleteMapping("/{id}")
+  public ResponseEntity<?> deleteLessonReservation(@PathVariable Long id){
+    lessonReservationService.deleteLessonReservation(id);
+    return ResponseEntity.ok().build();
+  }
+
   @ExceptionHandler(LessonReservationNotFoundException.class)
   public ResponseEntity<?> handle(LessonReservationNotFoundException ex) {
     return ResponseEntity.notFound().build();

@@ -60,7 +60,13 @@ public class LessonReservationService {
     return lessonReservation;
   }
 
+  public void deleteLessonReservation(Long id) {
+    lessonReservationRepository.deleteById(id);
+  }
+
   private int calculateDuration(LocalTime endTime, LocalTime startTime) {
     return (int) Duration.between(startTime, endTime).toMinutes();
   }
+
+
 }
