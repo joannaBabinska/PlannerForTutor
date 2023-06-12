@@ -1,6 +1,8 @@
-package com.babinska.PlannerForTutor.student.dto;
+package com.babinska.PlannerForTutor.student;
 
 import com.babinska.PlannerForTutor.student.Student;
+import com.babinska.PlannerForTutor.student.dto.StudentDto;
+import com.babinska.PlannerForTutor.student.dto.StudentRegistrationDto;
 
 public class StudentMapper {
 

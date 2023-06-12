@@ -3,6 +3,7 @@ package com.babinska.PlannerForTutor.lessonReservation;
 import com.babinska.PlannerForTutor.exception.LessonReservationNotFoundException;
 import com.babinska.PlannerForTutor.lessonReservation.dto.LessonReservationDto;
 import com.babinska.PlannerForTutor.lessonReservation.dto.LessonReservationRegistrationDto;
+import com.babinska.PlannerForTutor.lessonReservation.dto.LessonReservationStudentDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.fge.jsonpatch.JsonPatchException;
 import com.github.fge.jsonpatch.mergepatch.JsonMergePatch;
@@ -53,10 +54,18 @@ public class LessonReservationController {
   }
 
   @PatchMapping("/{id}")
-  public ResponseEntity<LessonReservationDto> updateLessonReservation(@PathVariable Long id, @Valid @RequestBody JsonMergePatch jsonMergePatch) throws JsonPatchException, JsonProcessingException {
+  public ResponseEntity<LessonReservationDto> updateLessonReservation(@PathVariable Long id, @Valid
+  @RequestBody JsonMergePatch jsonMergePatch) throws JsonPatchException, JsonProcessingException {
     LessonReservationDto lessonReservationDto = lessonReservationService.updateLessonReservation(id, jsonMergePatch);
     log.info("Updated lesson reservation with id ={}",id);
     return ResponseEntity.ok(lessonReservationDto);
+  }
+
+  @PatchMapping("/{id}/students")
+  public ResponseEntity<LessonReservationStudentDto> addStudentToLessonReservation(@PathVariable Long id,
+  @RequestBody JsonMergePatch jsonMergePatch) throws JsonPatchException, JsonProcessingException {
+    LessonReservationStudentDto lessonReservationStudentDto = lessonReservationService.addStudentToLessonReservation(id, jsonMergePatch);
+    return ResponseEntity.ok(lessonReservationStudentDto);
   }
 
   @DeleteMapping("/{id}")

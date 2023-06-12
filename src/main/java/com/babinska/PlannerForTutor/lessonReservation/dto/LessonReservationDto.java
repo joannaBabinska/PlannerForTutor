@@ -11,9 +11,9 @@ import java.time.LocalTime;
 public record LessonReservationDto (Long id,
                              LessonType lessonType,
                              String topic,
-                                    LocalTime startTime,
-                                    LocalTime endTime,
-                                    LocalDate reservationDate,
+                             LocalTime startTime,
+                             LocalTime endTime,
+                             LocalDate reservationDate,
                              int durationInMinutes,
                              double price) {
 }

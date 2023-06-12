@@ -2,7 +2,6 @@ package com.babinska.PlannerForTutor.student;
 
 import com.babinska.PlannerForTutor.exception.StudentNotFoundException;
 import com.babinska.PlannerForTutor.student.dto.StudentDto;
-import com.babinska.PlannerForTutor.student.dto.StudentMapper;
 import com.babinska.PlannerForTutor.student.dto.StudentRegistrationDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
