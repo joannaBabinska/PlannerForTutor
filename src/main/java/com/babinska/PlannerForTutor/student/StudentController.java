@@ -28,8 +28,8 @@ public class StudentController {
   }
 
   @PostMapping
-  public ResponseEntity<StudentDto> saveStudent(@Valid @RequestBody StudentRegistrationDto studentRegistrationDto) {
-    StudentDto savedStudentDto = studentService.saveStudent(studentRegistrationDto);
+  public ResponseEntity<StudentDto> addStudent(@Valid @RequestBody StudentRegistrationDto studentRegistrationDto) {
+    StudentDto savedStudentDto = studentService.addStudent(studentRegistrationDto);
 
     URI uri = ServletUriComponentsBuilder
             .fromCurrentRequest()

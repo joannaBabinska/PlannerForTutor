@@ -11,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @Slf4j
 @RestController
@@ -30,8 +33,15 @@ public class LessonReservationController {
   public ResponseEntity<LessonReservationDto> addLessonReservation
           (@Valid @RequestBody LessonReservationRegistrationDto lessonReservationRegistrationDto) {
     LessonReservationDto lessonReservationDto = lessonReservationService.addLessonReservation(lessonReservationRegistrationDto);
+
+    URI uri = ServletUriComponentsBuilder
+            .fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(lessonReservationDto.id())
+            .toUri();
+
     log.info("Add new lesson reservation: {}", lessonReservationDto);
-    return ResponseEntity.ok(lessonReservationDto);
+    return ResponseEntity.created(uri).build();
   }
 
   @PutMapping("/{id}")
