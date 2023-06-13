@@ -3,6 +3,12 @@ package com.babinska.PlannerForTutor.lessonReservation;
 import com.babinska.PlannerForTutor.lessonReservation.dto.LessonReservationDto;
 import com.babinska.PlannerForTutor.lessonReservation.dto.LessonReservationRegistrationDto;
 import com.babinska.PlannerForTutor.lessonReservation.dto.LessonReservationStudentDto;
+import com.babinska.PlannerForTutor.student.Student;
+import com.babinska.PlannerForTutor.student.StudentMapper;
+import com.babinska.PlannerForTutor.student.dto.StudentDto;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class LessonReservationMapper {
 
@@ -21,7 +27,7 @@ public class LessonReservationMapper {
             .id(lessonReservation.getId())
             .lessonType(lessonReservation.getLessonType())
             .topic(lessonReservation.getTopic())
-            .students(lessonReservation.getStudents())
+            .students(mapToStudentDto(lessonReservation.getStudents()))
             .startTime(lessonReservation.getStartTime())
             .endTime(lessonReservation.getEndTime())
             .durationInMinutes(lessonReservation.getDurationInMinutes())
@@ -62,7 +68,7 @@ public class LessonReservationMapper {
             .id(lessonReservationStudentDto.id())
             .lessonType(lessonReservationStudentDto.lessonType())
             .topic(lessonReservationStudentDto.topic())
-            .students(lessonReservationStudentDto.students())
+            .students(mapToStudent(lessonReservationStudentDto.students()))
             .startTime(lessonReservationStudentDto.startTime())
             .endTime(lessonReservationStudentDto.endTime())
             .durationInMinutes(lessonReservationStudentDto.durationInMinutes())
@@ -80,5 +86,13 @@ public class LessonReservationMapper {
             .reservationDate(lessonReservationDto.reservationDate())
             .price(lessonReservationDto.price())
             .build();
+  }
+
+  private static Set<Student> mapToStudent(Set<StudentDto> studentsDto){
+    return studentsDto.stream().map(StudentMapper::mapToStudent).collect(Collectors.toSet());
+  }
+
+  private static Set<StudentDto> mapToStudentDto(Set<Student> students){
+    return students.stream().map(StudentMapper::map).collect(Collectors.toSet());
   }
 }

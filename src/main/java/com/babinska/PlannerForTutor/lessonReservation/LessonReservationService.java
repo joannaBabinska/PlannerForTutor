@@ -87,10 +87,10 @@ public class LessonReservationService {
 
     LessonReservationStudentDto lessonReservationStudentDto = getAllInformation(lessonId);
     if (lessonReservationStudentDto.students().stream()
-            .anyMatch(savedStudent -> savedStudent.getId().equals(studentId))){
+            .anyMatch(savedStudent -> savedStudent.id().equals(studentId))){
       throw new StudentAlreadyAddedToLessonException(studentId);
     }
-    lessonReservationStudentDto.students().add(student);
+    lessonReservationStudentDto.students().add(StudentMapper.map(student));
     LessonReservation lessonReservation = LessonReservationMapper.mapToLessonReservation(lessonReservationStudentDto);
     lessonReservationRepository.save(lessonReservation);
 
