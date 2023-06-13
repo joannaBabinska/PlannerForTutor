@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Set;
 
@@ -24,9 +25,8 @@ public class LessonReservation {
   @ManyToMany(cascade = {CascadeType.ALL})
   private Set<Student> students;
   private String topic;
-  private LocalTime startTime;
-  private LocalTime endTime;
-  private LocalDate reservationDate;
+  private LocalDateTime startTime;
+  private LocalDateTime endTime;
   private int durationInMinutes;
   private double price;
 }

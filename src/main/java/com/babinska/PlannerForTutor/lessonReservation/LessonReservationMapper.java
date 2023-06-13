@@ -7,6 +7,7 @@ import com.babinska.PlannerForTutor.student.Student;
 import com.babinska.PlannerForTutor.student.StudentMapper;
 import com.babinska.PlannerForTutor.student.dto.StudentDto;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,10 +29,10 @@ public class LessonReservationMapper {
             .lessonType(lessonReservation.getLessonType())
             .topic(lessonReservation.getTopic())
             .students(mapToStudentDto(lessonReservation.getStudents()))
-            .startTime(lessonReservation.getStartTime())
-            .endTime(lessonReservation.getEndTime())
+            .startTime(lessonReservation.getStartTime().toLocalTime())
+            .endTime(lessonReservation.getEndTime().toLocalTime())
             .durationInMinutes(lessonReservation.getDurationInMinutes())
-            .reservationDate(lessonReservation.getReservationDate())
+            .reservationDate(lessonReservation.getStartTime().toLocalDate())
             .price(lessonReservation.getPrice())
             .build();
   }
@@ -41,10 +42,10 @@ public class LessonReservationMapper {
             .id(lessonReservation.getId())
             .lessonType(lessonReservation.getLessonType())
             .topic(lessonReservation.getTopic())
-            .startTime(lessonReservation.getStartTime())
-            .endTime(lessonReservation.getEndTime())
+            .startTime(lessonReservation.getStartTime().toLocalTime())
+            .endTime(lessonReservation.getEndTime().toLocalTime())
             .durationInMinutes(lessonReservation.getDurationInMinutes())
-            .reservationDate(lessonReservation.getReservationDate())
+            .reservationDate(lessonReservation.getStartTime().toLocalDate())
             .price(lessonReservation.getPrice())
             .build();
   }
@@ -54,10 +55,11 @@ public class LessonReservationMapper {
     return LessonReservation.builder()
             .lessonType(lessonReservationRegistrationDto.lessonType())
             .topic(lessonReservationRegistrationDto.topic())
-            .startTime(lessonReservationRegistrationDto.startTime())
-            .endTime(lessonReservationRegistrationDto.endTime())
+            .startTime(LocalDateTime.of(lessonReservationRegistrationDto.reservationDate(),
+                    lessonReservationRegistrationDto.startTime()))
+            .endTime(LocalDateTime.of(lessonReservationRegistrationDto.reservationDate(),
+                    lessonReservationRegistrationDto.endTime()))
             .durationInMinutes(lessonReservationRegistrationDto.durationInMinutes())
-            .reservationDate(lessonReservationRegistrationDto.reservationDate())
             .price(lessonReservationRegistrationDto.price())
             .build();
   }
@@ -69,10 +71,9 @@ public class LessonReservationMapper {
             .lessonType(lessonReservationStudentDto.lessonType())
             .topic(lessonReservationStudentDto.topic())
             .students(mapToStudent(lessonReservationStudentDto.students()))
-            .startTime(lessonReservationStudentDto.startTime())
-            .endTime(lessonReservationStudentDto.endTime())
+            .startTime(LocalDateTime.of(lessonReservationStudentDto.reservationDate(),lessonReservationStudentDto.startTime()))
+            .endTime(LocalDateTime.of(lessonReservationStudentDto.reservationDate(),lessonReservationStudentDto.endTime()))
             .durationInMinutes(lessonReservationStudentDto.durationInMinutes())
-            .reservationDate(lessonReservationStudentDto.reservationDate())
             .price(lessonReservationStudentDto.price())
             .build();
   }
@@ -95,4 +96,5 @@ public class LessonReservationMapper {
   private static Set<StudentDto> mapToStudentDto(Set<Student> students){
     return students.stream().map(StudentMapper::map).collect(Collectors.toSet());
   }
+
 }
