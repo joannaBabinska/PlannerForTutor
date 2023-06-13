@@ -6,9 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDate;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Set;
 
 @Entity
@@ -28,5 +28,5 @@ public class LessonReservation {
   private LocalDateTime startTime;
   private LocalDateTime endTime;
   private int durationInMinutes;
-  private double price;
+  private BigDecimal price;
 }

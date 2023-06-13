@@ -12,7 +12,7 @@
             <column name="lesson_type" type="varchar(100)">
                 <constraints nullable="false" />
             </column>
-            <column name="price" type="float">
+            <column name="price" type="numeric">
                 <constraints nullable="false" />
             </column>
             <column name="topic" type="varchar(100)">

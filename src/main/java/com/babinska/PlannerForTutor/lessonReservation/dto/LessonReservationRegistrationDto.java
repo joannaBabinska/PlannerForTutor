@@ -4,8 +4,8 @@ import com.babinska.PlannerForTutor.lessonReservation.LessonType;
 import jakarta.validation.constraints.Positive;
 import lombok.Builder;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Builder
@@ -15,6 +15,6 @@ public record LessonReservationRegistrationDto(LessonType lessonType,
                                                LocalTime endTime,
                                                LocalDate reservationDate,
                                               @Positive int durationInMinutes,
-                                              @Positive double price) {
+                                              @Positive BigDecimal price) {
 
 }
