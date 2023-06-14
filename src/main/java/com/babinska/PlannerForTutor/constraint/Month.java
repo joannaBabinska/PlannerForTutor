@@ -15,7 +15,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RUNTIME)
 public @interface Month {
-        String  message() default "Invalid month";
+        String  message() default "Podano złą nazwe miesiąca";
         Class<?>[] groups() default {};
         Class<? extends Payload>[] payload() default {};
 }

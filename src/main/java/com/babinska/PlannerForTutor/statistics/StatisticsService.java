@@ -26,6 +26,12 @@ public class StatisticsService {
     return new SalaryResponse(monthlySalary, month + " " + year);
   }
 
+  public SalaryResponse getSalaryPerTerm(LocalDate start, LocalDate end) {
+    LocalDateTime endLocalDateTime = LocalDateTime.of(end, LocalTime.of(23, 59, 59));
+    BigDecimal salary = lessonReservationRepository.findSalaryPerTerm(start, endLocalDateTime);
+    return new SalaryResponse(salary, start + "-" + end);
+  }
+
   public HourResponse getHoursPerMonth(String month, Integer year) {
     Integer sumOfMinutesPerMonth = lessonReservationRepository.findSumOfMinutesPerMonth(month, year);
     String hours = LocalTime.MIN.plus(Duration.ofMinutes(sumOfMinutesPerMonth)).toString();
@@ -37,12 +43,6 @@ public class StatisticsService {
     Integer sumOfMinutesPerTerm = lessonReservationRepository.findSumOfMinutesPerTerm(start, endLocalDateTime);
     String hours = LocalTime.MIN.plus(Duration.ofMinutes(sumOfMinutesPerTerm)).toString();
     return new HourResponse(hours, start + "" + end);
-  }
-
-  public SalaryResponse getSalaryPerTerm(LocalDate start, LocalDate end) {
-    LocalDateTime endLocalDateTime = LocalDateTime.of(end, LocalTime.of(23, 59, 59));
-    BigDecimal salary = lessonReservationRepository.findSalaryPerTerm(start, endLocalDateTime);
-    return new SalaryResponse(salary, start + "-" + end);
   }
 
 }

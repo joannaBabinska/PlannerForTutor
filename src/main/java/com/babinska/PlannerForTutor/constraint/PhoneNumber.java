@@ -15,7 +15,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target( ElementType.FIELD)
 @Retention(RUNTIME)
 public @interface PhoneNumber {
-  String  message() default "Invalid phone number";
+  String  message() default "Podano zły format numeru telefonu";
   Class<?>[] groups() default {};
   Class<? extends Payload>[] payload() default {};
 }

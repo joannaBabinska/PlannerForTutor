@@ -3,13 +3,15 @@ package com.babinska.PlannerForTutor.statistics;
 import com.babinska.PlannerForTutor.constraint.Month;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.Year;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/statistics")
@@ -26,8 +28,8 @@ public class StatisticsController {
   }
 
   @GetMapping("/salary/monthly")
-  ResponseEntity<SalaryResponse> getMonthlySalary( @RequestParam(required = false) @Min(2023) Integer year,
-                                                   @RequestParam(required = false) @Month String month) {
+  ResponseEntity<SalaryResponse> getMonthlySalary(@RequestParam(required = false) @Min(2023) Integer year,
+                                                  @RequestParam(required = false) @Month String month) {
     Integer yearFromParameters = createYearFromParameters(year);
     String monthFromParameters = createMonthFromParameters(month);
     SalaryResponse monthlySalary = statisticsService.getMonthlySalary(monthFromParameters, yearFromParameters);
@@ -52,10 +54,22 @@ public class StatisticsController {
   }
 
   @GetMapping("/hours/perTerm")
-  ResponseEntity<HourResponse> getHoursPerWeek(@RequestParam LocalDate start,
+  ResponseEntity<HourResponse> getHoursPerTerm(@RequestParam LocalDate start,
                                                @RequestParam(required = false) LocalDate end) {
     LocalDate endFromParameters = createEndDateFromParameters(end);
     return ResponseEntity.ok(statisticsService.getHoursPerTerm(start, endFromParameters));
+
+  }
+
+  @ExceptionHandler(jakarta.validation.ConstraintViolationException.class)
+  public ResponseEntity<List<String>> handle(jakarta.validation.ConstraintViolationException ex) {
+
+    List<String> errors = ex.getConstraintViolations().stream()
+            .map(constraintViolation -> String.format("%s value '%s' %s", constraintViolation.getPropertyPath(),
+                    constraintViolation.getInvalidValue(), constraintViolation.getMessage()))
+            .collect(Collectors.toList());
+
+    return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
 
   }
 
@@ -63,10 +77,8 @@ public class StatisticsController {
     return Optional.ofNullable(end).orElse(LocalDate.now());
   }
 
-
   private static Integer createYearFromParameters(Integer year) {
     return Optional.ofNullable(year).orElse(Year.now().getValue());
-
   }
 
   private static String createMonthFromParameters(String month) {
