@@ -3,6 +3,7 @@ package com.babinska.PlannerForTutor.statistics;
 import com.babinska.PlannerForTutor.constraint.Month;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.lang.annotation.After;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -58,18 +59,6 @@ public class StatisticsController {
                                                @RequestParam(required = false) LocalDate end) {
     LocalDate endFromParameters = createEndDateFromParameters(end);
     return ResponseEntity.ok(statisticsService.getHoursPerTerm(start, endFromParameters));
-
-  }
-
-  @ExceptionHandler(jakarta.validation.ConstraintViolationException.class)
-  public ResponseEntity<List<String>> handle(jakarta.validation.ConstraintViolationException ex) {
-
-    List<String> errors = ex.getConstraintViolations().stream()
-            .map(constraintViolation -> String.format("%s value '%s' %s", constraintViolation.getPropertyPath(),
-                    constraintViolation.getInvalidValue(), constraintViolation.getMessage()))
-            .collect(Collectors.toList());
-
-    return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
 
   }
 

@@ -90,19 +90,4 @@ public class LessonReservationController {
     return ResponseEntity.ok().build();
   }
 
-  @ExceptionHandler(LessonReservationNotFoundException.class)
-  public ResponseEntity<?> handle(LessonReservationNotFoundException ex) {
-    return ResponseEntity.notFound().build();
-  }
-
-  @ExceptionHandler(StudentNotFoundException.class)
-  public ResponseEntity<?> handle(StudentNotFoundException ex) {
-    return ResponseEntity.notFound().build();
-  }
-
-  @ExceptionHandler(StudentAlreadyAddedToLessonException.class)
-  public ResponseEntity<?> handle(StudentAlreadyAddedToLessonException ex){
-    return ResponseEntity.status(HttpStatus.CONFLICT).build();
-  }
-
 }

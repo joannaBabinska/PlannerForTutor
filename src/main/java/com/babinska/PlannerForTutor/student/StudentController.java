@@ -62,9 +62,4 @@ public class StudentController {
     return ResponseEntity.ok().build();
   }
 
-  @ExceptionHandler(StudentNotFoundException.class)
-  public ResponseEntity<String> handle(StudentNotFoundException ex) {
-    return ResponseEntity.notFound().build();
-  }
-
 }
