@@ -31,8 +31,17 @@ public class StatisticsController {
     String monthFromParameters = createMonthFromParameters(month);
     SalaryResponse monthlySalary = statisticsService.getMonthlySalary(monthFromParameters, yearFromParameters);
     return ResponseEntity.ok(monthlySalary);
-
   }
+
+//  @GetMapping("/salary/monthly")
+//  ResponseEntity<SalaryResponse> getMonthlySalary(@Valid @RequestParam(required = false) @Min(2023) Integer year,
+//                                                  @Valid @RequestParam(required = false) @Month String month) {
+//    Integer yearFromParameters = createYearFromParameters(year);
+//    String monthFromParameters = createMonthFromParameters(month);
+//    SalaryResponse monthlySalary = statisticsService.getMonthlySalary(monthFromParameters, yearFromParameters);
+//    return ResponseEntity.ok(monthlySalary);
+//  }
+
   @GetMapping("/hours/perMonth")
   ResponseEntity<HourResponse> getHoursPerMonth(@RequestParam(required = false) @Month String month,
                                                 @RequestParam(required = false) @Min(2023) Integer year){
@@ -40,6 +49,18 @@ public class StatisticsController {
     String monthFromParameters = createMonthFromParameters(month);
     Integer yearFromParameters = createYearFromParameters(year);
     return ResponseEntity.ok(statisticsService.getHoursPerMonth(monthFromParameters, yearFromParameters));
+  }
+
+  @GetMapping("/hours/perTerm")
+  ResponseEntity<HourResponse>getHoursPerWeek(@RequestParam  LocalDate start,
+                                              @RequestParam(required = false)  LocalDate end){
+    LocalDate endFromParameters = createEndDateFromParameters(end);
+  return ResponseEntity.ok(statisticsService.getHoursPerTerm(start, endFromParameters));
+
+  }
+
+  private LocalDate createEndDateFromParameters(LocalDate end) {
+    return Optional.ofNullable(end).orElse(LocalDate.now());
   }
 
 
