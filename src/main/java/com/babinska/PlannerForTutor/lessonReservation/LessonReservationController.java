@@ -63,8 +63,8 @@ public class LessonReservationController {
   }
 
   @PatchMapping("/{id}")
-  public ResponseEntity<LessonReservationDto> updateLessonReservation(@PathVariable Long id, @Valid
-  @RequestBody JsonMergePatch jsonMergePatch) throws JsonPatchException, JsonProcessingException {
+  public ResponseEntity<LessonReservationDto> updateLessonReservation(@PathVariable Long id,
+  @Valid @RequestBody JsonMergePatch jsonMergePatch) throws JsonPatchException, JsonProcessingException {
     LessonReservationDto lessonReservationDto = lessonReservationService.updateLessonReservation(id, jsonMergePatch);
     log.info("Updated lesson reservation with id ={}",id);
     return ResponseEntity.ok(lessonReservationDto);

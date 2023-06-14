@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -14,6 +15,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/statistics")
 @RequiredArgsConstructor
+@Validated
 public class StatisticsController {
 
   private final StatisticsService statisticsService;
