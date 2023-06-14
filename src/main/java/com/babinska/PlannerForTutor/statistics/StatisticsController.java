@@ -3,8 +3,6 @@ package com.babinska.PlannerForTutor.statistics;
 import com.babinska.PlannerForTutor.constraint.Month;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.lang.annotation.After;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.Year;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/statistics")
@@ -42,7 +39,6 @@ public class StatisticsController {
                                                   @RequestParam(required = false) LocalDate end) {
     LocalDate endFromParameters = createEndDateFromParameters(end);
     return ResponseEntity.ok(statisticsService.getSalaryPerTerm(start, endFromParameters));
-
   }
 
   @GetMapping("/hours/perMonth")
@@ -59,7 +55,6 @@ public class StatisticsController {
                                                @RequestParam(required = false) LocalDate end) {
     LocalDate endFromParameters = createEndDateFromParameters(end);
     return ResponseEntity.ok(statisticsService.getHoursPerTerm(start, endFromParameters));
-
   }
 
   private LocalDate createEndDateFromParameters(LocalDate end) {

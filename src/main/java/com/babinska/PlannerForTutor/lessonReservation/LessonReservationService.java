@@ -18,7 +18,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +37,7 @@ public class LessonReservationService {
     return LessonReservationMapper.map(lessonReservation);
   }
 
-  public LessonReservationStudentDto getAllInformation(Long id){
+  public LessonReservationStudentDto getAllInformation(Long id) {
     LessonReservation lessonReservation = lessonReservationRepository.findById(id).orElseThrow(() -> new LessonReservationNotFoundException(id));
     return LessonReservationMapper.mapToLessonReservationStudentDto(lessonReservation);
   }
@@ -87,7 +91,7 @@ public class LessonReservationService {
 
     LessonReservationStudentDto lessonReservationStudentDto = getAllInformation(lessonId);
     if (lessonReservationStudentDto.students().stream()
-            .anyMatch(savedStudent -> savedStudent.id().equals(studentId))){
+            .anyMatch(savedStudent -> savedStudent.id().equals(studentId))) {
       throw new StudentAlreadyAddedToLessonException(studentId);
     }
     lessonReservationStudentDto.students().add(StudentMapper.map(student));
@@ -95,6 +99,16 @@ public class LessonReservationService {
     lessonReservationRepository.save(lessonReservation);
 
     return lessonReservationStudentDto;
+  }
+
+  public Set<String> getStudentForTheDay(LocalDate date) {
+    Set<Long> lessonReservationsId = lessonReservationRepository.findLessonReservationByStartDate(date);
+     return lessonReservationsId.stream()
+             .map(lessonReservationRepository::findStudentIdForTheLessonId)
+             .flatMap(Collection::stream)
+             .map(studentService::getStudentById)
+             .map(student -> String.format("%s %s", student.firstName(), student.lastName()))
+             .collect(Collectors.toSet());
   }
 
   private LessonReservation applyPatch(LessonReservationRegistrationDto lessonReservationRegistrationDto, JsonMergePatch jsonMergePatch)
@@ -119,7 +133,6 @@ public class LessonReservationService {
   private int calculateDuration(LocalTime endTime, LocalTime startTime) {
     return (int) Duration.between(startTime, endTime).toMinutes();
   }
-
-
-
 }
+
+

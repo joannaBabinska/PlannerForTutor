@@ -1,8 +1,5 @@
 package com.babinska.PlannerForTutor.lessonReservation;
 
-import com.babinska.PlannerForTutor.exception.LessonReservationNotFoundException;
-import com.babinska.PlannerForTutor.exception.StudentAlreadyAddedToLessonException;
-import com.babinska.PlannerForTutor.exception.StudentNotFoundException;
 import com.babinska.PlannerForTutor.lessonReservation.dto.LessonReservationDto;
 import com.babinska.PlannerForTutor.lessonReservation.dto.LessonReservationRegistrationDto;
 import com.babinska.PlannerForTutor.lessonReservation.dto.LessonReservationStudentDto;
@@ -12,12 +9,13 @@ import com.github.fge.jsonpatch.mergepatch.JsonMergePatch;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDate;
+import java.util.Set;
 
 @Slf4j
 @RestController
@@ -88,6 +86,12 @@ public class LessonReservationController {
   public ResponseEntity<?> deleteLessonReservation(@PathVariable Long id){
     lessonReservationService.deleteLessonReservation(id);
     return ResponseEntity.ok().build();
+  }
+
+  @GetMapping("students")
+  ResponseEntity<Set<String>> getStudentForTheDay(@RequestParam LocalDate date) {
+    Set<String> students = lessonReservationService.getStudentForTheDay(date);
+    return ResponseEntity.ok(students);
   }
 
 }
