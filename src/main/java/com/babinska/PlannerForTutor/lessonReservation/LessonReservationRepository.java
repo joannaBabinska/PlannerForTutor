@@ -18,4 +18,9 @@ public interface LessonReservationRepository extends JpaRepository<LessonReserva
           SELECT SUM(price) FROM lesson_reservation WHERE MONTHNAME(start_time) = :month AND YEAR(start_time) = :year ;
           """,nativeQuery = true)
   BigDecimal findMonthlySalary(@Param("month") String month,@Param("year") int year);
+
+  @Query(value = """
+          SELECT SUM(duration_in_minutes) FROM lesson_reservation WHERE MONTHNAME(start_time) = :month AND YEAR(start_time) = :year ;
+          """,nativeQuery = true)
+  Integer findSumOfMinutesPerMonth(@Param("month") String month,@Param("year") int year);
 }
