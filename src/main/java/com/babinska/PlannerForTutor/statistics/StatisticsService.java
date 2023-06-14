@@ -36,6 +36,13 @@ public class StatisticsService {
     LocalDateTime endLocalDateTime = LocalDateTime.of(end, LocalTime.of(23, 59, 59));
     Integer sumOfMinutesPerTerm = lessonReservationRepository.findSumOfMinutesPerTerm(start, endLocalDateTime);
     String hours = LocalTime.MIN.plus(Duration.ofMinutes(sumOfMinutesPerTerm)).toString();
-    return new HourResponse(hours, start + " - " + end);
+    return new HourResponse(hours, start + "" + end);
   }
+
+  public SalaryResponse getSalaryPerTerm(LocalDate start, LocalDate end) {
+    LocalDateTime endLocalDateTime = LocalDateTime.of(end, LocalTime.of(23, 59, 59));
+    BigDecimal salary = lessonReservationRepository.findSalaryPerTerm(start, endLocalDateTime);
+    return new SalaryResponse(salary, start + "-" + end);
+  }
+
 }

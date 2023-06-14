@@ -29,4 +29,9 @@ public interface LessonReservationRepository extends JpaRepository<LessonReserva
           SELECT SUM(duration_in_minutes) FROM lesson_reservation WHERE start_time BETWEEN :start AND :end ;
           """,nativeQuery = true)
   Integer findSumOfMinutesPerTerm(@Param("start")LocalDate start, @Param("end") LocalDateTime end);
+
+  @Query(value = """
+          SELECT SUM(price) FROM lesson_reservation WHERE start_time BETWEEN :start AND :end ;
+          """,nativeQuery = true)
+  BigDecimal findSalaryPerTerm(@Param("start") LocalDate start, @Param("end") LocalDateTime endLocalDateTime);
 }

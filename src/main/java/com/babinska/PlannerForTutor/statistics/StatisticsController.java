@@ -1,7 +1,6 @@
 package com.babinska.PlannerForTutor.statistics;
 
 import com.babinska.PlannerForTutor.constraint.Month;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,26 +26,25 @@ public class StatisticsController {
   }
 
   @GetMapping("/salary/monthly")
-  ResponseEntity<SalaryResponse> getMonthlySalary(@Valid @RequestParam(required = false) @Min(2023) Integer year,
-                                                  @Valid @RequestParam(required = false) @Month String month) {
+  ResponseEntity<SalaryResponse> getMonthlySalary( @RequestParam(required = false) @Min(2023) Integer year,
+                                                   @RequestParam(required = false) @Month String month) {
     Integer yearFromParameters = createYearFromParameters(year);
     String monthFromParameters = createMonthFromParameters(month);
     SalaryResponse monthlySalary = statisticsService.getMonthlySalary(monthFromParameters, yearFromParameters);
     return ResponseEntity.ok(monthlySalary);
   }
 
-//  @GetMapping("/salary/monthly")
-//  ResponseEntity<SalaryResponse> getMonthlySalary(@Valid @RequestParam(required = false) @Min(2023) Integer year,
-//                                                  @Valid @RequestParam(required = false) @Month String month) {
-//    Integer yearFromParameters = createYearFromParameters(year);
-//    String monthFromParameters = createMonthFromParameters(month);
-//    SalaryResponse monthlySalary = statisticsService.getMonthlySalary(monthFromParameters, yearFromParameters);
-//    return ResponseEntity.ok(monthlySalary);
-//  }
+  @GetMapping("/salary/perTerm")
+  ResponseEntity<SalaryResponse> getSalaryPerTerm(@RequestParam LocalDate start,
+                                                  @RequestParam(required = false) LocalDate end) {
+    LocalDate endFromParameters = createEndDateFromParameters(end);
+    return ResponseEntity.ok(statisticsService.getSalaryPerTerm(start, endFromParameters));
+
+  }
 
   @GetMapping("/hours/perMonth")
   ResponseEntity<HourResponse> getHoursPerMonth(@RequestParam(required = false) @Month String month,
-                                                @RequestParam(required = false) @Min(2023) Integer year){
+                                                @RequestParam(required = false) @Min(2023) Integer year) {
 
     String monthFromParameters = createMonthFromParameters(month);
     Integer yearFromParameters = createYearFromParameters(year);
@@ -54,10 +52,10 @@ public class StatisticsController {
   }
 
   @GetMapping("/hours/perTerm")
-  ResponseEntity<HourResponse>getHoursPerWeek(@RequestParam  LocalDate start,
-                                              @RequestParam(required = false)  LocalDate end){
+  ResponseEntity<HourResponse> getHoursPerWeek(@RequestParam LocalDate start,
+                                               @RequestParam(required = false) LocalDate end) {
     LocalDate endFromParameters = createEndDateFromParameters(end);
-  return ResponseEntity.ok(statisticsService.getHoursPerTerm(start, endFromParameters));
+    return ResponseEntity.ok(statisticsService.getHoursPerTerm(start, endFromParameters));
 
   }
 
