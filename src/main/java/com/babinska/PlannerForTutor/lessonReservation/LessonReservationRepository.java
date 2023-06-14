@@ -7,10 +7,15 @@ import org.springframework.data.repository.query.Param;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public interface LessonReservationRepository extends JpaRepository<LessonReservation,Long> {
+public interface LessonReservationRepository extends JpaRepository<LessonReservation, Long> {
 
   @Query(value = """
-          Select sum(price) from lesson_Reservation where start_time LIKE CONCAT(:date,'%');
+          SELECT SUM(price) FROM lesson_reservation WHERE start_time LIKE CONCAT(:date,'%');
           """, nativeQuery = true)
-  BigDecimal findDailySalary(@Param("date")LocalDate date);
+  BigDecimal findDailySalary(@Param("date") LocalDate date);
+
+  @Query(value = """
+          SELECT SUM(price) FROM lesson_reservation WHERE MONTHNAME(start_time) = :month AND YEAR(start_time) = :year ;
+          """,nativeQuery = true)
+  BigDecimal findMonthlySalary(@Param("month") String month,@Param("year") int year);
 }

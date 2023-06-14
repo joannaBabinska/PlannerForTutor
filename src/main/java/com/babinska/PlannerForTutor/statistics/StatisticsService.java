@@ -15,7 +15,11 @@ public class StatisticsService {
 
   public FinalResponse getDailySalary(LocalDate date) {
     BigDecimal dailySalary = lessonReservationRepository.findDailySalary(date);
-    FinalResponse finalResponse = new FinalResponse(dailySalary, date);
-    return finalResponse;
+    return new FinalResponse(dailySalary, date.toString());
+  }
+
+  public FinalResponse getMonthlySalary(String month, int year) {
+    BigDecimal monthlySalary = lessonReservationRepository.findMonthlySalary(month,year);
+    return new FinalResponse(monthlySalary,month + " " + year);
   }
 }
