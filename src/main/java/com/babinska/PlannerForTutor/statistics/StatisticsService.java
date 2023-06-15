@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Service
@@ -27,8 +26,7 @@ public class StatisticsService {
   }
 
   public SalaryResponse getSalaryPerTerm(LocalDate start, LocalDate end) {
-    LocalDateTime endLocalDateTime = LocalDateTime.of(end, LocalTime.of(23, 59, 59));
-    BigDecimal salary = lessonReservationRepository.findSalaryPerTerm(start, endLocalDateTime);
+    BigDecimal salary = lessonReservationRepository.findSalaryBetweenDates(start.atStartOfDay(), end.plusDays(1).atStartOfDay());
     return new SalaryResponse(salary, start + "-" + end);
   }
 
@@ -39,8 +37,7 @@ public class StatisticsService {
   }
 
   public HourResponse getHoursPerTerm(LocalDate start, LocalDate end) {
-    LocalDateTime endLocalDateTime = LocalDateTime.of(end, LocalTime.of(23, 59, 59));
-    Integer sumOfMinutesPerTerm = lessonReservationRepository.findSumOfMinutesPerTerm(start, endLocalDateTime);
+    Integer sumOfMinutesPerTerm = lessonReservationRepository.findSumOfMinutesBetweenDates(start.atStartOfDay(), end.plusDays(1).atStartOfDay());
     String hours = LocalTime.MIN.plus(Duration.ofMinutes(sumOfMinutesPerTerm)).toString();
     return new HourResponse(hours, start + "" + end);
   }

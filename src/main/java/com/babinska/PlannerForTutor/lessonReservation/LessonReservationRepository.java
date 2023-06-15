@@ -29,12 +29,12 @@ public interface LessonReservationRepository extends JpaRepository<LessonReserva
   @Query(value = """
           SELECT SUM(duration_in_minutes) FROM lesson_reservation WHERE start_time BETWEEN :start AND :end ;
           """,nativeQuery = true)
-  Integer findSumOfMinutesPerTerm(@Param("start")LocalDate start, @Param("end") LocalDateTime end);
+  Integer findSumOfMinutesBetweenDates(@Param("start")LocalDateTime start, @Param("end") LocalDateTime end);
 
   @Query(value = """
           SELECT SUM(price) FROM lesson_reservation WHERE start_time BETWEEN :start AND :end ;
           """,nativeQuery = true)
-  BigDecimal findSalaryPerTerm(@Param("start") LocalDate start, @Param("end") LocalDateTime endLocalDateTime);
+  BigDecimal findSalaryBetweenDates(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 
   @Query(value = """
           Select id FROM lesson_reservation WHERE start_time LIKE CONCAT(:date,'%') ;
