@@ -6,13 +6,11 @@
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
     <changeSet id="004_create_lesson_reservation_students_table" author="babinska">
         <createTable tableName="lesson_reservation_students">
-            <column name="id" type="bigint" autoIncrement="true" >
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="lesson_reservation_id" type="bigint" >
-                <constraints nullable="false" primaryKey="true"/>
+            <column name="lesson_reservation_id" type="bigint">
+                <constraints nullable="false"  primaryKey="true" primaryKeyName="PK_pv_object"  />
             </column>
             <column name="students_id" type="bigint">
+                <constraints nullable="false"  primaryKey="true" primaryKeyName="PK_pv_object" />
             </column>
         </createTable>
         <addForeignKeyConstraint baseTableName="lesson_reservation_students"
