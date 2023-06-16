@@ -94,4 +94,17 @@ public class LessonReservationController {
     return ResponseEntity.ok(students);
   }
 
+  @DeleteMapping("/{lessonId}/student/{studentId}")
+  public ResponseEntity<LessonReservationStudentDto> deleteStudentFromLessonReservation(@PathVariable Long lessonId,
+                                                                                        @PathVariable Long studentId) {
+    LessonReservationStudentDto lessonReservationStudentDto = lessonReservationService.deleteStudentFromLessonReservation(lessonId, studentId);
+    return ResponseEntity.ok(lessonReservationStudentDto);
+  }
+
+  @DeleteMapping("student/{id}")
+  public ResponseEntity<?> deleteStudent(@PathVariable Long id) {
+    lessonReservationService.deleteStudent(id);
+    return ResponseEntity.ok().build();
+  }
+
 }

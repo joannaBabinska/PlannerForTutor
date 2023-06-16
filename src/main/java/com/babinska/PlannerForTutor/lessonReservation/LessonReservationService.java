@@ -2,13 +2,14 @@ package com.babinska.PlannerForTutor.lessonReservation;
 
 import com.babinska.PlannerForTutor.exception.LessonReservationNotFoundException;
 import com.babinska.PlannerForTutor.exception.StudentAlreadyAddedToLessonException;
+import com.babinska.PlannerForTutor.exception.StudentNotFoundException;
 import com.babinska.PlannerForTutor.lessonReservation.dto.LessonReservationDto;
 import com.babinska.PlannerForTutor.lessonReservation.dto.LessonReservationRegistrationDto;
 import com.babinska.PlannerForTutor.lessonReservation.dto.LessonReservationStudentDto;
 import com.babinska.PlannerForTutor.student.Student;
 import com.babinska.PlannerForTutor.student.StudentMapper;
+import com.babinska.PlannerForTutor.student.StudentRepository;
 import com.babinska.PlannerForTutor.student.StudentService;
-import com.babinska.PlannerForTutor.student.dto.StudentDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,6 +32,7 @@ public class LessonReservationService {
   public final LessonReservationRepository lessonReservationRepository;
   public final ObjectMapper objectMapper;
   public final StudentService studentService;
+  public final StudentRepository studentRepository;
 
   public LessonReservationDto getLessonReservationById(Long id) {
     LessonReservation lessonReservation = lessonReservationRepository.findById(id).orElseThrow(() -> new LessonReservationNotFoundException(id));
@@ -85,20 +87,16 @@ public class LessonReservationService {
   }
 
   public LessonReservationStudentDto addStudentToLessonReservation(Long lessonId, Long studentId) {
-    StudentDto studentDto = studentService.getStudentById(studentId);
-    Student student = StudentMapper.mapToStudent(studentDto);
-    student.setId(studentId);
+    Student student = studentRepository.findById(studentId).orElseThrow(() -> new StudentNotFoundException(studentId));
+    LessonReservation lessonReservation = lessonReservationRepository.findById(lessonId).orElseThrow(() -> new LessonReservationNotFoundException(lessonId));
 
-    LessonReservationStudentDto lessonReservationStudentDto = getAllInformation(lessonId);
-    if (lessonReservationStudentDto.students().stream()
-            .anyMatch(savedStudent -> savedStudent.id().equals(studentId))) {
+    if (studentAlreadyExistInLesson(studentId, lessonReservation)) {
       throw new StudentAlreadyAddedToLessonException(studentId);
     }
-    lessonReservationStudentDto.students().add(StudentMapper.map(student));
-    LessonReservation lessonReservation = LessonReservationMapper.mapToLessonReservation(lessonReservationStudentDto);
+    lessonReservation.getStudents().add(student);
     lessonReservationRepository.save(lessonReservation);
 
-    return lessonReservationStudentDto;
+    return LessonReservationMapper.mapToLessonReservationStudentDto(lessonReservation);
   }
 
   public Set<String> getStudentForTheDay(LocalDate date) {
@@ -111,11 +109,31 @@ public class LessonReservationService {
              .collect(Collectors.toSet());
   }
 
+  public LessonReservationStudentDto deleteStudentFromLessonReservation(Long lessonId, Long studentId) {
+    LessonReservation lessonReservation = lessonReservationRepository.findById(lessonId).orElseThrow(() -> new LessonReservationNotFoundException(lessonId));
+    Student student = studentRepository.findById(studentId).orElseThrow(() -> new StudentNotFoundException(studentId));
+    lessonReservation.getStudents().remove(student);
+    lessonReservationRepository.save(lessonReservation);
+    return LessonReservationMapper.mapToLessonReservationStudentDto(lessonReservation);
+  }
+
+  public void deleteStudent(Long studentId){
+    Set<Long> lessonIdForTheStudent = getLessonsIdForTheStudent(studentId);
+    lessonIdForTheStudent.forEach(lessonId -> deleteStudentFromLessonReservation(lessonId,studentId));
+    studentRepository.deleteById(studentId);
+  }
+
+  private static boolean studentAlreadyExistInLesson(Long studentId, LessonReservation lessonReservation) {
+    return lessonReservation.getStudents().stream()
+            .anyMatch(savedStudent -> savedStudent.getId().equals(studentId));
+  }
+
   private LessonReservation applyPatch(LessonReservationRegistrationDto lessonReservationRegistrationDto, JsonMergePatch jsonMergePatch)
           throws JsonPatchException, JsonProcessingException {
     JsonNode jsonNode = objectMapper.valueToTree(lessonReservationRegistrationDto);
     JsonNode applyPath = jsonMergePatch.apply(jsonNode);
-    LessonReservation lessonReservation = objectMapper.treeToValue(applyPath, LessonReservation.class);
+    LessonReservationRegistrationDto updatedLessonReservation = objectMapper.treeToValue(applyPath, LessonReservationRegistrationDto.class);
+    LessonReservation lessonReservation = LessonReservationMapper.mapToLessonReservation(updatedLessonReservation);
     lessonReservation.setDurationInMinutes(calculateDuration(lessonReservation.getEndTime().toLocalTime(),
             lessonReservation.getStartTime().toLocalTime()));
     return lessonReservation;
@@ -133,6 +151,11 @@ public class LessonReservationService {
   private int calculateDuration(LocalTime endTime, LocalTime startTime) {
     return (int) Duration.between(startTime, endTime).toMinutes();
   }
+
+  private Set<Long> getLessonsIdForTheStudent(Long id){
+    return lessonReservationRepository.findLessonIdForTheStudentId(id);
+  }
+
 }
 
 

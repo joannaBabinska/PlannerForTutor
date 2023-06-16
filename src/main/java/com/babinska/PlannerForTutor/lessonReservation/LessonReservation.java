@@ -22,7 +22,10 @@ public class LessonReservation {
   private Long id;
   @Enumerated(EnumType.STRING)
   private LessonType lessonType;
-  @ManyToMany(cascade = {CascadeType.ALL})
+  @ManyToMany(cascade = {CascadeType.PERSIST,
+          CascadeType.MERGE,
+          CascadeType.REFRESH,
+          CascadeType.DETACH })
   private Set<Student> students;
   private String topic;
   private LocalDateTime startTime;

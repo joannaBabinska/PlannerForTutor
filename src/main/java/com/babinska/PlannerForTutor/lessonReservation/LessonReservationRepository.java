@@ -45,5 +45,10 @@ public interface LessonReservationRepository extends JpaRepository<LessonReserva
           Select students_id FROM lesson_reservation_students WHERE lesson_reservation_id = :id ;
           """,nativeQuery = true)
   Set<Long> findStudentIdForTheLessonId(@Param("id") Long lessonId);
+
+  @Query(value = """
+          Select lesson_reservation_id FROM lesson_reservation_students WHERE students_id = :id ;
+          """,nativeQuery = true)
+  Set<Long> findLessonIdForTheStudentId(@Param("id") Long studentId);
 }
 

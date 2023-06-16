@@ -1,6 +1,5 @@
 package com.babinska.PlannerForTutor.student;
 
-import com.babinska.PlannerForTutor.exception.StudentNotFoundException;
 import com.babinska.PlannerForTutor.student.dto.StudentDto;
 import com.babinska.PlannerForTutor.student.dto.StudentRegistrationDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -52,14 +51,8 @@ public class StudentController {
   public ResponseEntity<StudentDto> updateStudent(@PathVariable Long id,@Valid @RequestBody JsonMergePatch jsonMergePatch)
           throws JsonPatchException, JsonProcessingException {
     StudentDto savedStudentDto = studentService.updateStudent(id, jsonMergePatch);
-    log.info("Updated student with id ={}",id);
+    log.info("Updated student with id ={}", id);
     return ResponseEntity.ok(savedStudentDto);
-  }
-
-  @DeleteMapping("/{id}")
-  public ResponseEntity<?> deleteStudent(@PathVariable Long id) {
-    studentService.deleteStudent(id);
-    return ResponseEntity.ok().build();
   }
 
 }

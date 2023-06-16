@@ -11,13 +11,13 @@ import com.github.fge.jsonpatch.mergepatch.JsonMergePatch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-
 @Service
 @RequiredArgsConstructor
 public class StudentService {
 
   private final StudentRepository studentRepository;
   private final ObjectMapper objectMapper;
+
 
   public StudentDto getStudentById(Long id) {
     Student student = studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException(id));
@@ -53,7 +53,6 @@ public class StudentService {
     return objectMapper.treeToValue(jsonNodePatchedNode, Student.class);
   }
 
-  public void deleteStudent(Long id){
-    studentRepository.deleteById(id);
-  }
+
+
 }
