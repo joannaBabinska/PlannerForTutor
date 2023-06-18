@@ -1,4 +1,4 @@
-package com.babinska.PlannerForTutor.lessonReservation;
+package com.babinska.PlannerForTutor.lessonreservation;
 
 import com.babinska.PlannerForTutor.student.Student;
 import jakarta.persistence.*;

@@ -1,4 +1,4 @@
-package com.babinska.PlannerForTutor.lessonReservation;
+package com.babinska.PlannerForTutor.lessonreservation;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 public interface LessonReservationRepository extends JpaRepository<LessonReservation, Long> {
@@ -50,5 +51,7 @@ public interface LessonReservationRepository extends JpaRepository<LessonReserva
           Select lesson_reservation_id FROM lesson_reservation_students WHERE students_id = :id ;
           """,nativeQuery = true)
   Set<Long> findLessonIdForTheStudentId(@Param("id") Long studentId);
+
+  List<LessonTimeView> getAllLessonTimeData();
 }
 

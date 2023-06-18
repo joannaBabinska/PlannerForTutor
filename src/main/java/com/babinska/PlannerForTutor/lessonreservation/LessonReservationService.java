@@ -1,11 +1,12 @@
-package com.babinska.PlannerForTutor.lessonReservation;
+package com.babinska.PlannerForTutor.lessonreservation;
 
+import com.babinska.PlannerForTutor.RequestValidator;
 import com.babinska.PlannerForTutor.exception.LessonReservationNotFoundException;
 import com.babinska.PlannerForTutor.exception.StudentAlreadyAddedToLessonException;
 import com.babinska.PlannerForTutor.exception.StudentNotFoundException;
-import com.babinska.PlannerForTutor.lessonReservation.dto.LessonReservationDto;
-import com.babinska.PlannerForTutor.lessonReservation.dto.LessonReservationRegistrationDto;
-import com.babinska.PlannerForTutor.lessonReservation.dto.LessonReservationStudentDto;
+import com.babinska.PlannerForTutor.lessonreservation.dto.LessonReservationDto;
+import com.babinska.PlannerForTutor.lessonreservation.dto.LessonReservationRegistrationDto;
+import com.babinska.PlannerForTutor.lessonreservation.dto.LessonReservationStudentDto;
 import com.babinska.PlannerForTutor.student.Student;
 import com.babinska.PlannerForTutor.student.StudentMapper;
 import com.babinska.PlannerForTutor.student.StudentRepository;
@@ -29,10 +30,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class LessonReservationService {
 
-  public final LessonReservationRepository lessonReservationRepository;
-  public final ObjectMapper objectMapper;
-  public final StudentService studentService;
-  public final StudentRepository studentRepository;
+  private final LessonReservationRepository lessonReservationRepository;
+  private final ObjectMapper objectMapper;
+  private final StudentService studentService;
+  private final StudentRepository studentRepository;
+  private final RequestValidator requestValidator;
 
   public LessonReservationDto getLessonReservationById(Long id) {
     LessonReservation lessonReservation = lessonReservationRepository.findById(id).orElseThrow(() -> new LessonReservationNotFoundException(id));
@@ -45,6 +47,7 @@ public class LessonReservationService {
   }
 
   public LessonReservationDto addLessonReservation(LessonReservationRegistrationDto lessonReservationRegistrationDto) {
+    requestValidator.validate(lessonReservationRegistrationDto);
     LessonReservation lessonReservation = LessonReservationMapper.mapToLessonReservation(lessonReservationRegistrationDto);
     LessonReservation savedLessonReservation = lessonReservationRepository.save(lessonReservation);
     return LessonReservationMapper.map(savedLessonReservation);
@@ -56,6 +59,7 @@ public class LessonReservationService {
 
   public LessonReservationDto replaceLessonReservation
           (Long id, LessonReservationRegistrationDto lessonReservationRegistrationDto) {
+    requestValidator.validate(lessonReservationRegistrationDto);
     getLessonReservationById(id);
     LessonReservation lessonReservationToSave = LessonReservationMapper.mapToLessonReservation(lessonReservationRegistrationDto);
     lessonReservationToSave.setId(id);

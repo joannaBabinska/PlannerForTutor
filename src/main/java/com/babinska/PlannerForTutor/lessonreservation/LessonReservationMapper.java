@@ -1,8 +1,8 @@
-package com.babinska.PlannerForTutor.lessonReservation;
+package com.babinska.PlannerForTutor.lessonreservation;
 
-import com.babinska.PlannerForTutor.lessonReservation.dto.LessonReservationDto;
-import com.babinska.PlannerForTutor.lessonReservation.dto.LessonReservationRegistrationDto;
-import com.babinska.PlannerForTutor.lessonReservation.dto.LessonReservationStudentDto;
+import com.babinska.PlannerForTutor.lessonreservation.dto.LessonReservationDto;
+import com.babinska.PlannerForTutor.lessonreservation.dto.LessonReservationRegistrationDto;
+import com.babinska.PlannerForTutor.lessonreservation.dto.LessonReservationStudentDto;
 import com.babinska.PlannerForTutor.student.Student;
 import com.babinska.PlannerForTutor.student.StudentMapper;
 import com.babinska.PlannerForTutor.student.dto.StudentDto;

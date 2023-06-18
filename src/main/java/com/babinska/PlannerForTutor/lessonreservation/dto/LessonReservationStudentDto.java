@@ -1,6 +1,6 @@
-package com.babinska.PlannerForTutor.lessonReservation.dto;
+package com.babinska.PlannerForTutor.lessonreservation.dto;
 
-import com.babinska.PlannerForTutor.lessonReservation.LessonType;
+import com.babinska.PlannerForTutor.lessonreservation.LessonType;
 import com.babinska.PlannerForTutor.student.dto.StudentDto;
 import lombok.Builder;
 import java.math.BigDecimal;
