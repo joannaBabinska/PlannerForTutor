@@ -8,3 +8,7 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: validate
+
+planner:
+  weekDaysOff: [SATURDAY, SUNDAY]
+  urlHoliday: https://date.nager.at/api/v3/PublicHolidays/2023/PL
