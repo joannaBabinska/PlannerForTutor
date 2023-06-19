@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -25,7 +24,7 @@ public class LessonReservation {
   @ManyToMany(cascade = {CascadeType.PERSIST,
           CascadeType.MERGE,
           CascadeType.REFRESH,
-          CascadeType.DETACH })
+          CascadeType.DETACH})
   private Set<Student> students;
   private String topic;
   private LocalDateTime startTime;

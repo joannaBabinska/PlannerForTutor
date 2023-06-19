@@ -11,13 +11,12 @@ import java.util.Set;
 @Builder
 public record LessonReservationStudentDto
         (Long id,
-        LessonType lessonType,
-        String topic,
-        Set<StudentDto> students,
-        LocalTime startTime,
-        LocalTime endTime,
-        LocalDate reservationDate,
-        int durationInMinutes,
-        BigDecimal price)
-{
+         LessonType lessonType,
+         String topic,
+         Set<StudentDto> students,
+         LocalTime startTime,
+         LocalTime endTime,
+         LocalDate reservationDate,
+         int durationInMinutes,
+         BigDecimal price) {
 }

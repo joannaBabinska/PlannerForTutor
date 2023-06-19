@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +22,7 @@ public class ControllerAdvisor {
   }
 
   @ExceptionHandler(StudentAlreadyAddedToLessonException.class)
-  public ResponseEntity<?> handle(StudentAlreadyAddedToLessonException ex){
+  public ResponseEntity<?> handle(StudentAlreadyAddedToLessonException ex) {
     return ResponseEntity.status(HttpStatus.CONFLICT).build();
   }
 
@@ -39,12 +38,12 @@ public class ControllerAdvisor {
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  public ResponseEntity<List<String>> handle(MethodArgumentNotValidException ex){
+  public ResponseEntity<List<String>> handle(MethodArgumentNotValidException ex) {
 
     List<String> errors = ex.getBindingResult().getFieldErrors().stream()
-            .map(fieldError -> String.format("%s = %s %s",fieldError.getField(),fieldError.getRejectedValue(),fieldError.getDefaultMessage()))
+            .map(fieldError -> String.format("%s = %s %s", fieldError.getField(), fieldError.getRejectedValue(), fieldError.getDefaultMessage()))
             .collect(Collectors.toList());
 
-    return  new ResponseEntity<>(errors,HttpStatus.BAD_REQUEST);
+    return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
   }
 }

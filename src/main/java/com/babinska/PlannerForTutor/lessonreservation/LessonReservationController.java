@@ -12,26 +12,25 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.Set;
 
 @Slf4j
 @RestController
-@RequestMapping("/lessonsReservation")
+@RequestMapping("/lessonsReservation" )
 @RequiredArgsConstructor
 public class LessonReservationController {
 
   public final LessonReservationService lessonReservationService;
 
-  @GetMapping("/{id}")
+  @GetMapping("/{id}" )
   ResponseEntity<LessonReservationDto> getLessonReservationById(@PathVariable Long id) {
     LessonReservationDto lessonReservationDto = lessonReservationService.getLessonReservationById(id);
     return ResponseEntity.ok(lessonReservationDto);
   }
 
-  @GetMapping("/{id}/all")
+  @GetMapping("/{id}/all" )
   ResponseEntity<LessonReservationStudentDto> getAllLessonReservationInformation(@PathVariable Long id) {
     LessonReservationStudentDto lessonReservationAllInformation = lessonReservationService.getAllInformation(id);
     return ResponseEntity.ok(lessonReservationAllInformation);
@@ -44,7 +43,7 @@ public class LessonReservationController {
 
     URI uri = ServletUriComponentsBuilder
             .fromCurrentRequest()
-            .path("/{id}")
+            .path("/{id}" )
             .buildAndExpand(lessonReservationDto.id())
             .toUri();
 
@@ -52,7 +51,7 @@ public class LessonReservationController {
     return ResponseEntity.created(uri).build();
   }
 
-  @PutMapping("/{id}")
+  @PutMapping("/{id}" )
   public ResponseEntity<LessonReservationDto> replaceLessonReservation
           (@PathVariable Long id, @Valid @RequestBody LessonReservationRegistrationDto lessonReservationRegistrationDto) {
     LessonReservationDto savedLessonReservationDto = lessonReservationService.replaceLessonReservation(id, lessonReservationRegistrationDto);
@@ -60,48 +59,48 @@ public class LessonReservationController {
     return ResponseEntity.ok(savedLessonReservationDto);
   }
 
-  @PatchMapping("/{id}")
+  @PatchMapping("/{id}" )
   public ResponseEntity<LessonReservationDto> updateLessonReservation(@PathVariable Long id,
-  @Valid @RequestBody JsonMergePatch jsonMergePatch) throws JsonPatchException, JsonProcessingException {
+                                                                      @Valid @RequestBody JsonMergePatch jsonMergePatch) throws JsonPatchException, JsonProcessingException {
     LessonReservationDto lessonReservationDto = lessonReservationService.updateLessonReservation(id, jsonMergePatch);
-    log.info("Updated lesson reservation with id ={}",id);
+    log.info("Updated lesson reservation with id ={}", id);
     return ResponseEntity.ok(lessonReservationDto);
   }
 
-  @PatchMapping("/{id}/students")
+  @PatchMapping("/{id}/students" )
   public ResponseEntity<LessonReservationStudentDto> addNewStudentToLessonReservation(@PathVariable Long id,
-  @RequestBody JsonMergePatch jsonMergePatch) throws JsonPatchException, JsonProcessingException {
+                                                                                      @RequestBody JsonMergePatch jsonMergePatch) throws JsonPatchException, JsonProcessingException {
     LessonReservationStudentDto lessonReservationStudentDto = lessonReservationService.addNewStudentToLessonReservation(id, jsonMergePatch);
     return ResponseEntity.ok(lessonReservationStudentDto);
   }
 
-  @PatchMapping("/{lessonId}/students/{studentId}")
+  @PatchMapping("/{lessonId}/students/{studentId}" )
   public ResponseEntity<LessonReservationStudentDto> addStudentToLessonReservation(@PathVariable Long lessonId,
                                                                                    @PathVariable Long studentId) {
     LessonReservationStudentDto lessonReservationStudentDto = lessonReservationService.addStudentToLessonReservation(lessonId, studentId);
     return ResponseEntity.ok(lessonReservationStudentDto);
   }
 
-  @DeleteMapping("/{id}")
-  public ResponseEntity<?> deleteLessonReservation(@PathVariable Long id){
+  @DeleteMapping("/{id}" )
+  public ResponseEntity<?> deleteLessonReservation(@PathVariable Long id) {
     lessonReservationService.deleteLessonReservation(id);
     return ResponseEntity.ok().build();
   }
 
-  @GetMapping("students")
+  @GetMapping("students" )
   ResponseEntity<Set<String>> getStudentForTheDay(@RequestParam LocalDate date) {
     Set<String> students = lessonReservationService.getStudentForTheDay(date);
     return ResponseEntity.ok(students);
   }
 
-  @DeleteMapping("/{lessonId}/student/{studentId}")
+  @DeleteMapping("/{lessonId}/student/{studentId}" )
   public ResponseEntity<LessonReservationStudentDto> deleteStudentFromLessonReservation(@PathVariable Long lessonId,
                                                                                         @PathVariable Long studentId) {
     LessonReservationStudentDto lessonReservationStudentDto = lessonReservationService.deleteStudentFromLessonReservation(lessonId, studentId);
     return ResponseEntity.ok(lessonReservationStudentDto);
   }
 
-  @DeleteMapping("student/{id}")
+  @DeleteMapping("student/{id}" )
   public ResponseEntity<?> deleteStudent(@PathVariable Long id) {
     lessonReservationService.deleteStudent(id);
     return ResponseEntity.ok().build();

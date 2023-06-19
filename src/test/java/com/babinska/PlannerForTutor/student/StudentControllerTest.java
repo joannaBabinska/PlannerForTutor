@@ -42,7 +42,7 @@ class StudentControllerTest {
             .schoolClass(SchoolClass.ELEMENTARY_SCHOOL_7TH_GRADE)
             .build();
 
-    StudentDto savedStudent = studentService.saveStudent(studentToSave);
+    StudentDto savedStudent = studentService.addStudent(studentToSave);
 
     StudentRegistrationDto studentUpdateDto = StudentRegistrationDto.builder()
             .firstName("testChangedFirstName")

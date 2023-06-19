@@ -1,4 +1,4 @@
-package com.babinska.PlannerForTutor.lessonReservation;
+package com.babinska.PlannerForTutor.lessonreservation;
 
 public enum LessonType {
   MATURDAY_COURSE,

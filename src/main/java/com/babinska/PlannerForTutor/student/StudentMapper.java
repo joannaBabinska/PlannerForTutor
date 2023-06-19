@@ -1,6 +1,5 @@
 package com.babinska.PlannerForTutor.student;
 
-import com.babinska.PlannerForTutor.student.Student;
 import com.babinska.PlannerForTutor.student.dto.StudentDto;
 import com.babinska.PlannerForTutor.student.dto.StudentRegistrationDto;
 
@@ -38,6 +37,7 @@ public class StudentMapper {
             .schoolClass(studentRegistrationDto.schoolClass())
             .build();
   }
+
   public static Student mapToStudent(StudentDto studentDto) {
     return Student.builder()
             .firstName(studentDto.firstName())
@@ -48,7 +48,6 @@ public class StudentMapper {
             .schoolClass(studentDto.schoolClass())
             .build();
   }
-
 
   public static StudentRegistrationDto map(StudentDto student) {
     return StudentRegistrationDto.builder()

@@ -53,6 +53,4 @@ public class StudentService {
     return objectMapper.treeToValue(jsonNodePatchedNode, Student.class);
   }
 
-
-
 }

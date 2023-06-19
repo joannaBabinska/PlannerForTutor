@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 @Component
 @RequiredArgsConstructor
-class VacationRule implements WorkingDay{
+class VacationRule implements WorkingDay {
 
   private final VacationRepository vacationRepository;
 

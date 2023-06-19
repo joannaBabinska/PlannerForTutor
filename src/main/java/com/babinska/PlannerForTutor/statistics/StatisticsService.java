@@ -3,7 +3,6 @@ package com.babinska.PlannerForTutor.statistics;
 import com.babinska.PlannerForTutor.lessonreservation.LessonReservationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;

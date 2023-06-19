@@ -18,7 +18,6 @@ import com.github.fge.jsonpatch.JsonPatchException;
 import com.github.fge.jsonpatch.mergepatch.JsonMergePatch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -105,12 +104,12 @@ public class LessonReservationService {
 
   public Set<String> getStudentForTheDay(LocalDate date) {
     Set<Long> lessonReservationsId = lessonReservationRepository.findLessonReservationByStartDate(date);
-     return lessonReservationsId.stream()
-             .map(lessonReservationRepository::findStudentIdForTheLessonId)
-             .flatMap(Collection::stream)
-             .map(studentService::getStudentById)
-             .map(student -> String.format("%s %s", student.firstName(), student.lastName()))
-             .collect(Collectors.toSet());
+    return lessonReservationsId.stream()
+            .map(lessonReservationRepository::findStudentIdForTheLessonId)
+            .flatMap(Collection::stream)
+            .map(studentService::getStudentById)
+            .map(student -> String.format("%s %s", student.firstName(), student.lastName()))
+            .collect(Collectors.toSet());
   }
 
   public LessonReservationStudentDto deleteStudentFromLessonReservation(Long lessonId, Long studentId) {
@@ -121,9 +120,9 @@ public class LessonReservationService {
     return LessonReservationMapper.mapToLessonReservationStudentDto(lessonReservation);
   }
 
-  public void deleteStudent(Long studentId){
+  public void deleteStudent(Long studentId) {
     Set<Long> lessonIdForTheStudent = getLessonsIdForTheStudent(studentId);
-    lessonIdForTheStudent.forEach(lessonId -> deleteStudentFromLessonReservation(lessonId,studentId));
+    lessonIdForTheStudent.forEach(lessonId -> deleteStudentFromLessonReservation(lessonId, studentId));
     studentRepository.deleteById(studentId);
   }
 
@@ -156,7 +155,7 @@ public class LessonReservationService {
     return (int) Duration.between(startTime, endTime).toMinutes();
   }
 
-  private Set<Long> getLessonsIdForTheStudent(Long id){
+  private Set<Long> getLessonsIdForTheStudent(Long id) {
     return lessonReservationRepository.findLessonIdForTheStudentId(id);
   }
 
