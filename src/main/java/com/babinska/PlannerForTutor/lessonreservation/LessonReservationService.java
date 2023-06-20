@@ -11,6 +11,7 @@ import com.babinska.PlannerForTutor.student.Student;
 import com.babinska.PlannerForTutor.student.StudentMapper;
 import com.babinska.PlannerForTutor.student.StudentRepository;
 import com.babinska.PlannerForTutor.student.StudentService;
+import com.babinska.PlannerForTutor.student.dto.StudentRegistrationDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -77,13 +78,10 @@ public class LessonReservationService {
   }
 
   public LessonReservationStudentDto addNewStudentToLessonReservation(Long id, JsonMergePatch jsonMergePatch) throws JsonPatchException, JsonProcessingException {
-    LessonReservationDto lessonReservationDto = getLessonReservationById(id);
-    LessonReservationStudentDto lessonReservationStudentDto = LessonReservationMapper.mapToLessonReservationStudentDto(lessonReservationDto);
-    LessonReservation lessonReservation = applyPatch(lessonReservationStudentDto, jsonMergePatch);
-    lessonReservation.setId(id);
+    LessonReservation lessonReservation = lessonReservationRepository.findById(id).orElseThrow(() -> new LessonReservationNotFoundException(id));
+    Student newStudent = applyPatch(jsonMergePatch);
 
-    lessonReservation.getStudents().
-            forEach(student -> studentService.addStudent(StudentMapper.mapToStudentRegistrationDto(student)));
+    lessonReservation.getStudents().add(newStudent);
     LessonReservation savedLessonReservation = lessonReservationRepository.save(lessonReservation);
 
     return LessonReservationMapper.mapToLessonReservationStudentDto(savedLessonReservation);
@@ -142,14 +140,13 @@ public class LessonReservationService {
     return lessonReservation;
   }
 
-  private LessonReservation applyPatch(LessonReservationStudentDto lessonReservationStudentDto, JsonMergePatch jsonMergePatch)
+  private Student applyPatch( JsonMergePatch jsonMergePatch)
           throws JsonPatchException, JsonProcessingException {
-    JsonNode jsonNode = objectMapper.valueToTree(lessonReservationStudentDto);
+    Student student = new Student();
+    StudentRegistrationDto studentRegistrationDto = StudentMapper.mapToStudentRegistrationDto(student);
+    JsonNode jsonNode = objectMapper.valueToTree(studentRegistrationDto);
     JsonNode applyPath = jsonMergePatch.apply(jsonNode);
-    LessonReservationStudentDto updatedLessonReservationStudentDto = objectMapper.treeToValue(applyPath, LessonReservationStudentDto.class);
-    LessonReservation lessonReservation = LessonReservationMapper.map(updatedLessonReservationStudentDto);
-    lessonReservation.setDurationInMinutes(calculateDuration(lessonReservation.getEndTime().toLocalTime(), lessonReservation.getStartTime().toLocalTime()));
-    return lessonReservation;
+    return objectMapper.treeToValue(applyPath, Student.class);
   }
 
   private int calculateDuration(LocalTime endTime, LocalTime startTime) {
