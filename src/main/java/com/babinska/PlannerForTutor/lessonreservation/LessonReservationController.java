@@ -36,6 +36,12 @@ public class LessonReservationController {
     return ResponseEntity.ok(lessonReservationAllInformation);
   }
 
+  @GetMapping("/students" )
+  ResponseEntity<Set<String>> getStudentForTheDay(@RequestParam LocalDate date) {
+    Set<String> students = lessonReservationService.getStudentForTheDay(date);
+    return ResponseEntity.ok(students);
+  }
+
   @PostMapping
   public ResponseEntity<LessonReservationDto> addLessonReservation
           (@Valid @RequestBody LessonReservationRegistrationDto lessonReservationRegistrationDto) {
@@ -87,11 +93,6 @@ public class LessonReservationController {
     return ResponseEntity.ok().build();
   }
 
-  @GetMapping("/students" )
-  ResponseEntity<Set<String>> getStudentForTheDay(@RequestParam LocalDate date) {
-    Set<String> students = lessonReservationService.getStudentForTheDay(date);
-    return ResponseEntity.ok(students);
-  }
 
   @DeleteMapping("/{lessonId}/student/{studentId}" )
   public ResponseEntity<LessonReservationStudentDto> deleteStudentFromLessonReservation(@PathVariable Long lessonId,
