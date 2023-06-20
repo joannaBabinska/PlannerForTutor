@@ -1,6 +1,7 @@
 package com.babinska.PlannerForTutor.student;
 
 import com.babinska.PlannerForTutor.exception.StudentNotFoundException;
+import com.babinska.PlannerForTutor.lessonreservation.LessonReservationService;
 import com.babinska.PlannerForTutor.student.dto.StudentDto;
 import com.babinska.PlannerForTutor.student.dto.StudentRegistrationDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -11,12 +12,15 @@ import com.github.fge.jsonpatch.mergepatch.JsonMergePatch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor
 public class StudentService {
 
   private final StudentRepository studentRepository;
   private final ObjectMapper objectMapper;
+  private final LessonReservationService lessonReservationService;
 
 
   public StudentDto getStudentById(Long id) {
@@ -47,10 +51,20 @@ public class StudentService {
     return StudentMapper.map(studentToSave);
   }
 
+  public void deleteStudent(Long studentId) {
+    Set<Long> lessonIdForTheStudent = getLessonsIdForTheStudent(studentId);
+    lessonIdForTheStudent.forEach(lessonId -> lessonReservationService.deleteStudentFromLessonReservation(lessonId, studentId));
+    studentRepository.deleteById(studentId);
+  }
+
   private Student applyPatch(JsonMergePatch jsonMergePatch, StudentRegistrationDto studentRegistrationDto) throws JsonPatchException, JsonProcessingException {
     JsonNode jsonNode = objectMapper.valueToTree(studentRegistrationDto);
     JsonNode jsonNodePatchedNode = jsonMergePatch.apply(jsonNode);
     return objectMapper.treeToValue(jsonNodePatchedNode, Student.class);
   }
 
+
+  private Set<Long> getLessonsIdForTheStudent(Long id) {
+    return studentRepository.findLessonIdForTheStudentId(id);
+  }
 }

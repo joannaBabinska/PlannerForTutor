@@ -101,10 +101,4 @@ public class LessonReservationController {
     return ResponseEntity.ok(lessonReservationStudentDto);
   }
 
-  @DeleteMapping("student/{id}" )
-  public ResponseEntity<?> deleteStudent(@PathVariable Long id) {
-    lessonReservationService.deleteStudent(id);
-    return ResponseEntity.ok().build();
-  }
-
 }

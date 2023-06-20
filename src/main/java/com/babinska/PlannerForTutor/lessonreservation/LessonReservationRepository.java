@@ -39,11 +39,8 @@ public interface LessonReservationRepository extends JpaRepository<LessonReserva
           nativeQuery = true)
   Set<Long> findStudentIdForTheLessonId(@Param("id" ) Long lessonId);
 
-  @Query(value = "SELECT lesson_reservation_id FROM lesson_reservation_students WHERE students_id = :id ;",
-          nativeQuery = true)
-  Set<Long> findLessonIdForTheStudentId(@Param("id" ) Long studentId);
-
   @Query("SELECT lr.startTime as startTime, lr.endTime as endTime FROM LessonReservation lr" )
   List<LessonTimeView> getAllLessonTimeData();
+
 }
 

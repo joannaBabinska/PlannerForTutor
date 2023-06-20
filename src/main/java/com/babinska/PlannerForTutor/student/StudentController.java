@@ -55,4 +55,10 @@ public class StudentController {
     return ResponseEntity.ok(savedStudentDto);
   }
 
+  @DeleteMapping("/{id}" )
+  public ResponseEntity<?> deleteStudent(@PathVariable Long id) {
+    studentService.deleteStudent(id);
+    return ResponseEntity.ok().build();
+  }
+
 }

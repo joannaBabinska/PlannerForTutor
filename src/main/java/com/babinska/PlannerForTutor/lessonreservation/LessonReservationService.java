@@ -10,7 +10,6 @@ import com.babinska.PlannerForTutor.lessonreservation.dto.LessonReservationStude
 import com.babinska.PlannerForTutor.student.Student;
 import com.babinska.PlannerForTutor.student.StudentMapper;
 import com.babinska.PlannerForTutor.student.StudentRepository;
-import com.babinska.PlannerForTutor.student.StudentService;
 import com.babinska.PlannerForTutor.student.dto.StudentRegistrationDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -32,7 +31,6 @@ public class LessonReservationService {
 
   private final LessonReservationRepository lessonReservationRepository;
   private final ObjectMapper objectMapper;
-  private final StudentService studentService;
   private final StudentRepository studentRepository;
   private final RequestValidator requestValidator;
 
@@ -105,8 +103,8 @@ public class LessonReservationService {
     return lessonReservationsId.stream()
             .map(lessonReservationRepository::findStudentIdForTheLessonId)
             .flatMap(Collection::stream)
-            .map(studentService::getStudentById)
-            .map(student -> String.format("%s %s", student.firstName(), student.lastName()))
+            .map(studentId ->studentRepository.findById(studentId).orElseThrow(() -> new StudentNotFoundException(studentId)))
+            .map(student -> String.format("%s %s", student.getFirstName(), student.getLastName()))
             .collect(Collectors.toSet());
   }
 
@@ -116,12 +114,6 @@ public class LessonReservationService {
     lessonReservation.getStudents().remove(student);
     lessonReservationRepository.save(lessonReservation);
     return LessonReservationMapper.mapToLessonReservationStudentDto(lessonReservation);
-  }
-
-  public void deleteStudent(Long studentId) {
-    Set<Long> lessonIdForTheStudent = getLessonsIdForTheStudent(studentId);
-    lessonIdForTheStudent.forEach(lessonId -> deleteStudentFromLessonReservation(lessonId, studentId));
-    studentRepository.deleteById(studentId);
   }
 
   private static boolean studentAlreadyExistInLesson(Long studentId, LessonReservation lessonReservation) {
@@ -151,10 +143,6 @@ public class LessonReservationService {
 
   private int calculateDuration(LocalTime endTime, LocalTime startTime) {
     return (int) Duration.between(startTime, endTime).toMinutes();
-  }
-
-  private Set<Long> getLessonsIdForTheStudent(Long id) {
-    return lessonReservationRepository.findLessonIdForTheStudentId(id);
   }
 
 }
