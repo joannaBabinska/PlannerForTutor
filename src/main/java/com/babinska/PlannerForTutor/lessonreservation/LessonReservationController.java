@@ -18,7 +18,7 @@ import java.util.Set;
 
 @Slf4j
 @RestController
-@RequestMapping("/lessonsReservation" )
+@RequestMapping("/lessons-reservation" )
 @RequiredArgsConstructor
 public class LessonReservationController {
 
@@ -87,7 +87,7 @@ public class LessonReservationController {
     return ResponseEntity.ok().build();
   }
 
-  @GetMapping("students" )
+  @GetMapping("/students" )
   ResponseEntity<Set<String>> getStudentForTheDay(@RequestParam LocalDate date) {
     Set<String> students = lessonReservationService.getStudentForTheDay(date);
     return ResponseEntity.ok(students);

@@ -22,6 +22,20 @@ public class LessonReservationMapper {
             .price(lessonReservationDto.price())
             .build();
   }
+
+  public static LessonReservation map(LessonReservationStudentDto lessonReservationStudentDto){
+    return LessonReservation.builder()
+            .lessonType(lessonReservationStudentDto.lessonType())
+            .topic(lessonReservationStudentDto.topic())
+            .startTime(LocalDateTime.of(lessonReservationStudentDto.reservationDate(),
+                    lessonReservationStudentDto.startTime()))
+            .endTime(LocalDateTime.of(lessonReservationStudentDto.reservationDate(),
+                    lessonReservationStudentDto.endTime()))
+            .students(mapToStudent(lessonReservationStudentDto.students()))
+            .price(lessonReservationStudentDto.price())
+            .build();
+  }
+
   public static LessonReservationStudentDto mapToLessonReservationStudentDto(LessonReservation lessonReservation){
     return LessonReservationStudentDto.builder()
             .id(lessonReservation.getId())
@@ -76,6 +90,9 @@ public class LessonReservationMapper {
 
   private static Set<StudentDto> mapToStudentDto(Set<Student> students){
     return students.stream().map(StudentMapper::map).collect(Collectors.toSet());
+  }
+  private static Set<Student> mapToStudent(Set<StudentDto> students){
+    return students.stream().map(StudentMapper::mapToStudent).collect(Collectors.toSet());
   }
 
 }

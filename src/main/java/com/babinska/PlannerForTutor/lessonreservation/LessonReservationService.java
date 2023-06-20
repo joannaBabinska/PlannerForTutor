@@ -146,7 +146,8 @@ public class LessonReservationService {
           throws JsonPatchException, JsonProcessingException {
     JsonNode jsonNode = objectMapper.valueToTree(lessonReservationStudentDto);
     JsonNode applyPath = jsonMergePatch.apply(jsonNode);
-    LessonReservation lessonReservation = objectMapper.treeToValue(applyPath, LessonReservation.class);
+    LessonReservationStudentDto updatedLessonReservationStudentDto = objectMapper.treeToValue(applyPath, LessonReservationStudentDto.class);
+    LessonReservation lessonReservation = LessonReservationMapper.map(updatedLessonReservationStudentDto);
     lessonReservation.setDurationInMinutes(calculateDuration(lessonReservation.getEndTime().toLocalTime(), lessonReservation.getStartTime().toLocalTime()));
     return lessonReservation;
   }
