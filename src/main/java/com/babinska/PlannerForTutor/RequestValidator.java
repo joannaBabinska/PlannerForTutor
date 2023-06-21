@@ -20,9 +20,9 @@ public class RequestValidator {
   private final LessonOverlapService lessonOverlapService;
 
   public void validate(LessonReservationRegistrationDto lessonReservationRegistrationDto) {
-//    checkLessonOverlap(lessonReservationRegistrationDto.startTime(),
-//                          lessonReservationRegistrationDto.endTime(),
-//                          lessonReservationRegistrationDto.reservationDate());
+    checkLessonOverlap(lessonReservationRegistrationDto.startTime(),
+                          lessonReservationRegistrationDto.endTime(),
+                          lessonReservationRegistrationDto.reservationDate());
     checkDaysOff(lessonReservationRegistrationDto.reservationDate());
     checkStartEndTime(lessonReservationRegistrationDto.startTime(),
                       lessonReservationRegistrationDto.endTime());
@@ -40,7 +40,8 @@ public class RequestValidator {
     }
   }
 
-//  private void checkLessonOverlap(LocalTime startTime, LocalTime endTime, LocalDate reservationDate) {
-//  lessonOverlapService.isOverlap(LocalDateTime.of(reservationDate, startTime), LocalDateTime.of(reservationDate, endTime));
-//  }
+  private void checkLessonOverlap(LocalTime startTime, LocalTime endTime, LocalDate reservationDate) {
+  if(lessonOverlapService.isOverlap(LocalDateTime.of(reservationDate, startTime), LocalDateTime.of(reservationDate, endTime)))
+    throw new DayIsNotWorkingException();
+  }
 }

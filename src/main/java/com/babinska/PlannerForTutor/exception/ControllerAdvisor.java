@@ -11,6 +11,11 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class ControllerAdvisor {
 
+  @ExceptionHandler(DayIsNotWorkingException.class)
+  public ResponseEntity<?> handle (DayIsNotWorkingException ex) {
+    return ResponseEntity.status(HttpStatus.CONFLICT).build();
+  }
+
   @ExceptionHandler(LessonReservationNotFoundException.class)
   public ResponseEntity<?> handle(LessonReservationNotFoundException ex) {
     return ResponseEntity.notFound().build();
@@ -46,4 +51,5 @@ public class ControllerAdvisor {
 
     return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
   }
+
 }
