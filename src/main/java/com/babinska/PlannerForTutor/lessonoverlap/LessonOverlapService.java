@@ -4,9 +4,10 @@ import com.babinska.PlannerForTutor.lessonreservation.LessonReservationRepositor
 import com.babinska.PlannerForTutor.lessonreservation.LessonTimeView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,10 +19,15 @@ public class LessonOverlapService {
 
   public boolean isOverlap(LocalDateTime startTime, LocalDateTime endTime) {
 
-    LocalDateTime dateBeforeStart = getLast(allDates().stream()
-            .filter(date -> startTime.isAfter(date) || startTime.isEqual(date)).sorted().toList());
+    LocalDateTime dateBeforeStart = allDates().stream()
+            .filter(date -> startTime.isAfter(date) || startTime.isEqual(date))
+            .max(LocalDateTime::compareTo)
+            .orElse(null);
+
     LocalDateTime dateAfterEnd = allDates().stream()
-            .filter(date -> endTime.isBefore(date) || endTime.isEqual(date)).sorted().toList().get(0);
+            .filter(date -> endTime.isBefore(date) || endTime.isEqual(date))
+            .min(LocalDateTime::compareTo)
+            .orElse(null);
 
     return !(getLocalDateTimesEnds().contains(dateBeforeStart)
             && !getLocalDateTimesStarts().contains(dateBeforeStart)
@@ -35,23 +41,27 @@ public class LessonOverlapService {
     starts.addAll(ends);
     return starts;
   }
+  private List<LessonTimeView> allLessonTimeData() {
+    return lessonReservationRepository.getAllLessonTimeData();
+  }
 
   private List<LocalDateTime> getLocalDateTimesEnds() {
-    List<LocalDateTime> ends = new java.util.ArrayList<>(lessonReservationRepository.getAllLessonTimeData().stream()
-            .map(LessonTimeView::getEndTime).toList());
+
+    List<LocalDateTime> ends = allLessonTimeData().stream()
+            .map(LessonTimeView::getEndTime)
+            .collect(Collectors.toList());
     ends.add(START_OF_APPLICATION);
+
     return ends;
   }
 
   private List<LocalDateTime> getLocalDateTimesStarts() {
-    List<LocalDateTime> starts = new ArrayList<>(lessonReservationRepository.getAllLessonTimeData().stream()
-            .map(LessonTimeView::getStartTime).toList());
+
+    List<LocalDateTime> starts = allLessonTimeData().stream()
+            .map(LessonTimeView::getStartTime).collect(Collectors.toList());
+
     starts.add(END_OF_APPLICATION);
     return starts;
-  }
-
-  private static <T> T getLast(List<T> list) {
-    return list != null && !list.isEmpty() ? list.get(list.size() - 1) : null;
   }
 
 }

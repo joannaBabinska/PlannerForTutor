@@ -1,5 +1,6 @@
 package com.babinska.PlannerForTutor.exception;
 
+import com.babinska.PlannerForTutor.lessonoverlap.LessonOverlapService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -28,6 +29,11 @@ public class ControllerAdvisor {
 
   @ExceptionHandler(StudentAlreadyAddedToLessonException.class)
   public ResponseEntity<?> handle(StudentAlreadyAddedToLessonException ex) {
+    return ResponseEntity.status(HttpStatus.CONFLICT).build();
+  }
+
+  @ExceptionHandler(LessonOverlapException.class)
+  public ResponseEntity<?> handle(LessonOverlapService ex) {
     return ResponseEntity.status(HttpStatus.CONFLICT).build();
   }
 
