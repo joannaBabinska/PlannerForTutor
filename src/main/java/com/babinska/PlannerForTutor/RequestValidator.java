@@ -3,6 +3,7 @@ package com.babinska.PlannerForTutor;
 import com.babinska.PlannerForTutor.daysoff.DaysOffService;
 import com.babinska.PlannerForTutor.exception.DayIsNotWorkingException;
 import com.babinska.PlannerForTutor.exception.EndTimeIsBeforeStartTimeException;
+import com.babinska.PlannerForTutor.exception.LessonOverlapException;
 import com.babinska.PlannerForTutor.lessonoverlap.LessonOverlapService;
 import com.babinska.PlannerForTutor.lessonreservation.dto.LessonReservationRegistrationDto;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +43,6 @@ public class RequestValidator {
 
   private void checkLessonOverlap(LocalTime startTime, LocalTime endTime, LocalDate reservationDate) {
   if(lessonOverlapService.isOverlap(LocalDateTime.of(reservationDate, startTime), LocalDateTime.of(reservationDate, endTime)))
-    throw new DayIsNotWorkingException();
+    throw new LessonOverlapException();
   }
 }
