@@ -1,6 +1,5 @@
 package com.babinska.PlannerForTutor.exception;
 
-import com.babinska.PlannerForTutor.lessonoverlap.LessonOverlapService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -14,7 +13,7 @@ public class ControllerAdvisor {
 
   @ExceptionHandler(DayIsNotWorkingException.class)
   public ResponseEntity<?> handle (DayIsNotWorkingException ex) {
-    return ResponseEntity.status(HttpStatus.CONFLICT).build();
+    return  ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
   }
 
   @ExceptionHandler(LessonReservationNotFoundException.class)
@@ -33,7 +32,7 @@ public class ControllerAdvisor {
   }
 
   @ExceptionHandler(LessonOverlapException.class)
-  public ResponseEntity<?> handle(LessonOverlapService ex) {
+  public ResponseEntity<?> handle(LessonOverlapException ex) {
     return ResponseEntity.status(HttpStatus.CONFLICT).build();
   }
 

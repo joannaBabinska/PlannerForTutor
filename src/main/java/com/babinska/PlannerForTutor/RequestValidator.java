@@ -1,7 +1,6 @@
 package com.babinska.PlannerForTutor;
 
 import com.babinska.PlannerForTutor.daysoff.DaysOffService;
-import com.babinska.PlannerForTutor.exception.DayIsNotWorkingException;
 import com.babinska.PlannerForTutor.exception.EndTimeIsBeforeStartTimeException;
 import com.babinska.PlannerForTutor.exception.LessonOverlapException;
 import com.babinska.PlannerForTutor.lessonoverlap.LessonOverlapService;
@@ -36,9 +35,7 @@ public class RequestValidator {
   }
 
   private void checkDaysOff(LocalDate reservationDate) {
-    if (!daysOffService.isDayWorking(reservationDate)) {
-      throw new DayIsNotWorkingException();
-    }
+    daysOffService.isDayWorking(reservationDate);
   }
 
   private void checkLessonOverlap(LocalTime startTime, LocalTime endTime, LocalDate reservationDate) {

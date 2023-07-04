@@ -4,5 +4,5 @@ import java.time.LocalDate;
 
 interface WorkingDay {
 
-  boolean isWorkingDay(LocalDate date);
+  void isWorkingDay(LocalDate date);
 }

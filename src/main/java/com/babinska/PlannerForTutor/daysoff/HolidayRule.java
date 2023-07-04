@@ -1,6 +1,7 @@
 package com.babinska.PlannerForTutor.daysoff;
 
 import com.babinska.PlannerForTutor.PlannerProperties;
+import com.babinska.PlannerForTutor.exception.DayIsNotWorkingException;
 import com.babinska.PlannerForTutor.holidayclient.Holiday;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,12 +20,26 @@ class HolidayRule implements WorkingDay {
   private final PlannerProperties plannerProperties;
 
   @Override
-  public boolean isWorkingDay(LocalDate date) {
+  public void isWorkingDay(LocalDate date) {
 
     Set<Holiday> holidays = Set.of(restTemplate.getForObject(plannerProperties.getUrlHoliday(), Holiday[].class));
     log.debug("Downloaded holidays: {}", holidays);
-    return holidays.stream()
+    holidays.stream()
             .map(Holiday::date)
-            .noneMatch(holidayDate -> holidayDate.isEqual(date));
+            .filter(holidayDate -> holidayDate.isEqual(date))
+            .findFirst()
+            .ifPresent(day -> {
+              throw new DayIsNotWorkingException(
+                      String.format("%s is not working day, because is \"%s\" ", date,
+                              getHolidayName(date, holidays)));
+            });
+  }
+
+  private static String getHolidayName(LocalDate date, Set<Holiday> holidays) {
+    return holidays.stream()
+            .filter(holiday -> holiday.date().isEqual(date))
+            .map(Holiday::localName)
+            .findFirst()
+            .orElse("No name holiday");
   }
 }

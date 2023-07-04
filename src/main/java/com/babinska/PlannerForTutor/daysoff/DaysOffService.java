@@ -11,8 +11,8 @@ public class DaysOffService {
 
   private final List<WorkingDay> workingDayRules;
 
-  public boolean isDayWorking(LocalDate date) {
-    return workingDayRules.stream()
-            .allMatch(rule -> rule.isWorkingDay(date));
+  public void isDayWorking(LocalDate date) {
+         workingDayRules
+            .forEach(rule -> rule.isWorkingDay(date));
   }
 }

@@ -1,9 +1,9 @@
 package com.babinska.PlannerForTutor.daysoff;
 
+import com.babinska.PlannerForTutor.exception.DayIsNotWorkingException;
 import com.babinska.PlannerForTutor.vacation.VacationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
 import java.time.LocalDate;
 
 @Component
@@ -13,7 +13,9 @@ class VacationRule implements WorkingDay {
   private final VacationRepository vacationRepository;
 
   @Override
-  public boolean isWorkingDay(LocalDate date) {
-    return !vacationRepository.existsByVacationDay(date);
+  public void isWorkingDay(LocalDate date) {
+     if(vacationRepository.existsByVacationDay(date)) {
+       throw new DayIsNotWorkingException(String.format("%s is employee vacation",date));
+     }
   }
 }
