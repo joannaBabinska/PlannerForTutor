@@ -1,5 +1,6 @@
 package com.babinska.PlannerForTutor.student;
 
+import com.babinska.PlannerForTutor.constraint.TrackExecutionTime;
 import com.babinska.PlannerForTutor.exception.StudentNotFoundException;
 import com.babinska.PlannerForTutor.lessonreservation.LessonReservationService;
 import com.babinska.PlannerForTutor.student.dto.StudentDto;
@@ -22,7 +23,7 @@ public class StudentService {
   private final ObjectMapper objectMapper;
   private final LessonReservationService lessonReservationService;
 
-
+  @TrackExecutionTime
   public StudentDto getStudentById(Long id) {
     Student student = studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException(id));
     return StudentMapper.map(student);

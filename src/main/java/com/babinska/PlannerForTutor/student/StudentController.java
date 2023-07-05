@@ -1,5 +1,6 @@
 package com.babinska.PlannerForTutor.student;
 
+import com.babinska.PlannerForTutor.constraint.TrackExecutionTime;
 import com.babinska.PlannerForTutor.student.dto.StudentDto;
 import com.babinska.PlannerForTutor.student.dto.StudentRegistrationDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -22,6 +23,7 @@ public class StudentController {
   private final StudentService studentService;
 
   @GetMapping("/{id}")
+  @TrackExecutionTime
   public ResponseEntity<StudentDto> getStudentById(@PathVariable Long id) {
     return ResponseEntity.ok(studentService.getStudentById(id));
   }
