@@ -11,4 +11,4 @@ spring:
 
 planner:
   weekDaysOff: [SATURDAY, SUNDAY]
-  urlHoliday: https://date.nager.at/api/v3/PublicHolidays/2023/PL
+  holidayApiUrl: https://date.nager.at/api/v3/PublicHolidays/2023/PL
