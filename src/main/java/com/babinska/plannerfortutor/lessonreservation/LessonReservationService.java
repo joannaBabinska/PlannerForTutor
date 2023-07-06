@@ -1,6 +1,7 @@
 package com.babinska.plannerfortutor.lessonreservation;
 
-import com.babinska.plannerfortutor.validation.validator;
+import com.babinska.plannerfortutor.aspect.TrackExecutionTime;
+import com.babinska.plannerfortutor.validation.Validator;
 import com.babinska.plannerfortutor.exception.LessonReservationNotFoundException;
 import com.babinska.plannerfortutor.exception.StudentAlreadyAddedToLessonException;
 import com.babinska.plannerfortutor.exception.StudentNotFoundException;
@@ -27,12 +28,13 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@TrackExecutionTime
 public class LessonReservationService {
 
   private final LessonReservationRepository lessonReservationRepository;
   private final ObjectMapper objectMapper;
   private final StudentRepository studentRepository;
-  private final validator validator;
+  private final Validator validator;
 
   public LessonReservationDto getLessonReservationById(Long id) {
     LessonReservation lessonReservation = lessonReservationRepository.findById(id).orElseThrow(() -> new LessonReservationNotFoundException(id));

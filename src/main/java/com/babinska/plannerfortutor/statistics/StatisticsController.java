@@ -1,5 +1,6 @@
 package com.babinska.plannerfortutor.statistics;
 
+import com.babinska.plannerfortutor.aspect.TrackExecutionTime;
 import com.babinska.plannerfortutor.validation.constraint.Month;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import java.util.*;
 @RequestMapping("/statistics")
 @RequiredArgsConstructor
 @Validated
+@TrackExecutionTime
 public class StatisticsController {
 
   private final StatisticsService statisticsService;

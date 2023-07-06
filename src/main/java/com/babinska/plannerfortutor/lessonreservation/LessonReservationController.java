@@ -1,5 +1,6 @@
 package com.babinska.plannerfortutor.lessonreservation;
 
+import com.babinska.plannerfortutor.aspect.TrackExecutionTime;
 import com.babinska.plannerfortutor.lessonreservation.dto.LessonReservationDto;
 import com.babinska.plannerfortutor.lessonreservation.dto.LessonReservationRegistrationDto;
 import com.babinska.plannerfortutor.lessonreservation.dto.LessonReservationStudentDto;
@@ -20,6 +21,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/lessons-reservation" )
 @RequiredArgsConstructor
+@TrackExecutionTime
 public class LessonReservationController {
 
   public final LessonReservationService lessonReservationService;

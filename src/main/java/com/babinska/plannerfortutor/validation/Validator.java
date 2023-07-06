@@ -14,7 +14,7 @@ import java.time.LocalTime;
 
 @RequiredArgsConstructor
 @Component
-public class validator {
+public class Validator {
 
   private final DaysOffService daysOffService;
   private final LessonOverlapService lessonOverlapService;

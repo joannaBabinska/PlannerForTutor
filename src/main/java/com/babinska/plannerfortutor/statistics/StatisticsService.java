@@ -1,5 +1,6 @@
 package com.babinska.plannerfortutor.statistics;
 
+import com.babinska.plannerfortutor.aspect.TrackExecutionTime;
 import com.babinska.plannerfortutor.lessonreservation.LessonReservationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import java.time.LocalTime;
 
 @Service
 @RequiredArgsConstructor
+@TrackExecutionTime
 public class StatisticsService {
 
   private final LessonReservationRepository lessonReservationRepository;

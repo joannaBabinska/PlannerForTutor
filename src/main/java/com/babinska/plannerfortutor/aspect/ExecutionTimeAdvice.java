@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +14,23 @@ import org.springframework.stereotype.Component;
 @ConditionalOnExpression("${aspect.enabled:true}")
 public class ExecutionTimeAdvice {
 
-  @Around("@annotation (com.babinska.PlannerForTutor.aspect.TrackExecutionTime)")
+  @Pointcut("execution(public * *(..))")
+  public void publicMethod() {
+  }
+
+  @Pointcut("within(@com.babinska.plannerfortutor.aspect.TrackExecutionTime *)")
+  public void typeAnnotatedWithTrackExecutionTime() {
+  }
+
+  @Pointcut("publicMethod() && typeAnnotatedWithTrackExecutionTime()")
+  public void typeAnnotated() {
+  }
+
+  @Pointcut("@annotation (com.babinska.plannerfortutor.aspect.TrackExecutionTime)")
+  public void methodAnnotated() {
+  }
+
+  @Around("typeAnnotated() || methodAnnotated()")
   public Object executionTime(ProceedingJoinPoint point) throws Throwable {
     long startTime = System.currentTimeMillis();
     Object object = point.proceed();
