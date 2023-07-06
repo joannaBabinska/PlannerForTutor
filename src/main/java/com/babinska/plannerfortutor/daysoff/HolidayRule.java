@@ -1,12 +1,11 @@
 package com.babinska.plannerfortutor.daysoff;
 
-import com.babinska.plannerfortutor.configuration.PlannerProperties;
 import com.babinska.plannerfortutor.exception.DayIsNotWorkingException;
 import com.babinska.plannerfortutor.holidayclient.Holiday;
+import com.babinska.plannerfortutor.holidayclient.HolidayClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -16,13 +15,12 @@ import java.util.Set;
 @RequiredArgsConstructor
 class HolidayRule implements WorkingDay {
 
-  private final RestTemplate restTemplate;
-  private final PlannerProperties plannerProperties;
+  private final HolidayClient holidayClient;
 
   @Override
   public void isWorkingDay(LocalDate date) {
 
-    Set<Holiday> holidays = Set.of(restTemplate.getForObject(plannerProperties.getHolidayApiUrl(), Holiday[].class));
+    Set<Holiday> holidays = holidayClient.getHolidays();
     log.debug("Downloaded holidays: {}", holidays);
     holidays.stream()
             .map(Holiday::date)
@@ -42,4 +40,5 @@ class HolidayRule implements WorkingDay {
             .findFirst()
             .orElse("No name holiday");
   }
+
 }
