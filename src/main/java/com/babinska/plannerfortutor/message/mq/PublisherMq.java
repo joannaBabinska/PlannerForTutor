@@ -1,21 +1,22 @@
 package com.babinska.plannerfortutor.message.mq;
 
+import com.babinska.plannerfortutor.message.Email;
 import lombok.RequiredArgsConstructor;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
-@RestController
+@RestController()
 public class PublisherMq {
 
-  private final RabbitTemplate rabbitTemplate;
+  private final RabbitMQJsonProducer jsonProducer;
 
-  @GetMapping("/addMessage")
-  public String get(@RequestParam String message) {
-    rabbitTemplate.convertAndSend("email",message);
-    return "sent";
-
+  @PostMapping("/studentInformation")
+  public ResponseEntity<Email> sendJsonMessage(@RequestBody Email email){
+    jsonProducer.sendJsonMessage(email);
+    return ResponseEntity.ok(email);
   }
+
 }

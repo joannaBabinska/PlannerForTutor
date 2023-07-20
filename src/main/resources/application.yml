@@ -9,9 +9,25 @@ spring:
     hibernate:
       ddl-auto: validate
 
+  rabbitmq:
+    password: guest
+    port: '5672'
+    host: localhost
+    username: guest
+
 planner:
   weekDaysOff: [SATURDAY, SUNDAY]
   holidayApiUrl: https://date.nager.at/api/v3/PublicHolidays/2023/PL
 
 holidayClient:
   type: rest-template
+
+rabbitmq:
+  queue:
+    json:
+      name: email_json
+  exchange:
+    name: email_exchange
+  routing:
+    json:
+      key: email_routing_json_key
