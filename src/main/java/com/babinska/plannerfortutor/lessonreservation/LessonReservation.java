@@ -4,18 +4,21 @@ import com.babinska.plannerfortutor.student.Student;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LessonReservation {
+class LessonReservation {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
