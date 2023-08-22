@@ -23,11 +23,15 @@ holidayClient:
   type: rest-template
 
 rabbitmq:
+  routing:
+    key: email_routing_key
+    json:
+      key: email_routing_json_key
   queue:
     json:
       name: email_json
   exchange:
     name: email_exchange
-  routing:
-    json:
-      key: email_routing_json_key
+rabbit:
+  queue:
+    name: email

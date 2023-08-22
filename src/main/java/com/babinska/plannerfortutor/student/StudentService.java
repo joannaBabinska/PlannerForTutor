@@ -3,6 +3,7 @@ package com.babinska.plannerfortutor.student;
 import com.babinska.plannerfortutor.aspect.TrackExecutionTime;
 import com.babinska.plannerfortutor.exception.StudentNotFoundException;
 import com.babinska.plannerfortutor.lessonreservation.LessonReservationService;
+import com.babinska.plannerfortutor.message.EmailService;
 import com.babinska.plannerfortutor.student.dto.StudentDto;
 import com.babinska.plannerfortutor.student.dto.StudentRegistrationDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -23,6 +24,7 @@ public class StudentService {
   private final StudentRepository studentRepository;
   private final ObjectMapper objectMapper;
   private final LessonReservationService lessonReservationService;
+  private final EmailService emailService;
 
 
   public StudentDto getStudentById(Long id) {
@@ -33,6 +35,7 @@ public class StudentService {
   public StudentDto addStudent(StudentRegistrationDto studentRegistrationDto) {
     Student student = StudentMapper.map(studentRegistrationDto);
     Student savedStudent = studentRepository.save(student);
+    emailService.sendWelcomeEmail(savedStudent.getId());
     return StudentMapper.map(savedStudent);
   }
 
