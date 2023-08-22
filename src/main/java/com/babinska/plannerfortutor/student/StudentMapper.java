@@ -2,6 +2,7 @@ package com.babinska.plannerfortutor.student;
 
 import com.babinska.plannerfortutor.student.dto.StudentDto;
 import com.babinska.plannerfortutor.student.dto.StudentRegistrationDto;
+import com.babinska.plannerfortutor.student.dto.StudentWelcomeMessageDto;
 
 public class StudentMapper {
 
@@ -57,6 +58,14 @@ public class StudentMapper {
             .phoneNumber(student.phoneNumber())
             .dateOfBirth(student.dateOfBirth())
             .schoolClass(student.schoolClass())
+            .build();
+  }
+
+  public static StudentWelcomeMessageDto mapToStudentWelcomeMessageDto(Student student){
+    return StudentWelcomeMessageDto.builder()
+            .firstName(student.getFirstName())
+            .lastName(student.getLastName())
+            .email(student.getEmail())
             .build();
   }
 

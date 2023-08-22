@@ -26,7 +26,6 @@ public class StudentService {
   private final LessonReservationService lessonReservationService;
   private final EmailService emailService;
 
-
   public StudentDto getStudentById(Long id) {
     Student student = studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException(id));
     return StudentMapper.map(student);
@@ -35,7 +34,7 @@ public class StudentService {
   public StudentDto addStudent(StudentRegistrationDto studentRegistrationDto) {
     Student student = StudentMapper.map(studentRegistrationDto);
     Student savedStudent = studentRepository.save(student);
-    emailService.sendWelcomeEmail(savedStudent.getId());
+    emailService.sendWelcomeEmail(StudentMapper.mapToStudentWelcomeMessageDto(savedStudent));
     return StudentMapper.map(savedStudent);
   }
 
@@ -68,8 +67,8 @@ public class StudentService {
     return objectMapper.treeToValue(jsonNodePatchedNode, Student.class);
   }
 
-
   private Set<Long> getLessonsIdForTheStudent(Long id) {
     return studentRepository.findLessonIdForTheStudentId(id);
   }
+
 }
