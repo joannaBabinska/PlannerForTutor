@@ -1,5 +1,5 @@
 FROM openjdk:17
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
+WORKDIR /planner
+COPY target/PlannerForTutor-0.0.1-SNAPSHOT.jar /planner
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-jar", "PlannerForTutor-0.0.1-SNAPSHOT.jar"]
