@@ -70,4 +70,4 @@ jobs:
 
     steps:
     - run: |
-        not implemented yet
+        echo Not implemented yet
