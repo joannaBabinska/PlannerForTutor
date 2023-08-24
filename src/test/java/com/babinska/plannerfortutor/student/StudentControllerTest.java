@@ -1,5 +1,6 @@
 package com.babinska.plannerfortutor.student;
 
+import com.babinska.plannerfortutor.message.mq.RabbitMQJsonProducer;
 import com.babinska.plannerfortutor.student.dto.StudentDto;
 import com.babinska.plannerfortutor.student.dto.StudentRegistrationDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -9,6 +10,7 @@ import com.github.fge.jsonpatch.mergepatch.JsonMergePatch;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDate;
 
@@ -28,6 +30,9 @@ class StudentControllerTest {
 
   @Autowired
   ObjectMapper objectMapper;
+
+  @MockBean
+  RabbitMQJsonProducer rabbitMQJsonProducer;
 
 
   @Test
