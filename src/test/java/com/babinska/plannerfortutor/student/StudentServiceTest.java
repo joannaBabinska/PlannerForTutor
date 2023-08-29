@@ -1,10 +1,12 @@
 package com.babinska.plannerfortutor.student;
 
+import com.babinska.plannerfortutor.message.mq.RabbitMQJsonProducer;
 import com.babinska.plannerfortutor.student.dto.StudentDto;
 import com.babinska.plannerfortutor.student.dto.StudentRegistrationDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDate;
 
@@ -18,6 +20,9 @@ class StudentServiceTest {
 
   @Autowired
   private StudentRepository studentRepository;
+
+  @MockBean
+  private RabbitMQJsonProducer rabbitMQJsonProducer;
 
 
   @Test

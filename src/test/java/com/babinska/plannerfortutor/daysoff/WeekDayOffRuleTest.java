@@ -1,6 +1,7 @@
 package com.babinska.plannerfortutor.daysoff;
 
 import com.babinska.plannerfortutor.configuration.PlannerProperties;
+import com.babinska.plannerfortutor.exception.DayIsNotWorkingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,8 +14,9 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 class WeekDayOffRuleTest {
@@ -35,19 +37,20 @@ class WeekDayOffRuleTest {
     //given
     LocalDate date = LocalDate.of(2023, 6, 18);
     //when
-    boolean isWorkingDay = weekDayOffRule.isWorkingDay(date);
+    DayIsNotWorkingException exception = assertThrows(DayIsNotWorkingException.class,
+        () -> weekDayOffRule.isWorkingDay(date));
     //then
-    assertFalse(isWorkingDay);
+    String expectedMessage = "2023-06-18 is not working day, because is SUNDAY";
+    String actualMessage = exception.getMessage();
+    assertEquals(expectedMessage, actualMessage);
   }
 
   @Test
   void shouldReturnTrueForMonday() {
     //given
     LocalDate date = LocalDate.of(2023, 6, 19);
-    //when
-    boolean isWorkingDay = weekDayOffRule.isWorkingDay(date);
-    //then
-    assertTrue(isWorkingDay);
+    //expect
+    assertDoesNotThrow(() -> weekDayOffRule.isWorkingDay(date));
   }
 
 }
