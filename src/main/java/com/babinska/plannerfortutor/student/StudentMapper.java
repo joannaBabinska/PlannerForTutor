@@ -63,6 +63,7 @@ public class StudentMapper {
 
   public static StudentWelcomeMessageDto mapToStudentWelcomeMessageDto(Student student){
     return StudentWelcomeMessageDto.builder()
+            .id(student.getId())
             .firstName(student.getFirstName())
             .lastName(student.getLastName())
             .email(student.getEmail())
