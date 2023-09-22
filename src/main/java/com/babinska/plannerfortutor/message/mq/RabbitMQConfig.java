@@ -30,6 +30,7 @@ public class RabbitMQConfig {
   @Value("${rabbitmq.exchange.name2}")
   private String exchange2;
 
+
   @Value("${rabbitmq.routing.json.key2}")
   private String routingJsonKey2;
 
