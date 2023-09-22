@@ -29,7 +29,7 @@ public class EmailService {
   }
 
   public void sendInformEmailLessonReservation(LessonReservationStudentDto lessonReservationStudentDto){
-    jsonProducer.sendJsonMessage(lessonReservationStudentDto);
+    jsonProducer.sendJsonMessage2(lessonReservationStudentDto);
     log.info("Send email -> {}",lessonReservationStudentDto);
 
   }
