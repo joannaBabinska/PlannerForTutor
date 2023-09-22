@@ -3,7 +3,7 @@ package com.babinska.plannerfortutor.lessonreservation;
 import com.babinska.plannerfortutor.aspect.TrackExecutionTime;
 import com.babinska.plannerfortutor.lessonreservation.dto.LessonReservationDto;
 import com.babinska.plannerfortutor.lessonreservation.dto.LessonReservationRegistrationDto;
-import com.babinska.plannerfortutor.lessonreservation.dto.LessonReservationStudentDto;
+import com.babinska.plannerfortutor.lessonreservation.dto.LessonReservationStudentsDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.fge.jsonpatch.JsonPatchException;
 import com.github.fge.jsonpatch.mergepatch.JsonMergePatch;
@@ -33,8 +33,8 @@ public class LessonReservationController {
   }
 
   @GetMapping("/{id}/all" )
-  ResponseEntity<LessonReservationStudentDto> getAllLessonReservationInformation(@PathVariable Long id) {
-    LessonReservationStudentDto lessonReservationAllInformation = lessonReservationService.getAllInformation(id);
+  ResponseEntity<LessonReservationStudentsDto> getAllLessonReservationInformation(@PathVariable Long id) {
+    LessonReservationStudentsDto lessonReservationAllInformation = lessonReservationService.getAllInformation(id);
     return ResponseEntity.ok(lessonReservationAllInformation);
   }
 
@@ -76,17 +76,17 @@ public class LessonReservationController {
   }
 
   @PatchMapping("/{id}/students" )
-  public ResponseEntity<LessonReservationStudentDto> addNewStudentToLessonReservation(@PathVariable Long id,
-                                                                                      @RequestBody JsonMergePatch jsonMergePatch) throws JsonPatchException, JsonProcessingException {
-    LessonReservationStudentDto lessonReservationStudentDto = lessonReservationService.addNewStudentToLessonReservation(id, jsonMergePatch);
-    return ResponseEntity.ok(lessonReservationStudentDto);
+  public ResponseEntity<LessonReservationStudentsDto> addNewStudentToLessonReservation(@PathVariable Long id,
+                                                                                       @RequestBody JsonMergePatch jsonMergePatch) throws JsonPatchException, JsonProcessingException {
+    LessonReservationStudentsDto lessonReservationStudentsDto = lessonReservationService.addNewStudentToLessonReservation(id, jsonMergePatch);
+    return ResponseEntity.ok(lessonReservationStudentsDto);
   }
 
   @PatchMapping("/{lessonId}/students/{studentId}" )
-  public ResponseEntity<LessonReservationStudentDto> addStudentToLessonReservation(@PathVariable Long lessonId,
-                                                                                   @PathVariable Long studentId) {
-    LessonReservationStudentDto lessonReservationStudentDto = lessonReservationService.addStudentToLessonReservation(lessonId, studentId);
-    return ResponseEntity.ok(lessonReservationStudentDto);
+  public ResponseEntity<LessonReservationStudentsDto> addStudentToLessonReservation(@PathVariable Long lessonId,
+                                                                                    @PathVariable Long studentId) {
+    LessonReservationStudentsDto lessonReservationStudentsDto = lessonReservationService.addStudentToLessonReservation(lessonId, studentId);
+    return ResponseEntity.ok(lessonReservationStudentsDto);
   }
 
   @DeleteMapping("/{id}" )
@@ -97,10 +97,10 @@ public class LessonReservationController {
 
 
   @DeleteMapping("/{lessonId}/student/{studentId}" )
-  public ResponseEntity<LessonReservationStudentDto> deleteStudentFromLessonReservation(@PathVariable Long lessonId,
-                                                                                        @PathVariable Long studentId) {
-    LessonReservationStudentDto lessonReservationStudentDto = lessonReservationService.deleteStudentFromLessonReservation(lessonId, studentId);
-    return ResponseEntity.ok(lessonReservationStudentDto);
+  public ResponseEntity<LessonReservationStudentsDto> deleteStudentFromLessonReservation(@PathVariable Long lessonId,
+                                                                                         @PathVariable Long studentId) {
+    LessonReservationStudentsDto lessonReservationStudentsDto = lessonReservationService.deleteStudentFromLessonReservation(lessonId, studentId);
+    return ResponseEntity.ok(lessonReservationStudentsDto);
   }
 
 }

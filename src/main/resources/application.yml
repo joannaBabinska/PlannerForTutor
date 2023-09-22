@@ -28,14 +28,15 @@ holidayClient:
 rabbitmq:
   routing:
     key: email_routing_key
+    key2: email_routing_key2
     json:
       key: email_routing_json_key
+      key2: email_routing_json_key2
   queue:
     json:
       name: email_json
+      name2: email_json2
   exchange:
     name: email_exchange
+    name2: email_exchange2
 
-rabbit:
-  queue:
-    name: email

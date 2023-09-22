@@ -1,7 +1,5 @@
 package com.babinska.plannerfortutor.message.mq;
 
-import com.babinska.plannerfortutor.message.Email;
-import com.babinska.plannerfortutor.student.dto.StudentWelcomeMessageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -19,15 +17,22 @@ public class RabbitMQJsonProducer {
   @Value("${rabbitmq.routing.json.key}")
   private String routingJsonKey;
 
+  @Value("${rabbitmq.exchange.name2}")
+  private String exchange2;
+
+  @Value("${rabbitmq.routing.json.key2}")
+  private String routingJsonKey2;
+
   private final RabbitTemplate rabbitTemplate;
 
-  public void sendJsonMessage(Email email){
-    log.info(String.format("Json message sent -> %s", email.toString()));
-    rabbitTemplate.convertAndSend(exchange, routingJsonKey, email);
+  public void sendJsonMessage(Object object) {
+    log.info("Json message sent -> {}", object);
+    rabbitTemplate.convertAndSend(exchange, routingJsonKey, object);
   }
-  public void sendWelcomeMessage(StudentWelcomeMessageDto studentWelcomeMessageDto){
-    log.info(String.format("Json message sent -> %s", studentWelcomeMessageDto.toString()));
-    rabbitTemplate.convertAndSend(exchange, routingJsonKey, studentWelcomeMessageDto);
+
+  public void sendJsonMessage2(Object object) {
+    log.info("Json message sent -> {}", object);
+    rabbitTemplate.convertAndSend(exchange2, routingJsonKey2, object);
   }
 
 }

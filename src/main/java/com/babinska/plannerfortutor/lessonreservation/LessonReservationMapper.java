@@ -2,18 +2,21 @@ package com.babinska.plannerfortutor.lessonreservation;
 
 import com.babinska.plannerfortutor.lessonreservation.dto.LessonReservationDto;
 import com.babinska.plannerfortutor.lessonreservation.dto.LessonReservationRegistrationDto;
+import com.babinska.plannerfortutor.lessonreservation.dto.LessonReservationStudentsDto;
 import com.babinska.plannerfortutor.lessonreservation.dto.LessonReservationStudentDto;
 import com.babinska.plannerfortutor.student.Student;
 import com.babinska.plannerfortutor.student.StudentMapper;
 import com.babinska.plannerfortutor.student.dto.StudentDto;
+import com.babinska.plannerfortutor.student.dto.StudentWelcomeMessageDto;
+
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class LessonReservationMapper {
 
-  public static LessonReservationStudentDto mapToLessonReservationStudentDto(LessonReservationDto lessonReservationDto){
-    return LessonReservationStudentDto.builder()
+  public static LessonReservationStudentsDto mapToLessonReservationStudentDto(LessonReservationDto lessonReservationDto){
+    return LessonReservationStudentsDto.builder()
             .lessonType(lessonReservationDto.lessonType())
             .topic(lessonReservationDto.topic())
             .startTime(lessonReservationDto.startTime())
@@ -23,21 +26,21 @@ public class LessonReservationMapper {
             .build();
   }
 
-  public static LessonReservation map(LessonReservationStudentDto lessonReservationStudentDto){
+  public static LessonReservation map(LessonReservationStudentsDto lessonReservationStudentsDto){
     return LessonReservation.builder()
-            .lessonType(lessonReservationStudentDto.lessonType())
-            .topic(lessonReservationStudentDto.topic())
-            .startTime(LocalDateTime.of(lessonReservationStudentDto.reservationDate(),
-                    lessonReservationStudentDto.startTime()))
-            .endTime(LocalDateTime.of(lessonReservationStudentDto.reservationDate(),
-                    lessonReservationStudentDto.endTime()))
-            .students(mapToStudent(lessonReservationStudentDto.students()))
-            .price(lessonReservationStudentDto.price())
+            .lessonType(lessonReservationStudentsDto.lessonType())
+            .topic(lessonReservationStudentsDto.topic())
+            .startTime(LocalDateTime.of(lessonReservationStudentsDto.reservationDate(),
+                    lessonReservationStudentsDto.startTime()))
+            .endTime(LocalDateTime.of(lessonReservationStudentsDto.reservationDate(),
+                    lessonReservationStudentsDto.endTime()))
+            .students(mapToStudent(lessonReservationStudentsDto.students()))
+            .price(lessonReservationStudentsDto.price())
             .build();
   }
 
-  public static LessonReservationStudentDto mapToLessonReservationStudentDto(LessonReservation lessonReservation){
-    return LessonReservationStudentDto.builder()
+  public static LessonReservationStudentsDto mapToLessonReservationStudentDto(LessonReservation lessonReservation){
+    return LessonReservationStudentsDto.builder()
             .id(lessonReservation.getId())
             .lessonType(lessonReservation.getLessonType())
             .topic(lessonReservation.getTopic())
@@ -85,6 +88,19 @@ public class LessonReservationMapper {
             .endTime(lessonReservationDto.endTime())
             .reservationDate(lessonReservationDto.reservationDate())
             .price(lessonReservationDto.price())
+            .build();
+  }
+  public static LessonReservationStudentDto map(LessonReservation lessonReservation, StudentWelcomeMessageDto studentWelcomeMessageDto){
+    return LessonReservationStudentDto.builder()
+            .id(lessonReservation.getId())
+            .lessonType(lessonReservation.getLessonType())
+            .student(studentWelcomeMessageDto)
+            .topic(lessonReservation.getTopic())
+            .startTime(lessonReservation.getStartTime().toLocalTime().toString())
+            .endTime(lessonReservation.getEndTime().toLocalTime().toString())
+            .durationInMinutes(lessonReservation.getDurationInMinutes())
+            .reservationDate(lessonReservation.getStartTime().toLocalDate().toString())
+            .price(lessonReservation.getPrice())
             .build();
   }
 

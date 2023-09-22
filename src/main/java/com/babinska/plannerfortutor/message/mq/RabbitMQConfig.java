@@ -15,43 +15,71 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-    @Value("${rabbitmq.queue.json.name}")
-    private String jsonQueue;
+  @Value("${rabbitmq.queue.json.name}")
+  private String jsonQueue;
 
-    @Value("${rabbitmq.exchange.name}")
-    private String exchange;
+  @Value("${rabbitmq.exchange.name}")
+  private String exchange;
 
-    @Value("${rabbitmq.routing.json.key}")
-    private String routingJsonKey;
+  @Value("${rabbitmq.routing.json.key}")
+  private String routingJsonKey;
 
-    @Bean
-    public org.springframework.amqp.core.Queue jsonQueue(){
-      return new org.springframework.amqp.core.Queue(jsonQueue);
-    }
+  @Value("${rabbitmq.queue.json.name2}")
+  private String jsonQueue2;
 
-    @Bean
-    public TopicExchange exchange(){
-      return new TopicExchange(exchange);
-    }
+  @Value("${rabbitmq.exchange.name2}")
+  private String exchange2;
 
-    @Bean
-    public Binding jsonBinding(){
-      return BindingBuilder
-              .bind(jsonQueue())
-              .to(exchange())
-              .with(routingJsonKey);
-    }
 
-    @Bean
-    public MessageConverter converter(){
-      return new Jackson2JsonMessageConverter();
-    }
+  @Value("${rabbitmq.routing.json.key2}")
+  private String routingJsonKey2;
 
-    @Bean
-    public AmqpTemplate amqpTemplate(ConnectionFactory connectionFactory){
-      RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-      rabbitTemplate.setMessageConverter(converter());
-      return rabbitTemplate;
-    }
-
+  @Bean
+  public org.springframework.amqp.core.Queue jsonQueue() {
+    return new org.springframework.amqp.core.Queue(jsonQueue);
   }
+
+  @Bean
+  public TopicExchange exchange() {
+    return new TopicExchange(exchange);
+  }
+
+  @Bean
+  public Binding jsonBinding() {
+    return BindingBuilder
+            .bind(jsonQueue())
+            .to(exchange())
+            .with(routingJsonKey);
+  }
+
+  @Bean
+  public org.springframework.amqp.core.Queue jsonQueue2() {
+    return new org.springframework.amqp.core.Queue(jsonQueue2);
+  }
+
+  @Bean
+  public TopicExchange exchange2() {
+    return new TopicExchange(exchange2);
+  }
+
+  @Bean
+  public Binding jsonBinding2() {
+    return BindingBuilder
+            .bind(jsonQueue2())
+            .to(exchange2())
+            .with(routingJsonKey2);
+  }
+
+  @Bean
+  public MessageConverter converter() {
+    return new Jackson2JsonMessageConverter();
+  }
+
+  @Bean
+  public AmqpTemplate amqpTemplate(ConnectionFactory connectionFactory) {
+    RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+    rabbitTemplate.setMessageConverter(converter());
+    return rabbitTemplate;
+  }
+
+}
