@@ -1,5 +1,6 @@
 package com.babinska.plannerfortutor.lessonreservation;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -18,11 +19,12 @@ class LessonReservationRepositoryTest {
   @Autowired
   private LessonReservationRepository lessonReservationRepository;
 
-  @Test
-  void shouldSaveLessonReservation() {
+  LessonReservation lessonReservation;
 
-    //given
-    LessonReservation lessonReservation = new LessonReservation(
+  @BeforeEach
+  void saveLessonReservation() {
+
+    lessonReservation = new LessonReservation(
             null,
             LessonType.MATURDAY_COURSE,
             null,
@@ -32,8 +34,12 @@ class LessonReservationRepositoryTest {
             60,
             BigDecimal.valueOf(120));
 
-    //when
     lessonReservationRepository.save(lessonReservation);
+
+  }
+
+  @Test
+  void shouldSaveLessonReservation() {
 
     //then
     assertThat(lessonReservation.getId()).isGreaterThan(0);
@@ -43,19 +49,7 @@ class LessonReservationRepositoryTest {
   @Test
   void shouldFindLessonReservationById() {
 
-    //given
-    LessonReservation lessonReservation = new LessonReservation(
-            null,
-            LessonType.MATURDAY_COURSE,
-            null,
-            "test",
-            LocalDateTime.of(2023, 12, 12, 15, 25),
-            LocalDateTime.of(2023, 12, 12, 16, 25),
-            60,
-            BigDecimal.valueOf(120));
-
     //when
-    lessonReservationRepository.save(lessonReservation);
     Long id = lessonReservation.getId();
 
     //then
@@ -66,19 +60,6 @@ class LessonReservationRepositoryTest {
   @Test
   void shouldDeleteLessonReservation() {
 
-    //given
-    LessonReservation lessonReservation = new LessonReservation(
-            null,
-            LessonType.MATURDAY_COURSE,
-            null,
-            "test",
-            LocalDateTime.of(2023, 12, 12, 15, 25),
-            LocalDateTime.of(2023, 12, 12, 16, 25),
-            60,
-            BigDecimal.valueOf(120));
-
-    //when
-    lessonReservationRepository.save(lessonReservation);
     Long id = lessonReservation.getId();
     lessonReservationRepository.deleteById(id);
 
@@ -90,23 +71,12 @@ class LessonReservationRepositoryTest {
   @Test
   void shouldFindLessonReservationByStartDate() {
 
-    //given
-    LessonReservation lessonReservation = new LessonReservation(
-            null,
-            LessonType.MATURDAY_COURSE,
-            null,
-            "test",
-            LocalDateTime.of(2023, 12, 12, 15, 25),
-            LocalDateTime.of(2023, 12, 12, 16, 25),
-            60,
-            BigDecimal.valueOf(120));
-
     //when
-    lessonReservationRepository.save(lessonReservation);
     Set<Long> lessonReservationByStartDate = lessonReservationRepository.findLessonReservationByStartDate(LocalDate.of(2023, 12, 12));
 
     //then
     assertThat(lessonReservationByStartDate.size()).isGreaterThan(0);
 
   }
+
 }
