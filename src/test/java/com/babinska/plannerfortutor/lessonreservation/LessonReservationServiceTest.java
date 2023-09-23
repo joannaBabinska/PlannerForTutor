@@ -26,6 +26,7 @@ class LessonReservationServiceTest {
 
   @Test
   void shouldReturnLessonReservation() {
+
     //given
     LessonReservation lessonReservation = new LessonReservation
             (9999L,
@@ -36,6 +37,7 @@ class LessonReservationServiceTest {
                     LocalDateTime.of(2023, 12, 12, 16, 25),
                     60,
                     BigDecimal.valueOf(120));
+
     //when
     when(lessonReservationRepository.findById(9999L)).thenReturn(Optional.of(lessonReservation));
 
@@ -48,11 +50,12 @@ class LessonReservationServiceTest {
 
   @Test
   void shouldReturnLessonReservationNotFoundException() {
+
     //when
     when(lessonReservationRepository.findById(9999L)).thenReturn(Optional.empty());
 
     //then
-    assertThrows(LessonReservationNotFoundException.class, () -> lessonReservationService.getLessonReservationById(9999L) );
+    assertThrows(LessonReservationNotFoundException.class, () -> lessonReservationService.getLessonReservationById(9999L));
 
   }
 
