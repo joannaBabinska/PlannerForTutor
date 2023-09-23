@@ -1,5 +1,8 @@
 package com.babinska.plannerfortutor.lessonreservation;
 
+import com.babinska.plannerfortutor.student.SchoolClass;
+import com.babinska.plannerfortutor.student.Student;
+import com.babinska.plannerfortutor.student.StudentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -19,7 +23,10 @@ class LessonReservationRepositoryTest {
   @Autowired
   private LessonReservationRepository lessonReservationRepository;
 
-  LessonReservation lessonReservation;
+  @Autowired
+  private StudentRepository studentRepository;
+
+  private LessonReservation lessonReservation;
 
   @BeforeEach
   void saveLessonReservation() {
@@ -60,6 +67,7 @@ class LessonReservationRepositoryTest {
   @Test
   void shouldDeleteLessonReservation() {
 
+    //when
     Long id = lessonReservation.getId();
     lessonReservationRepository.deleteById(id);
 
@@ -76,6 +84,30 @@ class LessonReservationRepositoryTest {
 
     //then
     assertThat(lessonReservationByStartDate.size()).isGreaterThan(0);
+
+  }
+
+  @Test
+  void shouldFIndStudentIdForTheLessonId() {
+
+    //given
+    Set<Student> students = new HashSet<>();
+    Student student = new Student
+            (null,
+                    "Joanna",
+                    "Dębicka",
+                    "joanna@debicka.pl",
+                    "889988987",
+                    LocalDate.of(1999, 12, 10),
+                    SchoolClass.ELEMENTARY_SCHOOL_7TH_GRADE);
+
+    //when
+    studentRepository.save(student);
+    students.add(student);
+    lessonReservation.setStudents(students);
+
+    //then
+    assertThat(lessonReservationRepository.findStudentIdForTheLessonId(lessonReservation.getId()).size()).isGreaterThan(0);
 
   }
 
