@@ -35,4 +35,26 @@ class LessonReservationRepositoryTest {
 
   }
 
+  @Test
+  void shouldFindLessonReservationById(){
+    //given
+    LessonReservation lessonReservation= new LessonReservation(
+            null,
+            LessonType.MATURDAY_COURSE,
+            null,
+            "test",
+            LocalDateTime.of(2023, 12, 12, 15, 25),
+            LocalDateTime.of(2023, 12, 12, 16, 25),
+            60,
+            BigDecimal.valueOf(120));
+
+    //when
+    lessonReservationRepository.save(lessonReservation);
+    Long id = lessonReservation.getId();
+
+    //then
+    assertThat(lessonReservationRepository.findById(id).get()).isEqualTo(lessonReservation);
+
+  }
+
 }
