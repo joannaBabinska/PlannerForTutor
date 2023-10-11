@@ -62,3 +62,9 @@ preconfigured-users:
       email: adam.nowak@mail.com
       password: password
       role: USER
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
