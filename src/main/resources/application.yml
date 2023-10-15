@@ -5,14 +5,21 @@ server:
 spring:
   liquibase:
     change-log: classpath:/db/changelog/master.xml
-    enabled: true
   datasource:
-    url: jdbc:h2:mem:test
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    url: jdbc:mysql://localhost:3306/planner_for_tutor
+    password: admin
   jpa:
-    show-sql: true
     hibernate:
-      ddl-auto: validate
-  rabbitmq:
+      ddl-auto: update
+      show-sql: true
+      properties:
+        hibernate:
+          format_sql: true
+
+
+
     password: guest
     port: '5672'
     host: localhost
