@@ -1,5 +1,6 @@
 package com.babinska.plannerfortutor.student;
 
+import com.babinska.plannerfortutor.AbstractIntegrationTest;
 import com.babinska.plannerfortutor.message.mq.RabbitMQJsonProducer;
 import com.babinska.plannerfortutor.student.dto.StudentDto;
 import com.babinska.plannerfortutor.student.dto.StudentRegistrationDto;
@@ -9,15 +10,14 @@ import com.github.fge.jsonpatch.JsonPatchException;
 import com.github.fge.jsonpatch.mergepatch.JsonMergePatch;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
-class StudentControllerTest {
+class StudentControllerTest extends AbstractIntegrationTest {
 
   @Autowired
   StudentService studentService;
