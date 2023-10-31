@@ -47,3 +47,18 @@ rabbitmq:
     name: email_exchange
     name2: email_exchange2
 
+preconfigured-users:
+  enabled: true
+  users:
+    -
+      firstName: Jan
+      lastName: Kowalski
+      email: jan.kowalski@mail.com
+      password: password
+      role: ADMIN
+    -
+      firstName: Adam
+      lastName: Nowak
+      email: adam.nowak@mail.com
+      password: password
+      role: USER
