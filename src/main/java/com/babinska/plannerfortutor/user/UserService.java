@@ -2,6 +2,7 @@ package com.babinska.plannerfortutor.user;
 
 import com.babinska.plannerfortutor.configuration.PreConfiguredUsersConfiguration;
 import com.babinska.plannerfortutor.auth.RegisterRequest;
+import com.babinska.plannerfortutor.validation.passwordvalidator.PasswordValidationStrategy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,10 +17,13 @@ public class UserService {
 
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
+  private final PasswordValidationStrategy passwordValidationStrategy;
 
   public UserDetails create(RegisterRequest request) {
 
-    // TODO validate unique email; strong password (8 chars, big letter, numeric sing, special sign, etc...)
+    // TODO validate unique email;
+
+    passwordValidationStrategy.validate(request.getPassword(), Role.USER);
 
     User userToSave = User.builder()
         .firstName(request.getFirstname())
@@ -38,7 +42,9 @@ public class UserService {
 
   public void create(PreConfiguredUsersConfiguration.User user) {
 
-    // TODO validate unique email; strong password (8 chars, big letter, numeric sing, special sign, etc...)
+    // TODO validate unique email;
+
+    passwordValidationStrategy.validate(user.getPassword(), user.getRole());
 
     User userToSave = User.builder()
         .firstName(user.getFirstName())
