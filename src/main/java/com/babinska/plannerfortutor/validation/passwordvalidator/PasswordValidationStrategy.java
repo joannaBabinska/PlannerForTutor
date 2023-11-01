@@ -1,5 +1,6 @@
 package com.babinska.plannerfortutor.validation.passwordvalidator;
 
+import com.babinska.plannerfortutor.exception.PasswordToWeakException;
 import com.babinska.plannerfortutor.user.Role;
 import com.babinska.plannerfortutor.validation.ValidationResult;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ public class PasswordValidationStrategy {
 
     if (validationResult.hasErrors()) {
       String messages = String.join(", ", validationResult.getErrors());
-      throw new RuntimeException("Password is not valid. Errors: " + messages);
+      throw new PasswordToWeakException("Password is not strong enough: " +  messages);
     }
   }
 
