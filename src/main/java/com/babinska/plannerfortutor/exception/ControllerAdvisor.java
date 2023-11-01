@@ -1,43 +1,29 @@
 package com.babinska.plannerfortutor.exception;
 
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
-public class ControllerAdvisor {
+class ControllerAdvisor {
 
-  @ExceptionHandler(DayIsNotWorkingException.class)
-  public ResponseEntity<?> handle (DayIsNotWorkingException ex) {
-    return  ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+  @ExceptionHandler(PlannerException.class)
+  public ResponseEntity<Object> handle(PlannerException ex) {
+    return ResponseEntity
+        .status(resolveHttpStatusCode(ex).orElse(HttpStatus.BAD_REQUEST))
+        .body(ex.getMessage());
   }
 
-  @ExceptionHandler(LessonReservationNotFoundException.class)
-  public ResponseEntity<?> handle(LessonReservationNotFoundException ex) {
-    return ResponseEntity.notFound().build();
-  }
-
-  @ExceptionHandler(StudentNotFoundException.class)
-  public ResponseEntity<?> handle(StudentNotFoundException ex) {
-    return ResponseEntity.notFound().build();
-  }
-
-  @ExceptionHandler(StudentAlreadyAddedToLessonException.class)
-  public ResponseEntity<?> handle(StudentAlreadyAddedToLessonException ex) {
-    return ResponseEntity.status(HttpStatus.CONFLICT).build();
-  }
-
-  @ExceptionHandler(LessonOverlapException.class)
-  public ResponseEntity<?> handle(LessonOverlapException ex) {
-    return ResponseEntity.status(HttpStatus.CONFLICT).build();
-  }
-
-  @ExceptionHandler(jakarta.validation.ConstraintViolationException.class)
-  public ResponseEntity<List<String>> handle(jakarta.validation.ConstraintViolationException ex) {
+  @ExceptionHandler(ConstraintViolationException.class)
+  public ResponseEntity<List<String>> handle(ConstraintViolationException ex) {
 
     List<String> errors = ex.getConstraintViolations().stream()
             .map(constraintViolation -> String.format("%s wartość '%s' %s", constraintViolation.getPropertyPath(),
@@ -55,6 +41,14 @@ public class ControllerAdvisor {
             .collect(Collectors.toList());
 
     return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+  }
+
+  private Optional<HttpStatus> resolveHttpStatusCode(final PlannerException ex) {
+    if (ex.getClass().isAnnotationPresent(ResponseStatus.class)) {
+      ResponseStatus responseStatus = ex.getClass().getAnnotation(ResponseStatus.class);
+      return Optional.of(responseStatus.value());
+    }
+    return Optional.empty();
   }
 
 }
