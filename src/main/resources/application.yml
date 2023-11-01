@@ -54,11 +54,11 @@ preconfigured-users:
       firstName: Jan
       lastName: Kowalski
       email: jan.kowalski@mail.com
-      password: password
+      password: P@sssw00rd
       role: ADMIN
     -
       firstName: Adam
       lastName: Nowak
       email: adam.nowak@mail.com
-      password: password
+      password: P@ssw0rd
       role: USER

@@ -21,7 +21,7 @@ class AdminPasswordValidator implements PasswordValidator {
       validationResult.addError("Password can have maximum 20 chars");
     }
 
-    if (password.chars().filter(Character::isDigit).count() <= 2) {
+    if (password.chars().filter(Character::isDigit).count() < 2) {
       validationResult.addError("Password must contain two digits");
     }
 
