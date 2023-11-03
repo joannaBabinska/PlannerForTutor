@@ -2,36 +2,37 @@ package com.babinska.plannerfortutor.validation.passwordvalidator;
 
 import com.babinska.plannerfortutor.user.Role;
 import com.babinska.plannerfortutor.validation.ValidationResult;
+import com.babinska.plannerfortutor.vo.Password;
 import org.springframework.stereotype.Component;
 
 @Component
 class UserPasswordValidator implements PasswordValidator {
 
   @Override
-  public ValidationResult validate(final String password) {
+  public ValidationResult validate(final Password password) {
     final ValidationResult validationResult = ValidationResult.create();
 
-    if (password.length() < 8) {
+    if (password.isShorterThan(8)) {
       validationResult.addError("Password must have at least 8 chars");
     }
 
-    if (password.length() > 20) {
+    if (password.isLongerThan(20)) {
       validationResult.addError("Password can have maximum 20 chars");
     }
 
-    if (password.chars().noneMatch(Character::isDigit)) {
+    if (password.containsCharacterType(Character::isDigit)) {
       validationResult.addError("Password must contain digit");
     }
 
-    if (password.chars().noneMatch(Character::isUpperCase)) {
+    if (password.containsCharacterType(Character::isUpperCase)) {
       validationResult.addError("Password must contain upper case letter");
     }
 
-    if (password.chars().noneMatch(Character::isLowerCase)) {
+    if (password.containsCharacterType(Character::isLowerCase)) {
       validationResult.addError("Password must contain lower case letter");
     }
 
-    if (password.contains(" ")) {
+    if (password.containsWhitespaces()) {
       validationResult.addError("Password cant contain whitespaces");
     }
 

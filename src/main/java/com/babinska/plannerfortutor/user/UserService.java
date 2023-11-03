@@ -3,6 +3,7 @@ package com.babinska.plannerfortutor.user;
 import com.babinska.plannerfortutor.configuration.PreConfiguredUsersConfiguration;
 import com.babinska.plannerfortutor.auth.RegisterRequest;
 import com.babinska.plannerfortutor.validation.passwordvalidator.PasswordValidationStrategy;
+import com.babinska.plannerfortutor.vo.Password;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,7 +24,7 @@ public class UserService {
 
     // TODO validate unique email;
 
-    passwordValidationStrategy.validate(request.getPassword(), Role.USER);
+    passwordValidationStrategy.validate(new Password(request.getPassword()), Role.USER);
 
     User userToSave = User.builder()
         .firstName(request.getFirstname())
@@ -44,7 +45,7 @@ public class UserService {
 
     // TODO validate unique email;
 
-    passwordValidationStrategy.validate(user.getPassword(), user.getRole());
+    passwordValidationStrategy.validate(new Password(user.getPassword()), user.getRole());
 
     User userToSave = User.builder()
         .firstName(user.getFirstName())

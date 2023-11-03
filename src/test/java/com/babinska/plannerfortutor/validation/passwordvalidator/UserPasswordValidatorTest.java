@@ -1,6 +1,7 @@
 package com.babinska.plannerfortutor.validation.passwordvalidator;
 
 import com.babinska.plannerfortutor.validation.ValidationResult;
+import com.babinska.plannerfortutor.vo.Password;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,7 @@ class UserPasswordValidatorTest {
 
   @Test
   void shouldBeNotValidForPasswordShorterThan8Characters() {
-    String candidate = "aA!4567";
+    Password candidate = new Password("aA!4567");
 
     ValidationResult result = underTest.validate(candidate);
 
@@ -33,7 +34,7 @@ class UserPasswordValidatorTest {
 
   @Test
   void shouldBeNotValidForPasswordContainingWhitespace() {
-    String candidate = "aA!4567  asd";
+    Password candidate = new Password("aA!4567  asd");
 
     ValidationResult result = underTest.validate(candidate);
 
@@ -44,7 +45,7 @@ class UserPasswordValidatorTest {
 
   @Test
   void shouldBeNotValidForPasswordContainingWhitespaces() {
-    String candidate = "aA!4567  asd  asd";
+    Password candidate = new Password("aA!4567  asd  asd");
 
     ValidationResult result = underTest.validate(candidate);
 
@@ -55,7 +56,7 @@ class UserPasswordValidatorTest {
 
   @Test
   void shouldBeNotValidForPasswordLongerThan20CharactersAndNotContainingDigitAndUpperCaseLetter() {
-    String candidate = "abcdeabcdeabcdeabcdea";
+    Password candidate = new Password("abcdeabcdeabcdeabcdea");
 
     ValidationResult result = underTest.validate(candidate);
 
@@ -71,7 +72,7 @@ class UserPasswordValidatorTest {
 
   @Test
   void shouldBeValidPassword() {
-    String candidate = "aA1!jsdf7";
+    Password candidate = new Password("aA1!jsdf7");
 
     ValidationResult result = underTest.validate(candidate);
 

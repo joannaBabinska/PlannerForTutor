@@ -2,43 +2,42 @@ package com.babinska.plannerfortutor.validation.passwordvalidator;
 
 import com.babinska.plannerfortutor.user.Role;
 import com.babinska.plannerfortutor.validation.ValidationResult;
+import com.babinska.plannerfortutor.vo.Password;
 import org.springframework.stereotype.Component;
-
-import java.util.regex.Pattern;
 
 @Component
 class AdminPasswordValidator implements PasswordValidator {
 
   @Override
-  public ValidationResult validate(final String password) {
+  public ValidationResult validate(final Password password) {
     final ValidationResult validationResult = ValidationResult.create();
 
-    if (password.length() < 10) {
+    if (password.isLongerThan(10)) {
       validationResult.addError("Password must have at least 10 chars");
     }
 
-    if (password.length() > 25) {
+    if (password.isLongerThan(25)) {
       validationResult.addError("Password can have maximum 20 chars");
     }
 
-    if (password.chars().filter(Character::isDigit).count() < 2) {
+    if (password.value().chars().filter(Character::isDigit).count() < 2) {
       validationResult.addError("Password must contain two digits");
     }
 
-    if (password.chars().noneMatch(Character::isUpperCase)) {
+    if (!password.containsCharacterType(Character::isLowerCase)) {
       validationResult.addError("Password must contain upper case letter");
     }
 
-    if (password.chars().noneMatch(Character::isLowerCase)) {
+    if (!password.containsCharacterType(Character::isLowerCase)) {
       validationResult.addError("Password must contain lower case letter");
     }
 
-    if (!Pattern.compile("[!@#$%&*()_+=|<>?{}\\[\\]~-]").matcher(password).find()) {
+    if (!password.containsSpecialCharacter()) {
       validationResult.addError("Password must contain special character");
     }
 
-    if (password.contains(" ")) {
-      validationResult.addError("Password cant contain whitespaces");
+    if (password.containsWhitespaces()) {
+      validationResult.addError("Password can't contain whitespaces");
     }
 
     return validationResult;

@@ -3,6 +3,7 @@ package com.babinska.plannerfortutor.validation.passwordvalidator;
 import com.babinska.plannerfortutor.exception.PasswordToWeakException;
 import com.babinska.plannerfortutor.user.Role;
 import com.babinska.plannerfortutor.validation.ValidationResult;
+import com.babinska.plannerfortutor.vo.Password;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +15,7 @@ public class PasswordValidationStrategy {
 
   private final List<PasswordValidator> passwordValidators;
 
-  public void validate(String password, Role role) {
+  public void validate(Password password, Role role) {
     final ValidationResult validationResult = passwordValidators.stream()
         .filter(passwordValidator -> passwordValidator.canValidatePasswordFor(role))
         .findFirst()

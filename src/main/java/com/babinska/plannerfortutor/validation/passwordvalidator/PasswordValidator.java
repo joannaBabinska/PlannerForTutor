@@ -3,10 +3,11 @@ package com.babinska.plannerfortutor.validation.passwordvalidator;
 import com.babinska.plannerfortutor.user.Role;
 import com.babinska.plannerfortutor.validation.NotificationValidator;
 import com.babinska.plannerfortutor.validation.ValidationResult;
+import com.babinska.plannerfortutor.vo.Password;
 
-interface PasswordValidator extends NotificationValidator<String> {
+interface PasswordValidator extends NotificationValidator<Password> {
 
-  ValidationResult validate(String password);
+  ValidationResult validate(Password password);
 
   boolean canValidatePasswordFor(Role role);
 
