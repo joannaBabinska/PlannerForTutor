@@ -1,6 +1,7 @@
 package com.babinska.plannerfortutor.student;
 
 import com.babinska.plannerfortutor.aspect.TrackExecutionTime;
+import com.babinska.plannerfortutor.email.EmailType;
 import com.babinska.plannerfortutor.exception.StudentNotFoundException;
 import com.babinska.plannerfortutor.lessonreservation.LessonReservationService;
 import com.babinska.plannerfortutor.message.EmailService;
@@ -35,6 +36,7 @@ public class StudentService {
     Student student = StudentMapper.map(studentRegistrationDto);
     Student savedStudent = studentRepository.save(student);
     emailService.sendWelcomeEmail(StudentMapper.mapToStudentWelcomeMessageDto(savedStudent));
+    emailService.sendEmail(EmailType.STUDENT_WELCOME_EMAIL, savedStudent.getEmail(), savedStudent.getFirstName());
     return StudentMapper.map(savedStudent);
   }
 
@@ -56,9 +58,14 @@ public class StudentService {
   }
 
   public void deleteStudent(Long studentId) {
-    Set<Long> lessonIdForTheStudent = getLessonsIdForTheStudent(studentId);
-    lessonIdForTheStudent.forEach(lessonId -> lessonReservationService.deleteStudentFromLessonReservation(lessonId, studentId));
-    studentRepository.deleteById(studentId);
+    studentRepository.findById(studentId)
+        .ifPresent(student -> {
+              Set<Long> lessonIdForTheStudent = getLessonsIdForTheStudent(studentId);
+              lessonIdForTheStudent.forEach(lessonId -> lessonReservationService.deleteStudentFromLessonReservation(lessonId, studentId));
+              studentRepository.deleteById(studentId);
+              emailService.sendEmail(EmailType.STUDENT_GOODBYE_EMAIL, student.getEmail(), student.getFirstName());
+            }
+        );
   }
 
   private Student applyPatch(JsonMergePatch jsonMergePatch, StudentRegistrationDto studentRegistrationDto) throws JsonPatchException, JsonProcessingException {

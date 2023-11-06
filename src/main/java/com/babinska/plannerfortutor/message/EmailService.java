@@ -1,5 +1,8 @@
 package com.babinska.plannerfortutor.message;
 
+import com.babinska.plannerfortutor.email.Email;
+import com.babinska.plannerfortutor.email.EmailType;
+import com.babinska.plannerfortutor.email.student.StudentEmailFactory;
 import com.babinska.plannerfortutor.lessonreservation.dto.LessonReservationStudentsDto;
 import com.babinska.plannerfortutor.lessonreservation.dto.LessonReservationStudentDto;
 import com.babinska.plannerfortutor.message.mq.RabbitMQJsonProducer;
@@ -15,6 +18,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class EmailService {
 
+  private final StudentEmailFactory studentEmailFactory;
   private final RabbitMQJsonProducer jsonProducer;
 
   // tu trzeba dodac to automatycvzne sprawdzenie pewnie bedzie trzeba dodać jesszcze jakiś lekcji żeby sprawdzić czy działą
@@ -32,6 +36,11 @@ public class EmailService {
     jsonProducer.sendJsonMessage2(lessonReservationStudentDto);
     log.info("Send email -> {}",lessonReservationStudentDto);
 
+  }
+
+  public void sendEmail(final EmailType emailType, final String email, final String firstName) {
+    final Email emailToSend = studentEmailFactory.create(emailType, email, firstName);
+    jsonProducer.sendJsonMessage(emailToSend);
   }
 
 }
