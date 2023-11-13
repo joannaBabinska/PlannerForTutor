@@ -1,7 +1,8 @@
 package com.babinska.plannerfortutor.student;
 
 import com.babinska.plannerfortutor.aspect.TrackExecutionTime;
-import com.babinska.plannerfortutor.student.dto.StudentCsvDownloadFile;
+import com.babinska.plannerfortutor.common.FileFormat;
+import com.babinska.plannerfortutor.student.dto.StudentDownloadFile;
 import com.babinska.plannerfortutor.student.dto.StudentDto;
 import com.babinska.plannerfortutor.student.dto.StudentRegistrationDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -28,6 +29,7 @@ public class StudentController {
 
   private final StudentService studentService;
   private final StudentCsvService studentCsvService;
+  private final StudentFilesGenerator studentFilesGenerator;
 
   @GetMapping("/{id}")
   public ResponseEntity<StudentDto> getStudentById(@PathVariable Long id) {
@@ -69,21 +71,23 @@ public class StudentController {
     return ResponseEntity.noContent().build();
   }
 
-  @PostMapping("/files/csv/upload/single")
+  @PostMapping("/files/upload/csv/single")
   public ResponseEntity<Void> uploadCsvFile(@RequestParam("file") MultipartFile file) {
     studentCsvService.uploadFile(file);
     return ResponseEntity.noContent().build();
   }
 
-  @PostMapping("/files/csv/upload")
+  @PostMapping("/files/upload/csv")
   public ResponseEntity<Void> uploadCsvFiles(@RequestParam("files") MultipartFile[] files) {
     studentCsvService.uploadFiles(files);
     return ResponseEntity.noContent().build();
   }
 
-  @GetMapping("/files/csv/download")
-  public ResponseEntity<byte[]> downloadCsvFile(@RequestParam(value = "sort", defaultValue = "id,asc") String[] sort) {
-    StudentCsvDownloadFile file = studentCsvService.generateFile(null); // TODO create utility class; eg. SortUtils.createFrom(sort);
+  @GetMapping("/files/download")
+  public ResponseEntity<byte[]> downloadFile(
+      @RequestParam(value = "fileFormat") FileFormat fileFormat,
+      @RequestParam(value = "sort", defaultValue = "id,asc") String[] sort) {
+    StudentDownloadFile file = studentFilesGenerator.generateFile(fileFormat, null); // TODO create utility class; eg. SortUtils.createFrom(sort);
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
     headers.setContentDispositionFormData("attachment", file.name());
