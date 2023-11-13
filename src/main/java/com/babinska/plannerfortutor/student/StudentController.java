@@ -1,6 +1,8 @@
 package com.babinska.plannerfortutor.student;
 
 import com.babinska.plannerfortutor.aspect.TrackExecutionTime;
+import com.babinska.plannerfortutor.common.FileFormat;
+import com.babinska.plannerfortutor.student.dto.StudentDownloadFile;
 import com.babinska.plannerfortutor.student.dto.StudentDto;
 import com.babinska.plannerfortutor.student.dto.StudentRegistrationDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -9,8 +11,12 @@ import com.github.fge.jsonpatch.mergepatch.JsonMergePatch;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
@@ -22,9 +28,10 @@ import java.net.URI;
 public class StudentController {
 
   private final StudentService studentService;
+  private final StudentCsvService studentCsvService;
+  private final StudentFilesGenerator studentFilesGenerator;
 
   @GetMapping("/{id}")
-
   public ResponseEntity<StudentDto> getStudentById(@PathVariable Long id) {
     return ResponseEntity.ok(studentService.getStudentById(id));
   }
@@ -58,10 +65,33 @@ public class StudentController {
     return ResponseEntity.ok(savedStudentDto);
   }
 
-  @DeleteMapping("/{id}" )
-  public ResponseEntity<?> deleteStudent(@PathVariable Long id) {
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
     studentService.deleteStudent(id);
-    return ResponseEntity.ok().build();
+    return ResponseEntity.noContent().build();
+  }
+
+  @PostMapping("/files/upload/csv/single")
+  public ResponseEntity<Void> uploadCsvFile(@RequestParam("file") MultipartFile file) {
+    studentCsvService.uploadFile(file);
+    return ResponseEntity.noContent().build();
+  }
+
+  @PostMapping("/files/upload/csv")
+  public ResponseEntity<Void> uploadCsvFiles(@RequestParam("files") MultipartFile[] files) {
+    studentCsvService.uploadFiles(files);
+    return ResponseEntity.noContent().build();
+  }
+
+  @GetMapping("/files/download")
+  public ResponseEntity<byte[]> downloadFile(
+      @RequestParam(value = "fileFormat") FileFormat fileFormat,
+      @RequestParam(value = "sort", defaultValue = "id,asc") String[] sort) {
+    StudentDownloadFile file = studentFilesGenerator.generateFile(fileFormat, null); // TODO create utility class; eg. SortUtils.createFrom(sort);
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+    headers.setContentDispositionFormData("attachment", file.name());
+    return new ResponseEntity<>(file.content(), headers, HttpStatus.OK);
   }
 
 }
