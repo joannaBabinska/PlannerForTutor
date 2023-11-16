@@ -40,6 +40,11 @@ public class UserService {
 
     // TODO validate unique email; strong password (8 chars, big letter, numeric sing, special sign, etc...)
 
+    if (userRepository.existsByEmail(user.getEmail())) {
+      log.info("User with email: {} already exists. Skipping.", user.getEmail());
+      return;
+    }
+
     User userToSave = User.builder()
         .firstName(user.getFirstName())
         .lastName(user.getLastName())

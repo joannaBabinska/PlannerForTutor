@@ -23,6 +23,7 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 @EnableWebSecurity
 @RequiredArgsConstructor
 @EnableMethodSecurity
+
 public class SecurityConfiguration {
 
   private final JwtAuthenticationFilter jwtAuthFilter;
@@ -35,8 +36,6 @@ public class SecurityConfiguration {
             .headers(headers -> headers.frameOptions(FrameOptionsConfig::disable))
             .authorizeHttpRequests(authorize -> authorize
                     .requestMatchers(antMatcher("/auth/**")).permitAll()
-                    .requestMatchers(antMatcher("/statistic/**")).hasAnyRole(ADMIN.name())
-                    .requestMatchers(GET,"/statistic/**").hasAnyAuthority(ADMIN_READ.name())
                     .requestMatchers(PathRequest.toH2Console()).permitAll()
                     .anyRequest().authenticated()
             )
