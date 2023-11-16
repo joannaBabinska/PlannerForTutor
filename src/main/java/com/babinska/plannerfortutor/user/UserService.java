@@ -46,6 +46,11 @@ public class UserService {
 
     passwordValidationStrategy.validate(user.getPassword(), user.getRole());
 
+    if (userRepository.existsByEmail(user.getEmail())) {
+      log.info("User with email: {} already exists. Skipping.", user.getEmail());
+      return;
+    }
+
     User userToSave = User.builder()
         .firstName(user.getFirstName())
         .lastName(user.getLastName())
