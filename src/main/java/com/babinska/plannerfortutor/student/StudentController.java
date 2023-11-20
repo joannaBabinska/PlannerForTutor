@@ -71,14 +71,14 @@ public class StudentController {
     return ResponseEntity.noContent().build();
   }
 
-  @PostMapping("/files/upload/csv/single")
-  public ResponseEntity<Void> uploadCsvFile(@RequestParam("file") MultipartFile file) {
+  @PostMapping(value = "/files/upload/csv/single",consumes = {"multipart/form-data"})
+  public ResponseEntity<Void> uploadStudentCsvFile(@RequestParam("file") MultipartFile file) {
     studentCsvService.uploadFile(file);
     return ResponseEntity.noContent().build();
   }
 
-  @PostMapping("/files/upload/csv")
-  public ResponseEntity<Void> uploadCsvFiles(@RequestParam("files") MultipartFile[] files) {
+  @PostMapping(value = "/files/upload/csv", consumes = {"multipart/form-data"})
+  public ResponseEntity<Void> uploadStudentCsvFiles(@RequestParam("files") MultipartFile[] files) {
     studentCsvService.uploadFiles(files);
     return ResponseEntity.noContent().build();
   }

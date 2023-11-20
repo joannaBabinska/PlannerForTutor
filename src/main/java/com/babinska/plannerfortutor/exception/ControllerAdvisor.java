@@ -36,6 +36,11 @@ public class ControllerAdvisor {
     return ResponseEntity.status(HttpStatus.CONFLICT).build();
   }
 
+  @ExceptionHandler(UploadFileExceptions.class)
+  public ResponseEntity <?> handle(UploadFileExceptions ex) {
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+  }
+
   @ExceptionHandler(jakarta.validation.ConstraintViolationException.class)
   public ResponseEntity<List<String>> handle(jakarta.validation.ConstraintViolationException ex) {
 
