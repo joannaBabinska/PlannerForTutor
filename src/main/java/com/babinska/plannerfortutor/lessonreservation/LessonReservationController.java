@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
@@ -26,18 +27,21 @@ public class LessonReservationController {
 
   public final LessonReservationService lessonReservationService;
 
+  @PreAuthorize("hasPermission(user,read)")
   @GetMapping("/{id}" )
   ResponseEntity<LessonReservationDto> getLessonReservationById(@PathVariable Long id) {
     LessonReservationDto lessonReservationDto = lessonReservationService.getLessonReservationById(id);
     return ResponseEntity.ok(lessonReservationDto);
   }
 
+  @PreAuthorize("hasPermission('user:read')")
   @GetMapping("/{id}/all" )
   ResponseEntity<LessonReservationStudentsDto> getAllLessonReservationInformation(@PathVariable Long id) {
     LessonReservationStudentsDto lessonReservationAllInformation = lessonReservationService.getAllInformation(id);
     return ResponseEntity.ok(lessonReservationAllInformation);
   }
 
+  @PreAuthorize("hasPermission('admin:read')")
   @GetMapping("/students" )
   ResponseEntity<Set<String>> getStudentForTheDay(@RequestParam LocalDate date) {
     Set<String> students = lessonReservationService.getStudentForTheDay(date);
@@ -45,6 +49,7 @@ public class LessonReservationController {
   }
 
   @PostMapping
+  @PreAuthorize("hasAnyRole('USER','ADMIN')")
   public ResponseEntity<LessonReservationDto> addLessonReservation
           (@Valid @RequestBody LessonReservationRegistrationDto lessonReservationRegistrationDto) {
     LessonReservationDto lessonReservationDto = lessonReservationService.addLessonReservation(lessonReservationRegistrationDto);
@@ -60,6 +65,7 @@ public class LessonReservationController {
   }
 
   @PutMapping("/{id}" )
+  @PreAuthorize("hasPermission('admin:update')")
   public ResponseEntity<LessonReservationDto> replaceLessonReservation
           (@PathVariable Long id, @Valid @RequestBody LessonReservationRegistrationDto lessonReservationRegistrationDto) {
     LessonReservationDto savedLessonReservationDto = lessonReservationService.replaceLessonReservation(id, lessonReservationRegistrationDto);
