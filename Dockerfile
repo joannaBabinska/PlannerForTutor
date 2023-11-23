@@ -1,5 +1,5 @@
-FROM openjdk:17
+FROM eclipse-temurin:17-jdk-alpine
 WORKDIR /planner
-COPY target/PlannerForTutor-0.0.1-SNAPSHOT.jar /planner
+COPY /target/planner.jar /planner.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "PlannerForTutor-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "planner.jar"]
