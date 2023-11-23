@@ -40,7 +40,7 @@ rabbitmq:
     name2: email_exchange2
 
 preconfigured-users:
-  enabled: true
+  enabled: false
   users:
     -
       firstName: Jan

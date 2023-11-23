@@ -26,7 +26,7 @@ public class ExecutionTimeAdvice {
   public void typeAnnotated() {
   }
 
-  @Pointcut("@annotation (com.babinska.plannerfortutor.aspect.TrackExecutionTime)")
+  @Pointcut("@annotation(com.babinska.plannerfortutor.aspect.TrackExecutionTime)")
   public void methodAnnotated() {
   }
 
