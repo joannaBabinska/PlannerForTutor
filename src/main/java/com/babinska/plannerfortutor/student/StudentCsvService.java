@@ -1,5 +1,6 @@
 package com.babinska.plannerfortutor.student;
 
+import com.babinska.plannerfortutor.aspect.TrackExecutionTime;
 import com.babinska.plannerfortutor.exception.UploadFileExceptions;
 import com.babinska.plannerfortutor.student.dto.StudentCsvRepresentation;
 import com.opencsv.bean.CsvToBean;
@@ -20,6 +21,7 @@ import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
+@TrackExecutionTime
 class StudentCsvService {
 
     private final StudentRepository studentRepository;
@@ -36,30 +38,31 @@ class StudentCsvService {
         studentRepository.saveAll(students);
     }
 
-
     private Set<Student> parseCsv(MultipartFile file) {
         try (Reader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
             HeaderColumnNameMappingStrategy<StudentCsvRepresentation> strategy = new HeaderColumnNameMappingStrategy<>();
             strategy.setType(StudentCsvRepresentation.class);
             CsvToBean<StudentCsvRepresentation> csvToBean = new CsvToBeanBuilder<StudentCsvRepresentation>(reader)
+                    .withMappingStrategy(strategy)
                     .withIgnoreEmptyLine(true)
                     .withIgnoreLeadingWhiteSpace(true)
-                    .withMappingStrategy(strategy)
                     .build();
             return csvToBean.parse()
                     .stream()
-                    .map(csvLine -> Student.builder()
-                            .firstName(csvLine.firstName())
-                            .lastName(csvLine.lastName())
-                            .email(csvLine.email())
-                            .dateOfBirth(csvLine.dateOfBirth())
-                            .phoneNumber(csvLine.phoneNumber())
-                            .build())
+                    .map(csvLine ->
+                        Student.builder()
+                            .firstName(csvLine.getFirstName())
+                            .lastName(csvLine.getLastName())
+                            .email(csvLine.getEmail())
+                            .dateOfBirth(csvLine.getDateOfBirth())
+                            .phoneNumber(csvLine.getPhoneNumber())
+                            .schoolClass(csvLine.getSchoolClass())
+                            .build()
+                    )
                     .collect(Collectors.toSet());
-
-
         } catch (IOException e) {
             throw new UploadFileExceptions(file.getName());
         }
     }
+
 }

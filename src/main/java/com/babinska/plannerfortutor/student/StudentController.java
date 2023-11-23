@@ -26,7 +26,6 @@ import java.net.URI;
 @RequestMapping("/students")
 @RequiredArgsConstructor
 @TrackExecutionTime
-@PreAuthorize("hasRole('ADMIN')")
 public class StudentController {
 
   private final StudentService studentService;
@@ -80,7 +79,7 @@ public class StudentController {
   }
 
   @PostMapping(value = "/files/upload/csv", consumes = {"multipart/form-data"})
-  public ResponseEntity<Void> uploadStudentCsvFiles(@RequestParam("files") MultipartFile[] files) {
+  public ResponseEntity<Void> uploadStudentCsvFiles(@RequestParam("file") MultipartFile[] files) {
     studentCsvService.uploadFiles(files);
     return ResponseEntity.noContent().build();
   }
