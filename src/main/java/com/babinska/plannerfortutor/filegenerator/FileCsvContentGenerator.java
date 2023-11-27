@@ -1,8 +1,10 @@
 package com.babinska.plannerfortutor.filegenerator;
 
 import com.babinska.plannerfortutor.common.FileFormat;
+import com.babinska.plannerfortutor.exception.DownloadPdfException;
 import com.babinska.plannerfortutor.student.dto.StudentsDownloadsView;
 import com.opencsv.CSVWriter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
@@ -13,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
+@Slf4j
 class FileCsvContentGenerator implements FileContentGenerator {
     @Override
     public byte[] generateFile(List<StudentsDownloadsView> inputData) {
@@ -34,7 +37,8 @@ class FileCsvContentGenerator implements FileContentGenerator {
             return outputStream.toByteArray();
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            log.error("handling exceptions..",e);
+            throw new DownloadPdfException();
         }
     }
 

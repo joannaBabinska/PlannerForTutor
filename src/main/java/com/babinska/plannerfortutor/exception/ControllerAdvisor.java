@@ -46,6 +46,16 @@ public class ControllerAdvisor {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex);
   }
 
+  @ExceptionHandler(DownloadCsvException.class)
+  public ResponseEntity<?> handle(DownloadCsvException ex) {
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex);
+  }
+
+  @ExceptionHandler(DownloadPdfException.class)
+  public ResponseEntity<?> handle(DownloadPdfException ex) {
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex);
+  }
+
   @ExceptionHandler(jakarta.validation.ConstraintViolationException.class)
   public ResponseEntity<List<String>> handle(jakarta.validation.ConstraintViolationException ex) {
 
