@@ -15,7 +15,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -91,7 +90,7 @@ public class StudentController {
     StudentDownloadFile file = studentFilesGenerator.generateFile(fileFormat, null); // TODO create utility class; eg. SortUtils.createFrom(sort);
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-    headers.setContentDispositionFormData("attachment", file.name());
+    headers.set(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=" + file.name());
     return new ResponseEntity<>(file.content(), headers, HttpStatus.OK);
   }
 
