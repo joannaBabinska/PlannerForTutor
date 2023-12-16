@@ -11,12 +11,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static com.babinska.plannerfortutor.user.Permission.ADMIN_READ;
-import static com.babinska.plannerfortutor.user.Role.ADMIN;
-import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 @Configuration
@@ -26,23 +24,29 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 
 public class SecurityConfiguration {
 
-  private final JwtAuthenticationFilter jwtAuthFilter;
-  private final AuthenticationProvider authenticationProvider;
+    private final JwtAuthenticationFilter jwtAuthFilter;
+    private final AuthenticationProvider authenticationProvider;
+    private final LogoutService logoutService;
 
-  @Bean
-  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http
-            .csrf(CsrfConfigurer::disable)
-            .headers(headers -> headers.frameOptions(FrameOptionsConfig::disable))
-            .authorizeHttpRequests(authorize -> authorize
-                    .requestMatchers(antMatcher("/auth/**")).permitAll()
-                    .requestMatchers(PathRequest.toH2Console()).permitAll()
-                    .anyRequest().authenticated()
-            )
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authenticationProvider(authenticationProvider)
-            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-    return http.build();
-  }
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(CsrfConfigurer::disable)
+                .headers(headers -> headers.frameOptions(FrameOptionsConfig::disable))
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(antMatcher("/auth/**")).permitAll()
+                        .requestMatchers(PathRequest.toH2Console()).permitAll()
+                        .anyRequest().authenticated()
+                )
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authenticationProvider(authenticationProvider)
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .logout((logout) -> logout.logoutUrl("/auth/logout")
+                        .addLogoutHandler(logoutService)
+                        .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
+                );
+
+        return http.build();
+    }
 
 }
