@@ -5,6 +5,7 @@ server:
 spring:
   liquibase:
     change-log: classpath:/db/changelog/master.xml
+    drop-first: true
   datasource:
     url: jdbc:postgresql://localhost:5433/planner
     username: planner
@@ -40,7 +41,7 @@ rabbitmq:
     name2: email_exchange2
 
 preconfigured-users:
-  enabled: false
+  enabled: true
   users:
     -
       firstName: Jan
