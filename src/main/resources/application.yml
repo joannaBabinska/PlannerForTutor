@@ -55,3 +55,11 @@ preconfigured-users:
       email: adam.nowak@mail.com
       password: P@ssw0rd
       role: USER
+
+application:
+  security:
+    jwt:
+      secret-key: CtIvKtwLXXQnZP4jY1zEwUX2uIKilFbwkP50Y6mnS10
+      expiration: 60000 # a day
+      refresh-token:
+        expiration: 604800000 # 7 day
